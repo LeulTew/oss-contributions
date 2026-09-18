@@ -1,0 +1,7 @@
+/site/data.json
+/dist/
+/.cache/
+/*.staging
+/test/.backend-fixtures/
+/.impeccable/hooks/
+/.impeccable/hook.cache.json

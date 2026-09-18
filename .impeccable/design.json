@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T23:33:56.392Z",
+  "title": "Design System: LeulTew Contributions",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Porcelain paper", "tonalRamp": ["oklch(15% 0 0)", "oklch(27% 0 0)", "oklch(38% 0 0)", "oklch(50% 0 0)", "oklch(61% 0 0)", "oklch(73% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"] },
+      "ground": { "role": "neutral", "displayName": "Workspace ground", "tonalRamp": ["oklch(15% .004 145)", "oklch(27% .004 145)", "oklch(38% .004 145)", "oklch(50% .004 145)", "oklch(61% .004 145)", "oklch(73% .004 145)", "oklch(84% .004 145)", "oklch(95% .004 145)"] },
+      "ink": { "role": "neutral", "displayName": "Forest ink", "tonalRamp": ["oklch(15% .027 158)", "oklch(27% .027 158)", "oklch(38% .027 158)", "oklch(50% .027 158)", "oklch(61% .027 158)", "oklch(73% .027 158)", "oklch(84% .027 158)", "oklch(95% .027 158)"] },
+      "muted": { "role": "neutral", "displayName": "Muted ink", "tonalRamp": ["oklch(15% .020 154)", "oklch(27% .020 154)", "oklch(38% .020 154)", "oklch(50% .020 154)", "oklch(61% .020 154)", "oklch(73% .020 154)", "oklch(84% .020 154)", "oklch(95% .020 154)"] },
+      "line": { "role": "neutral", "displayName": "Ledger rule", "tonalRamp": ["oklch(15% .011 149)", "oklch(27% .011 149)", "oklch(38% .011 149)", "oklch(50% .011 149)", "oklch(61% .011 149)", "oklch(73% .011 149)", "oklch(84% .011 149)", "oklch(95% .011 149)"] },
+      "soft": { "role": "neutral", "displayName": "Soft green", "tonalRamp": ["oklch(15% .010 151)", "oklch(27% .010 151)", "oklch(38% .010 151)", "oklch(50% .010 151)", "oklch(61% .010 151)", "oklch(73% .010 151)", "oklch(84% .010 151)", "oklch(95% .010 151)"] },
+      "accent": { "role": "primary", "displayName": "Quiet green", "tonalRamp": ["oklch(15% .078 158)", "oklch(27% .078 158)", "oklch(38% .078 158)", "oklch(50% .078 158)", "oklch(61% .078 158)", "oklch(73% .078 158)", "oklch(84% .078 158)", "oklch(95% .078 158)"] },
+      "selected": { "role": "primary", "displayName": "Selected wash", "tonalRamp": ["oklch(15% .018 151)", "oklch(27% .018 151)", "oklch(38% .018 151)", "oklch(50% .018 151)", "oklch(61% .018 151)", "oklch(73% .018 151)", "oklch(84% .018 151)", "oklch(95% .018 151)"] },
+      "amber": { "role": "secondary", "displayName": "Evidence amber", "tonalRamp": ["oklch(15% .098 71)", "oklch(27% .098 71)", "oklch(38% .098 71)", "oklch(50% .098 71)", "oklch(61% .098 71)", "oklch(73% .098 71)", "oklch(84% .098 71)", "oklch(95% .098 71)"] },
+      "amber-bg": { "role": "secondary", "displayName": "Warning paper", "tonalRamp": ["oklch(15% .023 84)", "oklch(27% .023 84)", "oklch(38% .023 84)", "oklch(50% .023 84)", "oklch(61% .023 84)", "oklch(73% .023 84)", "oklch(84% .023 84)", "oklch(95% .023 84)"] },
+      "red": { "role": "secondary", "displayName": "Issue red", "tonalRamp": ["oklch(15% .145 23)", "oklch(27% .145 23)", "oklch(38% .145 23)", "oklch(50% .145 23)", "oklch(61% .145 23)", "oklch(73% .145 23)", "oklch(84% .145 23)", "oklch(95% .145 23)"] },
+      "purple": { "role": "secondary", "displayName": "Merge purple", "tonalRamp": ["oklch(15% .135 305)", "oklch(27% .135 305)", "oklch(38% .135 305)", "oklch(50% .135 305)", "oklch(61% .135 305)", "oklch(73% .135 305)", "oklch(84% .135 305)", "oklch(95% .135 305)"] },
+      "rail": { "role": "primary", "displayName": "Pine rail", "tonalRamp": ["oklch(15% .047 169)", "oklch(27% .047 169)", "oklch(38% .047 169)", "oklch(50% .047 169)", "oklch(61% .047 169)", "oklch(73% .047 169)", "oklch(84% .047 169)", "oklch(95% .047 169)"] },
+      "dark-paper": { "role": "neutral", "displayName": "Dark forest paper", "tonalRamp": ["oklch(15% .025 157)", "oklch(27% .025 157)", "oklch(38% .025 157)", "oklch(50% .025 157)", "oklch(61% .025 157)", "oklch(73% .025 157)", "oklch(84% .025 157)", "oklch(95% .025 157)"] },
+      "dark-ground": { "role": "neutral", "displayName": "Dark workspace ground", "tonalRamp": ["oklch(15% .024 158)", "oklch(27% .024 158)", "oklch(38% .024 158)", "oklch(50% .024 158)", "oklch(61% .024 158)", "oklch(73% .024 158)", "oklch(84% .024 158)", "oklch(95% .024 158)"] },
+      "dark-ink": { "role": "neutral", "displayName": "Pale forest ink", "tonalRamp": ["oklch(15% .017 149)", "oklch(27% .017 149)", "oklch(38% .017 149)", "oklch(50% .017 149)", "oklch(61% .017 149)", "oklch(73% .017 149)", "oklch(84% .017 149)", "oklch(95% .017 149)"] },
+      "dark-muted": { "role": "neutral", "displayName": "Pale muted ink", "tonalRamp": ["oklch(15% .025 152)", "oklch(27% .025 152)", "oklch(38% .025 152)", "oklch(50% .025 152)", "oklch(61% .025 152)", "oklch(73% .025 152)", "oklch(84% .025 152)", "oklch(95% .025 152)"] },
+      "dark-line": { "role": "neutral", "displayName": "Dark ledger rule", "tonalRamp": ["oklch(15% .037 151)", "oklch(27% .037 151)", "oklch(38% .037 151)", "oklch(50% .037 151)", "oklch(61% .037 151)", "oklch(73% .037 151)", "oklch(84% .037 151)", "oklch(95% .037 151)"] },
+      "dark-soft": { "role": "neutral", "displayName": "Dark soft green", "tonalRamp": ["oklch(15% .032 156)", "oklch(27% .032 156)", "oklch(38% .032 156)", "oklch(50% .032 156)", "oklch(61% .032 156)", "oklch(73% .032 156)", "oklch(84% .032 156)", "oklch(95% .032 156)"] },
+      "dark-accent": { "role": "primary", "displayName": "Pale quiet green", "tonalRamp": ["oklch(15% .069 155)", "oklch(27% .069 155)", "oklch(38% .069 155)", "oklch(50% .069 155)", "oklch(61% .069 155)", "oklch(73% .069 155)", "oklch(84% .069 155)", "oklch(95% .069 155)"] },
+      "dark-selected": { "role": "primary", "displayName": "Dark selected wash", "tonalRamp": ["oklch(15% .042 152)", "oklch(27% .042 152)", "oklch(38% .042 152)", "oklch(50% .042 152)", "oklch(61% .042 152)", "oklch(73% .042 152)", "oklch(84% .042 152)", "oklch(95% .042 152)"] },
+      "dark-amber": { "role": "secondary", "displayName": "Pale evidence amber", "tonalRamp": ["oklch(15% .083 84)", "oklch(27% .083 84)", "oklch(38% .083 84)", "oklch(50% .083 84)", "oklch(61% .083 84)", "oklch(73% .083 84)", "oklch(84% .083 84)", "oklch(95% .083 84)"] },
+      "dark-amber-bg": { "role": "secondary", "displayName": "Dark warning paper", "tonalRamp": ["oklch(15% .027 79)", "oklch(27% .027 79)", "oklch(38% .027 79)", "oklch(50% .027 79)", "oklch(61% .027 79)", "oklch(73% .027 79)", "oklch(84% .027 79)", "oklch(95% .027 79)"] },
+      "dark-red": { "role": "secondary", "displayName": "Pale issue red", "tonalRamp": ["oklch(15% .091 19)", "oklch(27% .091 19)", "oklch(38% .091 19)", "oklch(50% .091 19)", "oklch(61% .091 19)", "oklch(73% .091 19)", "oklch(84% .091 19)", "oklch(95% .091 19)"] },
+      "dark-purple": { "role": "secondary", "displayName": "Pale merge purple", "tonalRamp": ["oklch(15% .081 307)", "oklch(27% .081 307)", "oklch(38% .081 307)", "oklch(50% .081 307)", "oklch(61% .081 307)", "oklch(73% .081 307)", "oklch(84% .081 307)", "oklch(95% .081 307)"] },
+      "dark-rail": { "role": "primary", "displayName": "Deep pine rail", "tonalRamp": ["oklch(15% .040 164)", "oklch(27% .040 164)", "oklch(38% .040 164)", "oklch(50% .040 164)", "oklch(61% .040 164)", "oklch(73% .040 164)", "oklch(84% .040 164)", "oklch(95% .040 164)"] },
+      "control-border": { "role": "neutral", "displayName": "Control stroke", "tonalRamp": ["oklch(15% .025 147)", "oklch(27% .025 147)", "oklch(38% .025 147)", "oklch(50% .025 147)", "oklch(61% .025 147)", "oklch(73% .025 147)", "oklch(84% .025 147)", "oklch(95% .025 147)"] },
+      "focus": { "role": "secondary", "displayName": "Focus blue", "tonalRamp": ["oklch(15% .094 254)", "oklch(27% .094 254)", "oklch(38% .094 254)", "oklch(50% .094 254)", "oklch(61% .094 254)", "oklch(73% .094 254)", "oklch(84% .094 254)", "oklch(95% .094 254)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Contribution title", "purpose": "Page heading; 1.85rem at widths up to 650px." },
+      "headline": { "displayName": "Section heading", "purpose": "Section and empty-state headings." },
+      "body": { "displayName": "Inherited baseline", "purpose": "Root system typography; components specify denser reading roles." },
+      "ledger": { "displayName": "Change summary", "purpose": "Readable contribution explanation within the compact ledger." },
+      "label": { "displayName": "Field label", "purpose": "Persistent labels above native inputs and selects." },
+      "quote": { "displayName": "Original human words", "purpose": "Attributed source quotation; 1.35rem at widths up to 650px." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "control-state", "value": "background-color 160ms ease-out, border-color 160ms ease-out, color 160ms ease-out", "purpose": "Buttons, links, fields and selects only when prefers-reduced-motion is no-preference." },
+      { "name": "detail-open", "value": "180ms ease-out", "purpose": "Expanded evidence background changes from soft to transparent only when prefers-reduced-motion is no-preference." }
+    ],
+    "breakpoints": [
+      { "name": "wide-min", "value": "1500px" },
+      { "name": "compact-desktop-max", "value": "1150px" },
+      { "name": "top-navigation-max", "value": "900px" },
+      { "name": "stacked-ledger-max", "value": "650px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Refresh action",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Ordinary paper action from site/style.css; disabled state accompanies checking text in site/app.mjs.",
+      "html": "<button class=\"ds-button\" type=\"button\">Refresh data</button>",
+      "css": ".ds-button{font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:.8rem;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#22332b);border:1px solid var(--line,#dce3dd);border-radius:5px;padding:9px 13px;min-height:42px;cursor:pointer}.ds-button:hover{background:var(--selected,#e6f1e9);border-color:var(--accent,#215b40)}.ds-button:focus-visible{outline:3px solid #648fc5;outline-offset:4px}.ds-button:disabled{cursor:wait;opacity:.65}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Clear filters action",
+      "kind": "button",
+      "description": "Borderless action variant from site/style.css; follows the state-filter group.",
+      "html": "<button class=\"ds-clear\" type=\"button\">Clear filters</button>",
+      "css": ".ds-clear{font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:.76rem;line-height:1.5;background:none;color:var(--muted,#5d6a62);border:0;border-radius:5px;padding:9px 0 9px 13px;min-height:42px;cursor:pointer}.ds-clear:hover{background:none}.ds-clear:focus-visible{outline:3px solid #648fc5;outline-offset:4px}@media(max-width:650px){.ds-clear{font-size:.71rem;min-height:32px}}@media(prefers-reduced-motion:no-preference){.ds-clear{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Theme action",
+      "kind": "button",
+      "description": "Rail text action from site/index.html and site/style.css; the application cycles system, dark and light.",
+      "html": "<div class=\"ds-theme-surface\"><button class=\"ds-theme\" type=\"button\">Theme: system</button></div>",
+      "css": ".ds-theme-surface{background:var(--rail,#173d32);padding:16px}.ds-theme{display:block;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:.78rem;line-height:1.5;padding:8px 0;border:0;background:none;color:#dbe6de;text-decoration:underline;text-underline-offset:4px;min-height:40px;cursor:pointer}.ds-theme:hover{background:none}.ds-theme:focus-visible{outline:3px solid #648fc5;outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-theme{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Visible-label native field from site/index.html and site/style.css.",
+      "html": "<label class=\"ds-field-label\">Search contributions<input class=\"ds-search\" type=\"search\" placeholder=\"Project, change, or #number\" autocomplete=\"off\"></label>",
+      "css": ".ds-field-label{display:block;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:.76rem;font-weight:600;line-height:1.5;color:var(--muted,#5d6a62)}.ds-search{display:block;margin-top:7px;width:100%;height:44px;background:var(--paper,#fff);color:var(--ink,#22332b);border:1px solid #afbeb1;border-radius:5px;padding:9px 12px;font-family:inherit;font-size:.85rem;font-weight:400}.ds-search::placeholder{color:var(--muted,#5d6a62);opacity:1}.ds-search:hover{border-color:var(--accent,#215b40)}.ds-search:focus-visible{outline:3px solid #648fc5;outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-search{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Rail navigation",
+      "kind": "nav",
+      "description": "Selected and unselected section links from site/index.html and site/style.css; active styling is not scroll tracking.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Sections\"><a class=\"ds-nav-link ds-nav-active\" href=\"#main\">Contributions</a><a class=\"ds-nav-link\" href=\"#feedback\">Reviewer feedback</a><a class=\"ds-nav-link\" href=\"#about\">About the data</a></nav>",
+      "css": ".ds-nav{display:grid;gap:6px;background:var(--rail,#173d32);padding:20px;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5}.ds-nav-link{display:flex;align-items:center;gap:12px;min-height:46px;padding:10px 12px;border-radius:6px;color:#edf4ef;text-decoration:none;font-size:.87rem}.ds-nav-link:hover{background:#264b3f}.ds-nav-link.ds-nav-active{background:#305648}.ds-nav-link:focus-visible{outline:3px solid #648fc5;outline-offset:4px}@media(max-width:900px){.ds-nav{display:flex;flex-wrap:wrap;gap:12px}.ds-nav-link{font-size:.8rem;padding:6px 10px;min-height:40px}}@media(max-width:650px){.ds-nav{gap:4px}.ds-nav-link{font-size:.74rem;gap:6px;padding:6px 8px;white-space:nowrap}}@media(prefers-reduced-motion:no-preference){.ds-nav-link{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "PR-state filter",
+      "kind": "button",
+      "refersTo": "state-filter-selected",
+      "description": "Pressed state-filter button and count badge from site/style.css; a grouped filter, not a tab panel.",
+      "html": "<div class=\"ds-filters\" role=\"group\" aria-label=\"Pull request state\"><button class=\"ds-filter\" type=\"button\" aria-pressed=\"true\">All <span class=\"ds-count\">25</span></button><button class=\"ds-filter\" type=\"button\" aria-pressed=\"false\">Open</button></div>",
+      "css": ".ds-filters{display:flex;gap:20px;border-bottom:1px solid var(--line,#dce3dd)}.ds-filter{font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5;display:flex;gap:8px;align-items:center;background:none;color:var(--muted,#5d6a62);border:0;border-bottom:2px solid transparent;padding:13px 1px;font-size:.85rem;min-height:48px;cursor:pointer}.ds-filter:hover{color:var(--accent,#215b40)}.ds-filter[aria-pressed=true]{border-bottom-color:var(--accent,#215b40);color:var(--accent,#215b40);font-weight:650}.ds-count{display:inline-block;padding:1px 6px;background:var(--soft,#edf3ee);border-radius:4px;font-size:.73rem;font-weight:500;font-variant-numeric:tabular-nums}.ds-filter[aria-pressed=true] .ds-count{background:var(--selected,#e6f1e9)}.ds-filter:focus-visible{outline:3px solid #648fc5;outline-offset:4px}@media(max-width:650px){.ds-filters{gap:14px}.ds-filter{gap:5px;font-size:.78rem}.ds-count{padding:0 4px}}@media(prefers-reduced-motion:no-preference){.ds-filter{transition:background-color 160ms ease-out,border-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Textual status signals",
+      "kind": "chip",
+      "description": "Unboxed PR state and separate CI label from site/style.css. Illustrative labels show vocabulary, not a live observation.",
+      "html": "<div class=\"ds-signals\"><div><span class=\"ds-signal-heading\">PR state</span><span class=\"ds-state\">Open</span></div><div><span class=\"ds-signal-heading\">CI evidence</span><span class=\"ds-ci\">Unknown</span></div></div>",
+      "css": ".ds-signals{display:flex;gap:32px;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5}.ds-signal-heading{display:block;font-size:.71rem;font-weight:600;color:var(--muted,#5d6a62);margin-bottom:8px}.ds-state{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:650;white-space:nowrap;line-height:1.9;color:var(--accent,#215b40)}.ds-state::before{content:\"\";width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}.ds-ci{display:block;font-size:.77rem;font-weight:600;color:var(--muted,#5d6a62)}"
+    },
+    {
+      "name": "Freshness strip",
+      "kind": "custom",
+      "refersTo": "freshness",
+      "description": "Tonal status container from site/index.html and site/style.css, using the real loading copy rather than a fabricated timestamp.",
+      "html": "<section class=\"ds-freshness\" aria-label=\"Data freshness\"><div><p class=\"ds-freshness-text\" role=\"status\">Loading verified snapshot...</p><p class=\"ds-freshness-help\">Automatically refreshed about every 15 minutes; schedules can be delayed.</p></div></section>",
+      "css": ".ds-freshness{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;background:var(--soft,#edf3ee);color:var(--ink,#22332b);border:1px solid var(--line,#dce3dd);border-radius:7px;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;font-size:.81rem;line-height:1.5}.ds-freshness-text{margin:0}.ds-freshness-help{font-size:.75rem;color:var(--muted,#5d6a62);margin:3px 0 0}@media(max-width:650px){.ds-freshness{align-items:flex-start;flex-direction:column;gap:12px;padding:14px}.ds-freshness-help{line-height:1.6}}"
+    },
+    {
+      "name": "Evidence disclosure",
+      "kind": "custom",
+      "description": "Native evidence pattern from site/app.mjs and site/style.css. Example body describes behavior rather than inventing PR evidence.",
+      "html": "<details class=\"ds-evidence\"><summary class=\"ds-evidence-summary\">Evidence &amp; context</summary><p class=\"ds-evidence-text\">Recorded observation time and qualified CI context appear here for each contribution.</p></details>",
+      "css": ".ds-evidence{margin-top:10px;font-family:\"Segoe UI\",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.5}.ds-evidence-summary{font-size:.72rem;color:var(--muted,#5d6a62);cursor:pointer;padding:6px 0;min-height:32px}.ds-evidence[open] .ds-evidence-summary{color:var(--accent,#215b40)}.ds-evidence-summary:focus-visible{outline:3px solid #648fc5;outline-offset:4px}.ds-evidence-text{font-size:.75rem;color:var(--muted,#5d6a62);line-height:1.65;margin:7px 0;overflow-wrap:anywhere}@media(max-width:650px){.ds-evidence{margin-top:5px}.ds-evidence-summary{min-height:36px}}@media(prefers-reduced-motion:no-preference){.ds-evidence[open]{animation:ds-detail-open 180ms ease-out}@keyframes ds-detail-open{from{background:var(--soft,#edf3ee)}to{background:transparent}}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Source-Control Navigator",
+    "overview": "A pine navigation rail frames a porcelain reading surface. Precise system typography, quiet green selection and generous horizontal rules make the work easy to scan without turning it into a scorecard. The visual personality is restrained, practical and attentive to the original record.\n\nThe contribution ledger is the principal material: project identity, a plain-language change summary and two independent status signals share each row. Supporting evidence unfolds in place; human feedback remains a direct quotation with attribution rather than promotional decoration. Dark mode preserves the same hierarchy with forest-toned surfaces and lighter text.",
+    "keyCharacteristics": [
+      "Pine navigation beside a light porcelain workspace, with a complete dark palette.",
+      "System typography and compact metadata, balanced by readable change summaries.",
+      "Flat, ruled rows instead of a card grid or decorative elevation.",
+      "Separate textual PR state and CI evidence.",
+      "Direct, attributed human quotations without external fonts or imagery."
+    ],
+    "rules": [
+      { "name": "The Two Signals Rule", "body": "PR state and CI evidence remain separately labeled; shared colors must never imply that a successful check is a merge or approval.", "section": "colors" },
+      { "name": "The Ruled Surface Rule", "body": "Use horizontal rules and tonal contrast to separate evidence; do not replace the ledger's flat structure with elevated cards.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** keep PR state, CI evidence and freshness as separate textual signals.",
+      "**Do** preserve the pine rail, restrained green selection and flat, ruled reading surfaces in both themes.",
+      "**Do** keep visible labels, keyboard outlines and focus continuity when data refreshes.",
+      "**Do** let ledger rows, quotations and controls reflow without discarding evidence on narrow screens.",
+      "**Do** use the system font stack and source-linked, directly attributed human quotations."
+    ],
+    "donts": [
+      "**Don't** replace the ledger with elevated cards or make status depend on color alone.",
+      "**Don't** present a successful check, open PR or human quotation as blanket approval.",
+      "**Don't** add remote fonts, stock imagery or decorative external assets.",
+      "**Don't** disguise stale or unavailable evidence as a live confirmation.",
+      "**Don't** promote illustrative tonal ramps or one-off brand-mark geometry into implemented tokens."
+    ]
+  }
+}
