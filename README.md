@@ -12,7 +12,7 @@ CI is reported separately as successful checks, failures, pending, maintainer ac
 
 ## Updating public content
 
-- `config/contributions.json` is the explicit scope and human-readable change summary. Add only a confirmed public PR authored by LeulTew, with its canonical URL. The frontend's explicit scope-size invariant in `site/model.mjs` must be updated when deliberately expanding the campaign.
+- `config/contributions.json` is the explicit scope and human-readable change summary. Add only a confirmed public PR authored by LeulTew, with its canonical URL. The collector and frontend accept 1 to 100 allowlisted entries; counts are derived from that catalog, and each snapshot must match its exact identities without extra, missing or duplicate records. Adding a verified PR does not require changing a UI count constant.
 - `config/quotes.json` contains exact, manually verified human quotations: author identity, role, date, review state, original permalink and provenance. Verify the human and the specific review before adding a quote; a `User` API type alone does not establish that an account is human. Do not quote bots, empty approvals, or infer a global endorsement.
 - `config/initial-state.json` is the public, verified bootstrap snapshot. Routine refreshes do not write commits. Terminal observations are retained through validated Actions cache state; deliberately changing the manifest invalidates that state.
 - The deployed `data.json` is the current public snapshot. `catalog.json` is the public identity allowlist; `fallback.json` is the bundled deployment snapshot used if the latest data request fails.
@@ -50,7 +50,7 @@ The Pages artifact is retained for one day. The versioned observation cache stor
 
 ## Publication and access boundaries
 
-The site is hosted by this repository's GitHub Pages workflow. The collection/build job has read-only repository permissions. Only the deployment job receives `pages: write` and `id-token: write`, under the `github-pages` environment.
+The site is hosted by this repository's GitHub Pages workflow. The collection/build job runs the complete Node builtin test suite before collecting or building; deployment depends on that job succeeding. The collection/build job has read-only repository permissions. Only the deployment job receives `pages: write` and `id-token: write`, under the `github-pages` environment.
 
 The collector uses a server-side `GITHUB_TOKEN` and a fixed GitHub API origin. There is no credential in the browser, generated JSON, or committed source, and no public credential proxy. Public visitors need no account. The app makes no upstream comments, approvals, reactions, reruns, merges or settings changes.
 

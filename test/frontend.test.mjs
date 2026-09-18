@@ -5,17 +5,76 @@ import { validateCatalog, validateSnapshot, selectRows, counts, isStale, chooseS
 const catalog = JSON.parse(await readFile(new URL('../config/contributions.json', import.meta.url)));
 const quotes = JSON.parse(await readFile(new URL('../config/quotes.json', import.meta.url)));
 const now = Date.parse('2026-09-19T00:00:00Z');
-function snapshot() {
-  return { schemaVersion: 1, manifestHash: 'test', fetchedAt: new Date(now).toISOString(), quotes,
-    contributions: catalog.map((row, i) => ({ ...row, title: row.summary, state: i === 4 || i === 10 ? 'MERGED' : 'OPEN', draft: false,
+function snapshot(entries = catalog) {
+  return { schemaVersion: 1, manifestHash: 'test', fetchedAt: new Date(now).toISOString(),
+    quotes: quotes.filter(quote => entries.some(row => row.url === quote.contributionUrl)),
+    contributions: entries.map((row, i) => ({ ...row, title: row.summary, state: i === 4 || i === 10 ? 'MERGED' : 'OPEN', draft: false,
       headSha: 'a'.repeat(40), createdAt: new Date(now - i * 60000).toISOString(), updatedAt: new Date(now).toISOString(),
-      checkedAt: new Date(now).toISOString(), mergedAt: null, historical: i === 4 || i === 10, stale: false, error: null,
+      checkedAt: new Date(now).toISOString(), mergedAt: i === 4 || i === 10 ? new Date(now).toISOString() : null,
+      historical: i === 4 || i === 10, stale: false, error: null,
       ci: { state: i === 0 || i === 2 ? 'gated' : 'unknown', summary: 'No green claim' } })) };
 }
-test('scope is 25 canonical public links in 24 repositories', () => {
-  assert.equal(validateCatalog(catalog).length, 25);
-  assert.equal(new Set(catalog.map(r => `${r.owner}/${r.repo}`)).size, 24);
-  assert.deepEqual(counts(validateSnapshot(snapshot(), catalog).contributions), { ALL: 25, OPEN: 23, MERGED: 2, CLOSED: 0 });
+test('public catalog identities determine the exact snapshot scope', () => {
+  assert.equal(validateCatalog(catalog).length, catalog.length);
+  assert.deepEqual(counts(validateSnapshot(snapshot(), catalog).contributions),
+    { ALL: catalog.length, OPEN: catalog.length - 2, MERGED: 2, CLOSED: 0 });
+});
+test('search requires all whitespace-separated terms across indexed fields', () => {
+  const rows = snapshot().contributions;
+  const before = structuredClone(rows);
+  for (const search of ['jsep window.Date', '  JSEP\twindow.date \n#283 ', 'EricSmekens #283 constructors']) {
+    assert.deepEqual(selectRows(rows, { search, state: 'OPEN', ci: 'gated', sort: 'project' }, now).map(r => r.number), [283]);
+  }
+  assert.deepEqual(selectRows(rows, { search: 'fake #590 promise' }, now).map(r => r.number), [590]);
+  assert.equal(selectRows(rows, { search: 'jsep impossible-term' }, now).length, 0);
+  assert.equal(selectRows(rows, { search: 'jsep window.Date', state: 'MERGED' }, now).length, 0);
+  assert.equal(selectRows(rows, { search: ' \t\n ' }, now).length, rows.length);
+  assert.deepEqual(rows, before);
+});
+function syntheticCatalog(size) {
+  return Array.from({ length: size }, (_, i) => ({
+    ...catalog[0], owner: 'fixture-owner', repo: 'fixture-repo', number: i + 1,
+    url: `https://github.com/fixture-owner/fixture-repo/pull/${i + 1}`, project: 'Synthetic test project',
+  }));
+}
+test('catalog sizes 1 through 100 are accepted without weakening snapshot identity', () => {
+  for (const size of [1, 26, 100]) {
+    const entries = syntheticCatalog(size);
+    assert.equal(validateCatalog(entries).length, size);
+    assert.equal(validateSnapshot(snapshot(entries), entries).contributions.length, size);
+    for (const mutate of [
+      s => s.contributions.pop(),
+      s => s.contributions.push({ ...s.contributions[0] }),
+      s => { s.contributions[0].owner = 'different-owner'; },
+      s => { s.contributions[0].url = 'https://github.com/fixture-owner/fixture-repo/pull/999'; },
+    ]) {
+      const data = snapshot(entries); mutate(data);
+      assert.throws(() => validateSnapshot(data, entries));
+    }
+    if (size > 1) {
+      const data = snapshot(entries); data.contributions[0] = data.contributions[1];
+      assert.throws(() => validateSnapshot(data, entries));
+    }
+  }
+  for (const entries of [[], syntheticCatalog(101)]) assert.throws(() => validateCatalog(entries));
+});
+test('PR state and merge timestamp must agree', () => {
+  for (const [state, mergedAt, valid] of [
+    ['MERGED', new Date(now).toISOString(), true], ['MERGED', null, false], ['MERGED', 'invalid', false],
+    ['OPEN', null, true], ['OPEN', new Date(now).toISOString(), false],
+    ['CLOSED', null, true], ['CLOSED', new Date(now).toISOString(), false],
+  ]) {
+    const data = snapshot();
+    Object.assign(data.contributions[0], { state, mergedAt, historical: state !== 'OPEN' });
+    if (valid) assert.doesNotThrow(() => validateSnapshot(data, catalog));
+    else assert.throws(() => validateSnapshot(data, catalog));
+  }
+});
+test('Pages publication gates collection and deployment on the complete builtin suite', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/pages.yml', import.meta.url), 'utf8');
+  assert.match(workflow, /^\s+run: node --test\s*$/m);
+  assert.ok(workflow.indexOf('run: node --test') < workflow.indexOf('name: Collect public GitHub evidence'));
+  assert.match(workflow, /deploy:\s+needs: build/);
 });
 test('search, state, evidence filters and sort compose without mutating source', () => {
   const rows = snapshot().contributions;

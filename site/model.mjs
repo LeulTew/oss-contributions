@@ -8,7 +8,7 @@ const text = value => typeof value === 'string' && value.length <= 10000;
 export const key = row => `${row.owner}/${row.repo}#${row.number}`;
 
 export function validateCatalog(catalog) {
-  if (!Array.isArray(catalog) || catalog.length !== 25) throw new Error('Unexpected contribution scope.');
+  if (!Array.isArray(catalog) || catalog.length < 1 || catalog.length > 100) throw new Error('Unexpected contribution scope.');
   const seen = new Set();
   for (const row of catalog) {
     if (!row || !/^[\w.-]+$/.test(row.owner) || !/^[\w.-]+$/.test(row.repo) ||
@@ -42,7 +42,7 @@ export function validateSnapshot(data, catalog) {
         !row.ci || !Object.hasOwn(CI_LABELS, row.ci.state) ||
         !text(row.ci.summary) || !text(row.title) ||
         (row.error !== null && !text(row.error)) ||
-        (row.mergedAt !== null && !timestamp(row.mergedAt))) throw new Error('Invalid contribution evidence.');
+        (row.state === 'MERGED' ? !timestamp(row.mergedAt) : row.mergedAt !== null)) throw new Error('Invalid contribution evidence.');
     if (Date.parse(row.checkedAt) > Date.parse(data.fetchedAt) + 60000) throw new Error('Invalid observation time.');
     if (row.ci.counts && (!['success', 'failure', 'pending', 'gated', 'cancelled', 'neutral'].every(name =>
       Number.isSafeInteger(row.ci.counts[name]) && row.ci.counts[name] >= 0) ||
@@ -75,11 +75,13 @@ export function counts(rows) {
     MERGED: rows.filter(r => r.state === 'MERGED').length, CLOSED: rows.filter(r => r.state === 'CLOSED').length };
 }
 export function selectRows(rows, { search = '', state = 'ALL', ci = 'all', sort = 'newest' }, now = Date.now()) {
-  const query = search.trim().toLocaleLowerCase('en');
-  const selected = rows.filter(row =>
-    (state === 'ALL' || row.state === state) &&
-    (ci === 'all' || (ci === 'stale' ? isStale(row, now) : row.ci.state === ci)) &&
-    `${row.project} ${row.owner}/${row.repo} #${row.number} ${row.summary} ${row.title} ${row.note}`.toLocaleLowerCase('en').includes(query));
+  const terms = search.toLocaleLowerCase('en').trim().split(/\s+/).filter(Boolean);
+  const selected = rows.filter(row => {
+    const indexed = `${row.project} ${row.owner}/${row.repo} #${row.number} ${row.summary} ${row.title} ${row.note}`.toLocaleLowerCase('en');
+    return (state === 'ALL' || row.state === state) &&
+      (ci === 'all' || (ci === 'stale' ? isStale(row, now) : row.ci.state === ci)) &&
+      terms.every(term => indexed.includes(term));
+  });
   return selected.sort((a, b) => sort === 'project'
     ? a.project.localeCompare(b.project, 'en') || b.number - a.number
     : Date.parse(sort === 'updated' ? b.updatedAt : b.createdAt) - Date.parse(sort === 'updated' ? a.updatedAt : a.createdAt) || key(a).localeCompare(key(b)));
