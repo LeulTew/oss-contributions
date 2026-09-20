@@ -1,0 +1,40 @@
+const paths = {
+  branch: ['M7 4v11a4 4 0 0 0 4 4h6', 'M7 9h6a4 4 0 0 0 4-4V4', 'M5 2h4v4H5z', 'M15 2h4v4h-4z', 'M15 17h4v4h-4z'],
+  activity: ['M3 12h4l3-7 4 14 3-7h4'],
+  radar: ['M20 13a8 8 0 1 1-9-9', 'M16 4h4v4', 'M20 4l-8 8', 'M12 9a3 3 0 1 0 3 3'],
+  review: ['M5 4h14v12H9l-4 4V4', 'M9 8h6', 'M9 12h4'],
+  warning: ['M12 3 2 20h20L12 3Z', 'M12 9v5', 'M12 17h.01'],
+  clock: ['M12 8v5l3 2', 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0'],
+  chevron: ['m9 5 7 7-7 7'],
+  back: ['m10 5-7 7 7 7', 'M3 12h18'],
+  up: ['m6 14 6-6 6 6'],
+  down: ['m6 10 6 6 6-6'],
+  search: ['M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0', 'm15 15 6 6'],
+  lock: ['M7 10V7a5 5 0 0 1 10 0v3', 'M5 10h14v11H5z', 'M12 14v3'],
+  external: ['M14 3h7v7', 'm21 3-11 11', 'M10 3H3v18h18v-7'],
+  quote: ['M3 13V8a4 4 0 0 1 4-4', 'M3 13h6v7H3z', 'M14 13V8a4 4 0 0 1 4-4', 'M14 13h6v7h-6z'],
+};
+export function createIcon(name, documentRef = document) {
+  if (!Object.hasOwn(paths, name)) throw new Error('Unknown interface icon.');
+  const svg = documentRef.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  for (const [key, value] of Object.entries({ viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.7', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', focusable: 'false', class: 'icon' })) svg.setAttribute(key, value);
+  for (const d of paths[name]) {
+    const path = documentRef.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', d); svg.append(path);
+  }
+  return svg;
+}
+export function navigationPosition(rows, selectedKey, keyOf) {
+  const index = rows.findIndex(row => keyOf(row) === selectedKey);
+  return { index, total: rows.length, previous: index > 0 ? rows[index - 1] : null, next: index >= 0 && index + 1 < rows.length ? rows[index + 1] : null };
+}
+export function acceptsSearchShortcut(event, reading) {
+  const target = event.target;
+  return !reading && event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey &&
+    !event.isComposing && !event.defaultPrevented && !target?.isContentEditable &&
+    !['INPUT', 'TEXTAREA', 'SELECT'].includes(target?.tagName) &&
+    !target?.closest?.('[role="combobox"], [role="textbox"]');
+}
+export function initialTheme(saved) {
+  return ['light', 'dark', 'system'].includes(saved) ? saved : 'light';
+}

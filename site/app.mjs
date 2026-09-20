@@ -1,5 +1,6 @@
 import { CI_LABELS, validateCatalog, validateSnapshot, counts, inboxRows, activityFeed, activityDate, reviewLabel, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, key } from './model.mjs';
 import { createLiveClient } from './live.mjs';
+import { createIcon, navigationPosition, acceptsSearchShortcut, initialTheme } from './ui.mjs';
 
 const $ = id => document.getElementById(id);
 const date = value => new Date(value).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }) + ' UTC';
@@ -30,6 +31,7 @@ const eventLabels = { comment: 'commented', review_comment: 'left an inline revi
 let data = null, catalog = null, liveClient = null, controller = null, directController = null;
 let generation = 0, directGeneration = 0, selectedView = 'all', selectedKey = null;
 let sourceWarning = '', storageWarning = '', timer = null;
+let returnFocusKey = null, returnScroll = 0;
 const directRows = new Map();
 const directMessages = new Map();
 const cacheKey = 'leultew-contributions-v2';
@@ -57,9 +59,9 @@ function renderFreshness() {
   const warnings = [
     !navigator.onLine ? 'Offline. Showing last-good evidence; reconnect to check for changes.' : '',
     sourceWarning,
-    stale ? `${stale} CI/PR observations are stale. Recorded states are not current confirmations.` : '',
+    stale ? `${stale} CI/PR observations are stale, not current confirmations.` : '',
     missingActivity ? `${missingActivity} contributions have unavailable or retained activity evidence; empty request counts are not an all-clear.` : '',
-    Date.now() - Date.parse(data.fetchedAt) > 45 * 60000 ? 'The shared snapshot is over 45 minutes old. Check a selected PR directly or open GitHub.' : '',
+    Date.now() - Date.parse(data.fetchedAt) > 45 * 60000 ? 'Snapshot over 45 min old. Check a selected PR or GitHub.' : '',
     storageWarning,
   ].filter(Boolean);
   $('data-warning').textContent = warnings.join(' ');
@@ -69,6 +71,10 @@ function filteredRows() {
   return inboxRows(currentRows(), { search: $('search').value, ci: $('ci-filter').value, sort: $('sort').value, view: selectedView });
 }
 function selectContribution(row, { focus = true } = {}) {
+  if (!document.body.classList.contains('reading')) {
+    returnFocusKey = focusToken() ?? `row:${key(row)}`;
+    returnScroll = window.scrollY;
+  }
   if (selectedKey !== key(row) && directController) {
     directController.abort();
     directMessages.set(selectedKey, 'Direct check canceled on selection change. Last-good evidence retained.');
@@ -80,12 +86,14 @@ function selectContribution(row, { focus = true } = {}) {
   url.searchParams.set('pr', selectedKey);
   history.replaceState(null, '', url);
   document.querySelector('.inbox-shell').classList.add('detail-open');
+  document.body.classList.add('reading');
   renderRows();
   renderDetail();
   if (focus) {
     const heading = $('detail-header').querySelector('h2');
     heading.tabIndex = -1;
-    heading.focus({ preventScroll: !matchMedia('(max-width: 700px)').matches });
+    heading.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
   }
 }
 function itemButton(row, event = null) {
@@ -95,13 +103,15 @@ function itemButton(row, event = null) {
   button.dataset.focusKey = event ? `event:${key(row)}:${event.id}` : `row:${key(row)}`;
   button.dataset.key = key(row);
   button.setAttribute('aria-pressed', String(key(row) === selectedKey));
-  const top = node('div', undefined, 'item-top');
+  button.setAttribute('aria-controls', 'detail');
+  const content = node('div', undefined, 'item-content');
   const project = node('span', row.project, 'item-project');
   project.append(node('span', `#${row.number}`, 'item-number'));
   const time = node('time', shortDate(event?.updatedAt ?? new Date(activityDate(row))), 'item-date');
   time.dateTime = event?.updatedAt ?? row.updatedAt;
   time.title = date(time.dateTime);
-  top.append(project, time);
+  const recency = node('div', undefined, 'item-recency');
+  recency.append(time);
   const bottom = node('div', undefined, 'item-bottom');
   bottom.append(node('span', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`));
   if (event) bottom.append(node('span', `${event.actor.login} / ${actorLabels[event.actor.classification]}`, 'signal'));
@@ -111,9 +121,16 @@ function itemButton(row, event = null) {
       row.activity.review.currentHead ? 'Changes requested' : 'Changes requested / earlier head', 'signal review-request'));
     if (isStale(row)) bottom.append(node('span', 'Stale', 'signal stale'));
     const count = activityFeed([row]).length;
-    if (count) bottom.append(node('span', `${count} event${count === 1 ? '' : 's'}`, 'event-count'));
+    if (count) {
+      const eventCount = node('span', undefined, 'event-count');
+      eventCount.append(createIcon('review'), node('span', `${count} event${count === 1 ? '' : 's'}`));
+      recency.append(eventCount);
+    }
   }
-  button.append(top, node('p', event ? `${eventAction(event)}${event.body ? `: ${event.body}` : ''}` : row.summary, 'item-summary'), bottom);
+  content.append(project, node('p', event ? `${eventAction(event)}${event.body ? `: ${event.body}` : ''}` : row.summary, 'item-summary'));
+  const glyph = node('span', row.project.split(/[\s.-]+/).map(part => part[0]).join('').slice(0, 2), 'project-glyph');
+  glyph.setAttribute('aria-hidden', 'true');
+  button.append(glyph, content, bottom, recency);
   button.addEventListener('click', () => selectContribution(row));
   item.append(button);
   return item;
@@ -131,9 +148,11 @@ function renderRows() {
     url.searchParams.delete('pr');
     history.replaceState(null, '', url);
     document.querySelector('.inbox-shell').classList.remove('detail-open');
+    document.body.classList.remove('reading');
     renderDetail();
   }
   const feedMode = selectedView === 'activity';
+  document.querySelector('.collection-columns').hidden = feedMode;
   const feed = feedMode ? activityFeed(filtered, { excludeAutomation: !$('feed-bots').checked }) : [];
   $('rows').replaceChildren(...(feedMode ? feed.map(({ row, event }) => itemButton(row, event)) : filtered.map(row => itemButton(row))));
   const count = feedMode ? feed.length : filtered.length;
@@ -143,6 +162,7 @@ function renderRows() {
   $('results').textContent = feedMode ? `${feed.length} events` : `${filtered.length} of ${data.contributions.length}`;
   $('view-heading').textContent = views[selectedView][0];
   $('view-description').textContent = views[selectedView][1];
+  $('view-description').hidden = selectedView === 'all';
   $('empty-heading').textContent = selectedView === 'requests' && !$('search').value ? 'No changes-requested reviews recorded' : feedMode ? 'No matching activity recorded' : 'No matching contributions';
   $('empty-copy').textContent = selectedView === 'requests' ? 'This is the latest available evidence, not a guarantee that no follow-up is needed. Stale or unavailable observations remain flagged.' :
     feedMode ? 'Try including automation, or inspect a contribution for its activity availability.' : 'Try another query or reset these filters.';
@@ -159,14 +179,20 @@ function renderDetail() {
   const savedContext = contextElement.dataset.key === selectedKey && contextElement.open;
   contextElement.dataset.key = selectedKey;
   const direct = directRows.get(selectedKey);
-  $('detail-position').textContent = `${row.project} / #${row.number}`;
+  const position = navigationPosition(filteredRows(), selectedKey, key);
+  $('detail-position').textContent = `${position.index + 1} of ${position.total}`;
+  $('previous-pr').disabled = !position.previous;
+  $('next-pr').disabled = !position.next;
   $('detail-github').href = row.url;
   const meta = node('div', undefined, 'detail-meta');
   meta.append(node('span', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`),
     node('span', `Opened ${shortDate(row.createdAt)}`), node('span', row.mergedAt ? `Merged ${shortDate(row.mergedAt)}` : `PR updated ${shortDate(row.updatedAt)}`));
   if (row.draft) meta.append(node('span', 'Draft'));
+  const heading = node('h2', row.title);
+  heading.tabIndex = -1;
+  heading.dataset.focusKey = `heading:${key(row)}`;
   $('detail-header').replaceChildren(node('p', `${row.owner}/${row.repo} #${row.number}`, 'repo-path'),
-    node('h2', row.title), node('p', row.summary, 'detail-summary'), meta);
+    heading, node('p', row.summary, 'detail-summary'), meta);
   const review = node('dl');
   review.append(node('dt', 'Review'), node('dd', reviewLabel(row), row.activity.review.state === 'changes_requested' ? 'review-request' : ''));
   review.lastChild.append(node('small', row.activity.checkedAt ? `Observed ${date(row.activity.checkedAt)}` : 'No activity observation available'));
@@ -234,7 +260,7 @@ function render() {
   const token = focusToken();
   const rows = currentRows();
   const totals = counts(rows);
-  $('overview').textContent = `${totals.ALL} selected PRs / ${new Set(rows.map(row => `${row.owner}/${row.repo}`)).size} repositories / ${totals.OPEN} open / ${totals.MERGED} merged`;
+  $('overview').textContent = `${totals.ALL} PRs / ${new Set(rows.map(row => `${row.owner}/${row.repo}`)).size} repositories / ${totals.OPEN} open / ${totals.MERGED} merged`;
   for (const element of document.querySelectorAll('[data-count]')) element.textContent = inboxRows(rows, { view: element.dataset.count }).length;
   $('loading').hidden = true;
   $('unavailable').hidden = true;
@@ -250,8 +276,12 @@ function render() {
   if (!data.quotes.length) $('quotes').append(node('p', 'No source-verified quotation is available.'));
   if (!selectedKey) {
     const requested = new URL(location.href).searchParams.get('pr');
-    if (rows.some(row => key(row) === requested)) { selectedKey = requested; document.querySelector('.inbox-shell').classList.add('detail-open'); }
-    else if (!matchMedia('(max-width: 700px)').matches) selectedKey = key(inboxRows(rows, { sort: 'activity' })[0]);
+    if (rows.some(row => key(row) === requested)) {
+      selectedKey = requested;
+      document.querySelector('.inbox-shell').classList.add('detail-open');
+      document.body.classList.add('reading');
+      returnFocusKey = `row:${requested}`;
+    }
   }
   renderRows(); renderDetail(); renderFreshness(); restoreFocus(token);
 }
@@ -274,7 +304,7 @@ async function refresh() {
   const thisGeneration = ++generation;
   const timeout = setTimeout(() => ownController.abort(), 20000);
   $('refresh').disabled = true;
-  $('refresh').textContent = 'Checking snapshot...';
+  $('refresh').textContent = 'Reloading...';
   try {
     if (!catalog) { catalog = validateCatalog(await getJSON('./catalog.json', ownController.signal)); liveClient = createLiveClient({ catalog }); }
     if (!data) { data = loadCache(); if (data) { sourceWarning = 'Showing saved data while checking the published snapshot.'; render(); } }
@@ -306,7 +336,7 @@ async function refresh() {
     }
   } finally {
     clearTimeout(timeout);
-    if (thisGeneration === generation) { $('refresh').disabled = false; $('refresh').textContent = 'Reload snapshot'; }
+    if (thisGeneration === generation) { $('refresh').disabled = false; $('refresh').textContent = 'Reload'; }
   }
 }
 async function refreshSelected() {
@@ -342,7 +372,10 @@ function clearFilters() { $('filters').reset(); selectedView = 'all'; renderRows
 $('filters').addEventListener('submit', event => event.preventDefault());
 for (const [id, event] of [['search', 'input'], ['ci-filter', 'change'], ['sort', 'change'], ['feed-bots', 'change']]) $(id).addEventListener(event, renderRows);
 document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
-  selectedView = button.dataset.view; document.querySelector('.inbox-shell').classList.remove('detail-open'); renderRows();
+  selectedView = button.dataset.view;
+  document.querySelector('.inbox-shell').classList.remove('detail-open');
+  document.body.classList.remove('reading');
+  renderRows();
 }));
 $('clear').addEventListener('click', clearFilters);
 $('empty-clear').addEventListener('click', () => { clearFilters(); $('search').focus(); });
@@ -350,22 +383,40 @@ $('refresh').addEventListener('click', refresh);
 $('refresh-selected').addEventListener('click', refreshSelected);
 $('include-bots').addEventListener('change', () => renderActivity());
 $('activity-kind').addEventListener('change', () => renderActivity());
-$('back-to-list').addEventListener('click', () => {
+function returnToList() {
   directController?.abort(); ++directGeneration; directController = null;
   document.querySelector('.inbox-shell').classList.remove('detail-open');
-  const url = new URL(location.href); url.searchParams.delete('pr'); history.replaceState(null, '', url);
-  restoreFocus(`row:${selectedKey}`);
+  document.body.classList.remove('reading');
+  const url = new URL(location.href); url.searchParams.delete('pr');
+  if (url.hash === '#evidence-details') url.hash = '';
+  history.replaceState(null, '', url);
+  renderRows();
+  restoreFocus(returnFocusKey ?? `row:${selectedKey}`);
+  window.scrollTo(0, returnScroll);
+}
+$('back-to-list').addEventListener('click', returnToList);
+for (const [id, direction] of [['previous-pr', 'previous'], ['next-pr', 'next']]) $(id).addEventListener('click', () => {
+  const target = navigationPosition(filteredRows(), selectedKey, key)[direction];
+  if (target) selectContribution(target);
 });
-let theme = 'system';
-try { const saved = localStorage.getItem('contribution-theme'); if (['light', 'dark'].includes(saved)) theme = saved; } catch { /* System theme remains usable without storage. */ }
+document.addEventListener('keydown', event => {
+  if (acceptsSearchShortcut(event, document.body.classList.contains('reading'))) {
+    event.preventDefault(); $('search').focus();
+  } else if (event.key === 'Escape' && document.body.classList.contains('reading') &&
+      !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target?.tagName)) {
+    returnToList();
+  }
+});
+for (const element of document.querySelectorAll('[data-icon]')) element.append(createIcon(element.dataset.icon));
+let theme = initialTheme(null);
+try { theme = initialTheme(localStorage.getItem('contribution-theme')); } catch { /* Light mode remains usable without storage. */ }
 function applyTheme() {
-  if (theme === 'system') delete document.documentElement.dataset.theme;
-  else document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme = theme;
   $('theme').textContent = `Theme: ${theme}`;
 }
 applyTheme();
 $('theme').addEventListener('click', () => {
-  theme = theme === 'system' ? 'dark' : theme === 'dark' ? 'light' : 'system'; applyTheme();
+  theme = theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'; applyTheme();
   try { localStorage.setItem('contribution-theme', theme); } catch { $('theme').textContent += ' (this tab)'; }
 });
 function schedule() { clearInterval(timer); if (!document.hidden) timer = setInterval(refresh, 5 * 60000); }

@@ -42,4 +42,10 @@ Keyboard access, semantic labels, reduced-motion support, readable contrast and 
 
 ## Assumptions
 
-The supplied brief settles product scope. Ordinary visual choices are made autonomously: a task-oriented inbox, selectable work and adjacent activity context serve daily monitoring better than a portfolio table. This site represents selected public work, not all account or employer activity. Desired craft quality is not an award claim.
+The supplied brief settles product scope. Ordinary visual choices are made autonomously: a task-oriented collection with selectable work and a focused activity-reading route serves daily monitoring better than a portfolio table. This site represents selected public work, not all account or employer activity. Desired craft quality is not an award claim.
+
+## Replacement Direction
+
+The September 20 visual brief explicitly rejects the sidebar and permanently split correspondence workbench. Its functionality remains evidence, not visual authority. The replacement is a modern release-control surface: horizontal navigation, a compact routing band for explicit review/CI states, a full-width collection, and a focused reading route rather than a cramped permanent inspector. The subsequent color feedback rejects navy, cobalt and blue-grey surfaces. White porcelain, graphite controls, neutral text, readable system typography and restrained depth define the replacement. Color is reserved for explicit evidence roles. No retro paperwork, terminal metaphor, decorative charts or award claims.
+
+Ordinary design choices are autonomous. First visits use light mode, including on a dark operating system. Explicit stored light, dark or system choices are preserved; dark mode uses neutral charcoal, not navy. Operational text is at least 14px, comment bodies 16px, and interactive targets at least 44px. Selected-PR previous/next navigation and reliable return-to-list focus reduce repeated scanning. The slash shortcut works from collection rows and other noneditable controls without interrupting typing or comboboxes. Concise review/CI observations precede conversation; expanded refresh and context follow conversation on mobile, with a direct jump link. The local replacement must be inspected before any new commit or publication.

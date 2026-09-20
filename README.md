@@ -2,6 +2,8 @@
 
 A dependency-free, hosted-only inbox for selected public open-source contributions. Browse public discussion, explicit review requests, observed branch changes and merges alongside qualified CI evidence. Select a PR for its activity and original sources; no local HTML report is maintained.
 
+The replacement interface uses a full-width collection and focused PR reading view. Previous/next controls traverse the current filtered set; Back to work restores the initiating row and scroll position. `/` focuses collection search from rows and noneditable controls, but never interrupts inputs, textareas, contenteditable regions or comboboxes; Escape returns from the reading view without intercepting form input. Concise selected evidence stays above conversation; mobile refresh/context follows discussion and has a direct jump link. First visits use light mode; saved light, charcoal-dark or system preferences are retained. These controls do not mutate any GitHub record.
+
 **Public site:** https://leultew.github.io/oss-contributions/
 
 ## What the numbers mean

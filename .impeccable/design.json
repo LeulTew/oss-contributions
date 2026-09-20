@@ -1,159 +1,782 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-20T13:00:14.891Z",
-  "title": "Design System: LeulTew Contribution Inbox",
+  "generatedAt": "2026-09-20T15:54:52.967Z",
+  "title": "Design System: LeulTew Contributions",
   "extensions": {
     "colorMeta": {
-      "ground": { "role": "neutral", "displayName": "Workspace ground", "tonalRamp": ["oklch(15% .004 270)", "oklch(27% .004 270)", "oklch(38% .004 270)", "oklch(50% .004 270)", "oklch(61% .004 270)", "oklch(73% .004 270)", "oklch(84% .004 270)", "oklch(95% .004 270)"] },
-      "paper": { "role": "neutral", "displayName": "Paper work plane", "tonalRamp": ["oklch(15% 0 0)", "oklch(27% 0 0)", "oklch(38% 0 0)", "oklch(50% 0 0)", "oklch(61% 0 0)", "oklch(73% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"] },
-      "ink": { "role": "neutral", "displayName": "Graphite ink", "tonalRamp": ["oklch(15% .022 270)", "oklch(27% .022 270)", "oklch(38% .022 270)", "oklch(50% .022 270)", "oklch(61% .022 270)", "oklch(73% .022 270)", "oklch(84% .022 270)", "oklch(95% .022 270)"] },
-      "muted": { "role": "neutral", "displayName": "Secondary ink", "tonalRamp": ["oklch(15% .025 265)", "oklch(27% .025 265)", "oklch(38% .025 265)", "oklch(50% .025 265)", "oklch(61% .025 265)", "oklch(73% .025 265)", "oklch(84% .025 265)", "oklch(95% .025 265)"] },
-      "line": { "role": "neutral", "displayName": "Correspondence rule", "tonalRamp": ["oklch(15% .011 270)", "oklch(27% .011 270)", "oklch(38% .011 270)", "oklch(50% .011 270)", "oklch(61% .011 270)", "oklch(73% .011 270)", "oklch(84% .011 270)", "oklch(95% .011 270)"] },
-      "soft": { "role": "neutral", "displayName": "Soft neutral", "tonalRamp": ["oklch(15% .007 270)", "oklch(27% .007 270)", "oklch(38% .007 270)", "oklch(50% .007 270)", "oklch(61% .007 270)", "oklch(73% .007 270)", "oklch(84% .007 270)", "oklch(95% .007 270)"] },
-      "accent": { "role": "primary", "displayName": "Ink-blue", "tonalRamp": ["oklch(15% .180 277)", "oklch(27% .180 277)", "oklch(38% .180 277)", "oklch(50% .180 277)", "oklch(61% .180 277)", "oklch(73% .180 277)", "oklch(84% .180 277)", "oklch(95% .180 277)"] },
-      "selected": { "role": "primary", "displayName": "Selection wash", "tonalRamp": ["oklch(15% .018 283)", "oklch(27% .018 283)", "oklch(38% .018 283)", "oklch(50% .018 283)", "oklch(61% .018 283)", "oklch(73% .018 283)", "oklch(84% .018 283)", "oklch(95% .018 283)"] },
-      "rail": { "role": "neutral", "displayName": "Graphite identity", "tonalRamp": ["oklch(15% .027 269)", "oklch(27% .027 269)", "oklch(38% .027 269)", "oklch(50% .027 269)", "oklch(61% .027 269)", "oklch(73% .027 269)", "oklch(84% .027 269)", "oklch(95% .027 269)"] },
-      "green": { "role": "secondary", "displayName": "Evidence green", "tonalRamp": ["oklch(15% .096 159)", "oklch(27% .096 159)", "oklch(38% .096 159)", "oklch(50% .096 159)", "oklch(61% .096 159)", "oklch(73% .096 159)", "oklch(84% .096 159)", "oklch(95% .096 159)"] },
-      "amber": { "role": "secondary", "displayName": "Evidence amber", "tonalRamp": ["oklch(15% .106 73)", "oklch(27% .106 73)", "oklch(38% .106 73)", "oklch(50% .106 73)", "oklch(61% .106 73)", "oklch(73% .106 73)", "oklch(84% .106 73)", "oklch(95% .106 73)"] },
-      "amber-bg": { "role": "secondary", "displayName": "Warning surface", "tonalRamp": ["oklch(15% .026 87)", "oklch(27% .026 87)", "oklch(38% .026 87)", "oklch(50% .026 87)", "oklch(61% .026 87)", "oklch(73% .026 87)", "oklch(84% .026 87)", "oklch(95% .026 87)"] },
-      "red": { "role": "secondary", "displayName": "Attention red", "tonalRamp": ["oklch(15% .153 22)", "oklch(27% .153 22)", "oklch(38% .153 22)", "oklch(50% .153 22)", "oklch(61% .153 22)", "oklch(73% .153 22)", "oklch(84% .153 22)", "oklch(95% .153 22)"] },
-      "purple": { "role": "secondary", "displayName": "Merge purple", "tonalRamp": ["oklch(15% .150 300)", "oklch(27% .150 300)", "oklch(38% .150 300)", "oklch(50% .150 300)", "oklch(61% .150 300)", "oklch(73% .150 300)", "oklch(84% .150 300)", "oklch(95% .150 300)"] },
-      "focus": { "role": "primary", "displayName": "Focus blue", "tonalRamp": ["oklch(15% .129 262)", "oklch(27% .129 262)", "oklch(38% .129 262)", "oklch(50% .129 262)", "oklch(61% .129 262)", "oklch(73% .129 262)", "oklch(84% .129 262)", "oklch(95% .129 262)"] },
-      "dark-ground": { "role": "neutral", "displayName": "Dark workspace ground", "tonalRamp": ["oklch(15% .019 266)", "oklch(27% .019 266)", "oklch(38% .019 266)", "oklch(50% .019 266)", "oklch(61% .019 266)", "oklch(73% .019 266)", "oklch(84% .019 266)", "oklch(95% .019 266)"] },
-      "dark-paper": { "role": "neutral", "displayName": "Dark work plane", "tonalRamp": ["oklch(15% .022 265)", "oklch(27% .022 265)", "oklch(38% .022 265)", "oklch(50% .022 265)", "oklch(61% .022 265)", "oklch(73% .022 265)", "oklch(84% .022 265)", "oklch(95% .022 265)"] },
-      "dark-ink": { "role": "neutral", "displayName": "Pale graphite ink", "tonalRamp": ["oklch(15% .014 274)", "oklch(27% .014 274)", "oklch(38% .014 274)", "oklch(50% .014 274)", "oklch(61% .014 274)", "oklch(73% .014 274)", "oklch(84% .014 274)", "oklch(95% .014 274)"] },
-      "dark-muted": { "role": "neutral", "displayName": "Pale secondary ink", "tonalRamp": ["oklch(15% .024 267)", "oklch(27% .024 267)", "oklch(38% .024 267)", "oklch(50% .024 267)", "oklch(61% .024 267)", "oklch(73% .024 267)", "oklch(84% .024 267)", "oklch(95% .024 267)"] },
-      "dark-line": { "role": "neutral", "displayName": "Dark correspondence rule", "tonalRamp": ["oklch(15% .029 261)", "oklch(27% .029 261)", "oklch(38% .029 261)", "oklch(50% .029 261)", "oklch(61% .029 261)", "oklch(73% .029 261)", "oklch(84% .029 261)", "oklch(95% .029 261)"] },
-      "dark-soft": { "role": "neutral", "displayName": "Dark soft neutral", "tonalRamp": ["oklch(15% .028 266)", "oklch(27% .028 266)", "oklch(38% .028 266)", "oklch(50% .028 266)", "oklch(61% .028 266)", "oklch(73% .028 266)", "oklch(84% .028 266)", "oklch(95% .028 266)"] },
-      "dark-accent": { "role": "primary", "displayName": "Pale ink-blue", "tonalRamp": ["oklch(15% .099 280)", "oklch(27% .099 280)", "oklch(38% .099 280)", "oklch(50% .099 280)", "oklch(61% .099 280)", "oklch(73% .099 280)", "oklch(84% .099 280)", "oklch(95% .099 280)"] },
-      "dark-selected": { "role": "primary", "displayName": "Dark selection wash", "tonalRamp": ["oklch(15% .053 274)", "oklch(27% .053 274)", "oklch(38% .053 274)", "oklch(50% .053 274)", "oklch(61% .053 274)", "oklch(73% .053 274)", "oklch(84% .053 274)", "oklch(95% .053 274)"] },
-      "dark-green": { "role": "secondary", "displayName": "Pale evidence green", "tonalRamp": ["oklch(15% .089 159)", "oklch(27% .089 159)", "oklch(38% .089 159)", "oklch(50% .089 159)", "oklch(61% .089 159)", "oklch(73% .089 159)", "oklch(84% .089 159)", "oklch(95% .089 159)"] },
-      "dark-amber": { "role": "secondary", "displayName": "Pale evidence amber", "tonalRamp": ["oklch(15% .101 80)", "oklch(27% .101 80)", "oklch(38% .101 80)", "oklch(50% .101 80)", "oklch(61% .101 80)", "oklch(73% .101 80)", "oklch(84% .101 80)", "oklch(95% .101 80)"] },
-      "dark-amber-bg": { "role": "secondary", "displayName": "Dark warning surface", "tonalRamp": ["oklch(15% .027 75)", "oklch(27% .027 75)", "oklch(38% .027 75)", "oklch(50% .027 75)", "oklch(61% .027 75)", "oklch(73% .027 75)", "oklch(84% .027 75)", "oklch(95% .027 75)"] },
-      "dark-red": { "role": "secondary", "displayName": "Pale attention red", "tonalRamp": ["oklch(15% .090 13)", "oklch(27% .090 13)", "oklch(38% .090 13)", "oklch(50% .090 13)", "oklch(61% .090 13)", "oklch(73% .090 13)", "oklch(84% .090 13)", "oklch(95% .090 13)"] },
-      "dark-purple": { "role": "secondary", "displayName": "Pale merge purple", "tonalRamp": ["oklch(15% .090 307)", "oklch(27% .090 307)", "oklch(38% .090 307)", "oklch(50% .090 307)", "oklch(61% .090 307)", "oklch(73% .090 307)", "oklch(84% .090 307)", "oklch(95% .090 307)"] },
-      "dark-focus": { "role": "primary", "displayName": "Pale focus blue", "tonalRamp": ["oklch(15% .109 263)", "oklch(27% .109 263)", "oklch(38% .109 263)", "oklch(50% .109 263)", "oklch(61% .109 263)", "oklch(73% .109 263)", "oklch(84% .109 263)", "oklch(95% .109 263)"] }
+      "ground": {
+        "role": "neutral",
+        "displayName": "Porcelain",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "soft": {
+        "role": "neutral",
+        "displayName": "Platinum",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Graphite",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "selected": {
+        "role": "primary",
+        "displayName": "Selected",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "nav": {
+        "role": "neutral",
+        "displayName": "Nav",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "nav-text": {
+        "role": "neutral",
+        "displayName": "Nav Text",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "green": {
+        "role": "secondary",
+        "displayName": "Evidence green",
+        "tonalRamp": [
+          "oklch(15% .100 161)",
+          "oklch(27% .100 161)",
+          "oklch(38% .100 161)",
+          "oklch(50% .100 161)",
+          "oklch(61% .100 161)",
+          "oklch(73% .100 161)",
+          "oklch(84% .100 161)",
+          "oklch(95% .100 161)"
+        ]
+      },
+      "green-soft": {
+        "role": "secondary",
+        "displayName": "Soft evidence green",
+        "tonalRamp": [
+          "oklch(15% .019 160)",
+          "oklch(27% .019 160)",
+          "oklch(38% .019 160)",
+          "oklch(50% .019 160)",
+          "oklch(61% .019 160)",
+          "oklch(73% .019 160)",
+          "oklch(84% .019 160)",
+          "oklch(95% .019 160)"
+        ]
+      },
+      "amber": {
+        "role": "secondary",
+        "displayName": "Evidence amber",
+        "tonalRamp": [
+          "oklch(15% .102 74)",
+          "oklch(27% .102 74)",
+          "oklch(38% .102 74)",
+          "oklch(50% .102 74)",
+          "oklch(61% .102 74)",
+          "oklch(73% .102 74)",
+          "oklch(84% .102 74)",
+          "oklch(95% .102 74)"
+        ]
+      },
+      "amber-soft": {
+        "role": "secondary",
+        "displayName": "Soft evidence amber",
+        "tonalRamp": [
+          "oklch(15% .034 87)",
+          "oklch(27% .034 87)",
+          "oklch(38% .034 87)",
+          "oklch(50% .034 87)",
+          "oklch(61% .034 87)",
+          "oklch(73% .034 87)",
+          "oklch(84% .034 87)",
+          "oklch(95% .034 87)"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "Evidence red",
+        "tonalRamp": [
+          "oklch(15% .161 14)",
+          "oklch(27% .161 14)",
+          "oklch(38% .161 14)",
+          "oklch(50% .161 14)",
+          "oklch(61% .161 14)",
+          "oklch(73% .161 14)",
+          "oklch(84% .161 14)",
+          "oklch(95% .161 14)"
+        ]
+      },
+      "red-soft": {
+        "role": "secondary",
+        "displayName": "Soft evidence red",
+        "tonalRamp": [
+          "oklch(15% .019 0)",
+          "oklch(27% .019 0)",
+          "oklch(38% .019 0)",
+          "oklch(50% .019 0)",
+          "oklch(61% .019 0)",
+          "oklch(73% .019 0)",
+          "oklch(84% .019 0)",
+          "oklch(95% .019 0)"
+        ]
+      },
+      "merged": {
+        "role": "secondary",
+        "displayName": "Merged",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "merged-soft": {
+        "role": "secondary",
+        "displayName": "Merged Soft",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-ground": {
+        "role": "neutral",
+        "displayName": "Charcoal",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-paper": {
+        "role": "neutral",
+        "displayName": "Dark Paper",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "Dark Muted",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-line": {
+        "role": "neutral",
+        "displayName": "Dark Line",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-soft": {
+        "role": "neutral",
+        "displayName": "Dark Soft",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Dark Accent",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-selected": {
+        "role": "primary",
+        "displayName": "Dark Selected",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-nav": {
+        "role": "neutral",
+        "displayName": "Dark Nav",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-green": {
+        "role": "secondary",
+        "displayName": "Pale evidence green",
+        "tonalRamp": [
+          "oklch(15% .083 159)",
+          "oklch(27% .083 159)",
+          "oklch(38% .083 159)",
+          "oklch(50% .083 159)",
+          "oklch(61% .083 159)",
+          "oklch(73% .083 159)",
+          "oklch(84% .083 159)",
+          "oklch(95% .083 159)"
+        ]
+      },
+      "dark-green-soft": {
+        "role": "secondary",
+        "displayName": "Dark evidence green fill",
+        "tonalRamp": [
+          "oklch(15% .043 167)",
+          "oklch(27% .043 167)",
+          "oklch(38% .043 167)",
+          "oklch(50% .043 167)",
+          "oklch(61% .043 167)",
+          "oklch(73% .043 167)",
+          "oklch(84% .043 167)",
+          "oklch(95% .043 167)"
+        ]
+      },
+      "dark-amber": {
+        "role": "secondary",
+        "displayName": "Pale evidence amber",
+        "tonalRamp": [
+          "oklch(15% .093 82)",
+          "oklch(27% .093 82)",
+          "oklch(38% .093 82)",
+          "oklch(50% .093 82)",
+          "oklch(61% .093 82)",
+          "oklch(73% .093 82)",
+          "oklch(84% .093 82)",
+          "oklch(95% .093 82)"
+        ]
+      },
+      "dark-amber-soft": {
+        "role": "secondary",
+        "displayName": "Dark evidence amber fill",
+        "tonalRamp": [
+          "oklch(15% .031 80)",
+          "oklch(27% .031 80)",
+          "oklch(38% .031 80)",
+          "oklch(50% .031 80)",
+          "oklch(61% .031 80)",
+          "oklch(73% .031 80)",
+          "oklch(84% .031 80)",
+          "oklch(95% .031 80)"
+        ]
+      },
+      "dark-red": {
+        "role": "secondary",
+        "displayName": "Pale evidence red",
+        "tonalRamp": [
+          "oklch(15% .094 7)",
+          "oklch(27% .094 7)",
+          "oklch(38% .094 7)",
+          "oklch(50% .094 7)",
+          "oklch(61% .094 7)",
+          "oklch(73% .094 7)",
+          "oklch(84% .094 7)",
+          "oklch(95% .094 7)"
+        ]
+      },
+      "dark-red-soft": {
+        "role": "secondary",
+        "displayName": "Dark evidence red fill",
+        "tonalRamp": [
+          "oklch(15% .049 345)",
+          "oklch(27% .049 345)",
+          "oklch(38% .049 345)",
+          "oklch(50% .049 345)",
+          "oklch(61% .049 345)",
+          "oklch(73% .049 345)",
+          "oklch(84% .049 345)",
+          "oklch(95% .049 345)"
+        ]
+      },
+      "dark-merged": {
+        "role": "secondary",
+        "displayName": "Dark Merged",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-merged-soft": {
+        "role": "secondary",
+        "displayName": "Dark Merged Soft",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-focus": {
+        "role": "primary",
+        "displayName": "Dark Focus",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-action-ink": {
+        "role": "neutral",
+        "displayName": "Dark Action Ink",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "on-accent",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "dark-nav-text": {
+        "role": "neutral",
+        "displayName": "dark-nav-text",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(38% 0 0)",
+          "oklch(50% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(73% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Inbox title", "purpose": "Page title; reduces to 1.6rem at widths up to 700px." },
-      "headline": { "displayName": "Section heading", "purpose": "General section hierarchy; local headings can be quieter." },
-      "detail-title": { "displayName": "Selected PR title", "purpose": "Selected contribution heading; reduces to 1.14rem at widths up to 700px." },
-      "body": { "displayName": "Inherited baseline", "purpose": "Root system typography, not a universal component text size." },
-      "action": { "displayName": "Base control text", "purpose": "Shared base buttons and fields; not a minimum size for reading copy." },
-      "metadata": { "displayName": "Operational metadata", "purpose": "Grouped final CSS sizes for view controls, filters, dates, signals, observations and actor labels; supersedes earlier local sizes." },
-      "reading": { "displayName": "Primary reading", "purpose": "Contribution summaries, selected-PR summaries and message bodies use the grouped final CSS size." },
-      "project-title": { "displayName": "Inbox project title", "purpose": "Project identity in a selectable contribution row." },
-      "context": { "displayName": "Context reading", "purpose": "Context disclosure summary and paragraphs, plus explanatory paragraphs." },
-      "quote": { "displayName": "Original human words", "purpose": "Supporting source-linked quotation, separate from the activity stream." }
+      "display": {
+        "displayName": "Collection introduction",
+        "purpose": "44px desktop title; final mobile override is 26px at 600px and below."
+      },
+      "headline": {
+        "displayName": "Section heading",
+        "purpose": "Base heading hierarchy for work and supporting content."
+      },
+      "detail-title": {
+        "displayName": "Selected contribution title",
+        "purpose": "Reading-scene title; 27px at 600px and below, 25px at 360px and below."
+      },
+      "project-title": {
+        "displayName": "Collection project name",
+        "purpose": "Row identity; 16px on mobile, with a separate 14px PR number."
+      },
+      "body": {
+        "displayName": "Reading baseline",
+        "purpose": "Inherited body typography."
+      },
+      "correspondence": {
+        "displayName": "Comment body",
+        "purpose": "16px source text with preserved line breaks and 1.8 line height."
+      },
+      "summary": {
+        "displayName": "Collection summary",
+        "purpose": "Plain-language change explanation in the full-width collection."
+      },
+      "operational": {
+        "displayName": "Operational text",
+        "purpose": "Final grouped 14px labels, dates, evidence, actor classification and controls."
+      },
+      "action": {
+        "displayName": "Action text",
+        "purpose": "Semibold 14px text on substantial controls."
+      },
+      "quote": {
+        "displayName": "Original feedback",
+        "purpose": "Curated source quotation; mobile reduces to 23px."
+      }
     },
     "shadows": [
-      { "name": "selected-inbox-edge", "value": "inset 1px 0 var(--accent)", "purpose": "Fine selected-row edge from site/style.css; not diffuse elevation." }
+      {
+        "name": "paper-surface",
+        "value": "0 8px 28px #00000008",
+        "purpose": "Shared light-theme paper depth from site/style.css."
+      },
+      {
+        "name": "paper-surface-dark",
+        "value": "0 8px 28px #00000014",
+        "purpose": "Dark-theme replacement for the shared surface shadow."
+      },
+      {
+        "name": "selected-collection-view",
+        "value": "0 3px 8px #00000012",
+        "purpose": "Small lift under the solid selected view button."
+      }
     ],
     "motion": [
-      { "name": "control-state", "value": "background-color 150ms ease-out, color 150ms ease-out", "purpose": "Buttons and links only when prefers-reduced-motion is no-preference." },
-      { "name": "inbox-selection", "value": "background-color 150ms ease-out", "purpose": "Selected inbox surface only when prefers-reduced-motion is no-preference." }
+      {
+        "name": "control-state",
+        "value": "background-color 160ms ease-out, color 160ms ease-out",
+        "purpose": "Buttons and links only when reduced motion is not requested."
+      },
+      {
+        "name": "reading-entry",
+        "value": "220ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "Reading scene translates from 10px below and fades from .65 opacity only when reduced motion is not requested."
+      },
+      {
+        "name": "pressed-feedback",
+        "value": "translateY(1px)",
+        "purpose": "Button active state; disabled buttons cancel the translation."
+      }
     ],
     "breakpoints": [
-      { "name": "wide-min", "value": "1600px" },
-      { "name": "compact-workspace-max", "value": "1200px" },
-      { "name": "view-strip-max", "value": "980px" },
-      { "name": "single-pane-max", "value": "700px" }
+      {
+        "name": "compact-desktop-max",
+        "value": "1150px"
+      },
+      {
+        "name": "stacked-reading-max",
+        "value": "850px"
+      },
+      {
+        "name": "mobile-grid-max",
+        "value": "600px"
+      },
+      {
+        "name": "narrow-max",
+        "value": "360px"
+      }
     ]
   },
   "components": [
     {
-      "name": "Snapshot action",
+      "name": "Secondary action",
       "kind": "button",
-      "refersTo": "snapshot-action",
-      "description": "Snapshot action from site/style.css with the final grouped operational text size and label from site/index.html.",
-      "html": "<button class=\"ds-button\" type=\"button\">Reload snapshot</button>",
-      "css": ".ds-button{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;font-size:.75rem;line-height:1.5;min-height:40px;border:1px solid var(--line,#dfe2ea);background:var(--paper,#fff);border-radius:6px;padding:8px 12px;color:var(--ink,#252935);cursor:pointer}.ds-button:hover{background:var(--soft,#f0f2f7);border-color:#aeb3c6}.ds-button:disabled{cursor:wait;opacity:.65}.ds-button:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 150ms ease-out,color 150ms ease-out}}"
+      "refersTo": "button",
+      "description": "Base control from site/style.css with 44px minimum height.",
+      "html": "<button class=\"ds-button\" type=\"button\">Reload</button>",
+      "css": ".ds-button{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;min-height:44px;border:1px solid transparent;border-radius:10px;padding:10px 16px;background:var(--soft,#ededed);color:var(--ink,#1c1c1c);font-size:14px;font-weight:600;cursor:pointer}.ds-button:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-button:active{transform:translateY(1px)}.ds-button:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-button:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 160ms ease-out,color 160ms ease-out}}"
     },
     {
-      "name": "Quiet action",
+      "name": "Primary action",
       "kind": "button",
-      "refersTo": "button-quiet",
-      "description": "Transparent action variant from site/style.css, used for reset, theme and return controls.",
-      "html": "<button class=\"ds-quiet\" type=\"button\">Theme: system</button>",
-      "css": ".ds-quiet{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;font-size:.8rem;line-height:1.5;min-height:40px;border:1px solid transparent;background:transparent;border-radius:6px;padding:8px 12px;color:var(--muted,#636978);cursor:pointer}.ds-quiet:hover{border-color:transparent;background:transparent}.ds-quiet:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-quiet{transition:background-color 150ms ease-out,color 150ms ease-out}}"
+      "refersTo": "button-primary",
+      "description": "Primary action from site/style.css; the inline external icon uses the exact path geometry in site/ui.mjs. The sample uses the initial profile destination from site/index.html; selection supplies the original PR URL.",
+      "html": "<a class=\"ds-primary\" href=\"https://github.com/LeulTew\">Open on GitHub<svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M14 3h7v7\"></path><path d=\"m21 3-11 11\"></path><path d=\"M10 3H3v18h18v-7\"></path></svg></a>",
+      "css": ".ds-primary{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:inline-flex;gap:9px;align-items:center;justify-content:center;background:var(--accent,#242424);color:var(--on-accent,#fff);min-height:46px;border-radius:10px;padding:10px 17px;font-size:14px;font-weight:600;text-decoration:none}.ds-primary:hover{background:color-mix(in srgb,var(--accent,#242424) 88%,var(--paper,#fff));color:var(--on-accent,#fff)}.ds-primary:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-primary.ds-dark,:host-context([data-theme=dark]) .ds-primary{color:#161616}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-color-scheme:dark){:host-context(:root[data-theme=system]) .ds-primary{color:#161616}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:background-color 160ms ease-out,color 160ms ease-out}}"
     },
     {
-      "name": "Search field",
-      "kind": "input",
-      "refersTo": "search",
-      "description": "Native search field from site/index.html and site/style.css; the visible placeholder is supplemented by a programmatic label.",
-      "html": "<input class=\"ds-search\" aria-label=\"Search contributions\" type=\"search\" placeholder=\"Search project, change, #number\" autocomplete=\"off\">",
-      "css": ".ds-search{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;font-size:.8rem;line-height:1.5;min-height:40px;width:100%;max-width:100%;color:var(--ink,#252935);border:1px solid var(--line,#dfe2ea);border-radius:6px;background:var(--paper,#fff);padding:11px 13px}.ds-search::placeholder{color:var(--muted,#636978);opacity:1}.ds-search:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}"
+      "name": "Back action",
+      "kind": "button",
+      "description": "Inline return control from site/style.css with the local back icon from site/ui.mjs. The app restores saved collection focus and page scroll.",
+      "html": "<button class=\"ds-back\" type=\"button\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m10 5-7 7 7 7\"></path><path d=\"M3 12h18\"></path></svg>Back to work</button>",
+      "css": ".ds-back{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:inline-flex;align-items:center;gap:8px;min-height:44px;border:1px solid transparent;border-radius:10px;padding:10px 16px 10px 0;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:600;cursor:pointer}.ds-back:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-back:active{transform:translateY(1px)}.ds-back:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-reduced-motion:no-preference){.ds-back{transition:background-color 160ms ease-out,color 160ms ease-out}}"
     },
     {
-      "name": "Attention views",
+      "name": "Collection views",
       "kind": "nav",
-      "refersTo": "navigation-selected",
-      "description": "Desktop view-button pattern from site/style.css; no invented unread counts or tab-panel behavior.",
-      "html": "<nav class=\"ds-views\" aria-label=\"Inbox views\"><button class=\"ds-view\" type=\"button\" aria-pressed=\"true\">All contributions</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Changes requested</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Check failures</button></nav>",
-      "css": ".ds-views{display:grid;gap:3px;background:var(--paper,#fff)}.ds-view{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;font-size:.75rem;line-height:1.5;display:flex;gap:8px;align-items:center;justify-content:space-between;text-align:left;border:1px solid transparent;border-radius:6px;min-height:40px;padding:10px;color:var(--ink,#252935);background:var(--paper,#fff);cursor:pointer}.ds-view:hover{background:var(--soft,#f0f2f7);border-color:#aeb3c6}.ds-view[aria-pressed=true]{color:var(--accent,#454cc1);background:var(--selected,#eeeffd);font-weight:650}.ds-view:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-view{transition:background-color 150ms ease-out,color 150ms ease-out}}"
+      "refersTo": "collection-view-selected",
+      "description": "Source-based collection view buttons; final mobile rules use a three-column grid. Selection remains a pressed button state, not an ARIA tablist.",
+      "html": "<nav class=\"ds-views\" aria-label=\"Contribution views\"><button class=\"ds-view\" type=\"button\" aria-pressed=\"true\">All work</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Open</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Merged</button></nav>",
+      "css": ".ds-views{display:flex;flex-wrap:wrap;gap:6px}.ds-view{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:flex;align-items:center;gap:9px;min-height:46px;padding:10px 15px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted,#5b5b5b);font-size:15px;font-weight:550;cursor:pointer}.ds-view[aria-pressed=true]{background:var(--ink,#1c1c1c);color:var(--paper,#fff);box-shadow:0 3px 8px #00000012}.ds-view:not([aria-pressed=true]):hover{background:var(--paper,#fff);color:var(--ink,#1c1c1c)}.ds-view:active{transform:translateY(1px)}.ds-view:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}@media(max-width:600px){.ds-views{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:4px}.ds-view{justify-content:center;padding:9px 8px;gap:4px;font-size:14px}}@media(prefers-reduced-motion:no-preference){.ds-view{transition:background-color 160ms ease-out,color 160ms ease-out}}"
     },
     {
-      "name": "Selected inbox item",
-      "kind": "custom",
-      "refersTo": "inbox-selection",
-      "description": "Selection surface from site/style.css with final project and summary sizes. Filtering clears detail if the selected PR leaves the results. The sample contains no fabricated PR record.",
-      "html": "<div class=\"ds-item\"><button class=\"ds-item-button\" type=\"button\" aria-pressed=\"true\"><span class=\"ds-project\">Contribution preview</span><p class=\"ds-summary\">A selected contribution opens its review, CI evidence and public discussion beside the inbox.</p></button></div>",
-      "css": ".ds-item{border-bottom:1px solid var(--line,#dfe2ea)}.ds-item-button{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;font-size:.8rem;line-height:1.5;display:block;width:100%;text-align:left;padding:18px 20px;border:0;border-radius:0;min-height:118px;background:transparent;color:var(--ink,#252935);cursor:pointer}.ds-item-button:hover{background:var(--soft,#f0f2f7)}.ds-item-button[aria-pressed=true]{background:var(--selected,#eeeffd);box-shadow:inset 1px 0 var(--accent,#454cc1)}.ds-project{font-size:.9375rem;font-weight:650}.ds-summary{font-size:.875rem;line-height:1.65;color:var(--ink,#252935);margin:7px 0 10px}.ds-item-button:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-item-button{transition:background-color 150ms ease-out,color 150ms ease-out}.ds-item-button[aria-pressed=true]{transition:background-color 150ms ease-out}}"
+      "name": "Search surface",
+      "kind": "input",
+      "description": "Paper search surface from site/style.css; slash focuses search in collection mode only and does not intercept editing or modified keypresses.",
+      "html": "<div class=\"ds-search-surface\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0\"></path><path d=\"m15 15 6 6\"></path></svg><input class=\"ds-search\" type=\"search\" aria-label=\"Search contributions\" placeholder=\"Find a project, a change, a PR...\" autocomplete=\"off\"><kbd class=\"ds-key\" aria-hidden=\"true\">/</kbd></div>",
+      "css": ".ds-search-surface{display:flex;align-items:center;gap:12px;padding:10px 20px;background:var(--paper,#fff);color:var(--muted,#5b5b5b);border-radius:14px;box-shadow:var(--shadow,0 8px 28px #00000008);font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6}.ds-search{font:inherit;font-size:15px;width:100%;min-width:0;min-height:46px;border:0;background:transparent;color:var(--ink,#1c1c1c);padding:10px 0}.ds-search::placeholder{color:var(--muted,#5b5b5b);opacity:1}.ds-search:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:0}.ds-key{background:var(--soft,#ededed);border:1px solid var(--line,#dedede);border-radius:5px;padding:0 7px;font-family:inherit;font-size:13px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(max-width:600px){.ds-key{display:none}}"
+    },
+    {
+      "name": "Evidence chip",
+      "kind": "chip",
+      "refersTo": "state-open",
+      "description": "Textual lifecycle chip from site/style.css, using the final 14px operational override. Sample names a vocabulary state, not a live observation.",
+      "html": "<span class=\"ds-state\">Open</span>",
+      "css": ".ds-state{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;font-size:14px;line-height:1.7;font-weight:550;color:var(--green,#196944);background:var(--green-soft,#edf6f0)}.ds-state::before{content:\"\";width:5px;height:5px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "Connected evidence routing",
+      "kind": "nav",
+      "description": "Connected dark attention surface from site/style.css. The final mobile layout keeps three columns rather than stacked full-width routes; illustrative samples omit live counts.",
+      "html": "<nav class=\"ds-band\" aria-label=\"Evidence views\"><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Changes requested</button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Check failures</button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Awaiting CI approval</button></nav>",
+      "css": ".ds-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px;overflow:hidden;background:var(--paper,#fff);color:var(--ink,#1c1c1c);border:1px solid var(--line,#dedede)}.ds-route{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid transparent;border-left:1px solid var(--line,#dedede);border-radius:0;padding:16px;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:500;text-align:left;cursor:pointer}.ds-route:hover,.ds-route[aria-pressed=true]{background:var(--selected,#e9e9e9);color:var(--ink,#1c1c1c)}.ds-route:active{transform:translateY(1px)}.ds-route:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:-4px}@media(max-width:600px){.ds-band{border-radius:15px}.ds-route{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:6px;min-height:58px;padding:10px 12px;line-height:1.4}}@media(prefers-reduced-motion:no-preference){.ds-route{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+    },
+    {
+      "name": "Reading container",
+      "kind": "card",
+      "refersTo": "discussion",
+      "description": "Discussion surface from site/style.css. This is a reading region, not a per-contribution decorative card. Neutral sample copy is not attributed feedback.",
+      "html": "<section class=\"ds-reading\" aria-label=\"Conversation preview\"><h3 class=\"ds-reading-heading\">Conversation &amp; changes</h3><p class=\"ds-message\">Read public discussion with its actor classification, dated context and original source.</p></section>",
+      "css": ".ds-reading{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;min-width:0;border-radius:18px;background:var(--paper,#fff);color:var(--ink,#1c1c1c);box-shadow:var(--shadow,0 8px 28px #00000008);padding:28px}.ds-reading-heading{margin:0;font-size:21px;font-weight:650;line-height:1.4;letter-spacing:-.015em}.ds-message{margin:24px 0 0;padding-top:24px;border-top:1px solid var(--line,#dedede);font-size:16px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;max-width:70ch}@media(max-width:1150px){.ds-reading{padding:24px}}@media(max-width:600px){.ds-reading{padding:22px 18px}.ds-reading-heading{font-size:20px}}"
+    },
+    {
+      "name": "Previous contribution",
+      "kind": "button",
+      "description": "44px reading-toolbar control from site/style.css and site/ui.mjs. App navigation follows the filtered collection and disables at its endpoints.",
+      "html": "<button class=\"ds-previous\" type=\"button\" aria-label=\"Previous contribution\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m6 14 6-6 6 6\"></path></svg></button>",
+      "css": ".ds-previous{display:grid;place-items:center;width:44px;min-height:44px;padding:10px;border:1px solid transparent;border-radius:10px;background:var(--paper,#fff);color:var(--ink,#1c1c1c);cursor:pointer}.ds-previous:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-previous:active{transform:translateY(1px)}.ds-previous:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-previous:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-reduced-motion:no-preference){.ds-previous{transition:background-color 160ms ease-out,color 160ms ease-out}}"
     },
     {
       "name": "Context disclosure",
       "kind": "custom",
-      "refersTo": "context",
-      "description": "Native context disclosure from site/style.css and site/index.html. Example body explains placement rather than inventing evidence.",
-      "html": "<details class=\"ds-context\"><summary class=\"ds-context-summary\">Contribution context &amp; CI evidence</summary><p class=\"ds-context-copy\">Dated contribution context and scheduled CI evidence remain separate from discussion refresh.</p></details>",
-      "css": ".ds-context{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;background:var(--ground,#f5f6f9);border:1px solid var(--line,#dfe2ea);border-radius:6px;color:var(--ink,#252935)}.ds-context-summary{min-height:42px;padding:11px 12px;font-size:.8125rem;color:var(--muted,#636978);cursor:pointer}.ds-context-copy{margin:0;font-size:.8125rem;padding:0 12px 12px;line-height:1.75;overflow-wrap:anywhere}.ds-context-summary:focus-visible{outline:3px solid var(--focus,#436ab6);outline-offset:3px}"
-    },
-    {
-      "name": "Separate evidence signals",
-      "kind": "custom",
-      "description": "Text-only evidence treatment from the detail definition lists in site/style.css; labels describe signal categories, not a live result.",
-      "html": "<div class=\"ds-signals\"><span class=\"ds-review\">Review</span><span class=\"ds-ci\">CI evidence</span></div>",
-      "css": ".ds-signals{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line,#dfe2ea);border-bottom:1px solid var(--line,#dfe2ea);gap:22px;padding:16px 0;color:var(--ink,#252935)}.ds-review,.ds-ci{font-size:.77rem;font-weight:550}"
-    },
-    {
-      "name": "Correspondence message",
-      "kind": "custom",
-      "description": "Ruled message body from site/style.css with the final primary reading size. Initial head baselines remain in detail but are excluded from Recent activity; they are not new branch changes. Neutral sample copy is not a quote or endorsement.",
-      "html": "<div class=\"ds-event\"><p class=\"ds-event-body\">Public discussion stays connected to its actor classification, observation context and original source.</p></div>",
-      "css": ".ds-event{font-family:\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;padding:17px 0;border-top:1px solid var(--line,#dfe2ea);color:var(--ink,#252935)}.ds-event-body{margin:0;font-size:.875rem;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}"
+      "description": "Native disclosure within the evidence region from site/style.css. Its sample explains placement without fabricating a CI result.",
+      "html": "<details class=\"ds-context\"><summary class=\"ds-context-heading\">Contribution context &amp; CI evidence</summary><p class=\"ds-context-copy\">Scheduled CI observations remain independently dated when PR discussion is refreshed.</p></details>",
+      "css": ".ds-context{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;margin-top:22px;border-top:1px solid var(--line,#dedede);padding-top:14px;color:var(--ink,#1c1c1c)}.ds-context-heading{font-size:14px;font-weight:550;min-height:44px;padding:10px 0;cursor:pointer}.ds-context-heading:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-context-copy{font-size:14px;line-height:1.8;overflow-wrap:anywhere;margin:12px 0 0}"
     }
   ],
   "narrative": {
-    "northStar": "The Correspondence Workbench",
-    "overview": "Graphite identity, white work planes and ink-blue selection form a quiet, task-oriented inbox. Views, selectable contributions and adjacent correspondence keep the next inspection clear without treating contribution counts as a score. The interface feels precise and familiar: system typography, restrained boundaries and useful text take precedence over imagery or ornamental surfaces.\n\nSelection is the organizing gesture. A contribution stays connected to its review state, dated CI evidence and actor-qualified discussion; attention views narrow the work without inventing tasks from comments. Dark mode retains the same structure with graphite surfaces and pale ink-blue accents. Source-linked human quotations remain supporting evidence, not a promotional layer.",
+    "northStar": "The Release-Control Surface",
+    "overview": "White porcelain, graphite interaction and a neutral horizontal masthead make a clear place to inspect public work. A connected evidence-routing band leads into a full-width collection; substantial controls and readable text replace a cramped administrative frame. Rounded surfaces and restrained depth separate tasks without turning each contribution into a decorative card. Color is reserved for explicit evidence roles, not a branded wash.\n\nOpening a contribution changes the scene from scanning to reading. The collection recedes, conversation gains space, and independently dated review and CI summaries stay above it. Expanded refresh and supporting context sit beside discussion on desktop and after it on smaller screens; a jump link keeps them reachable. Previous/next navigation and return to the original focus and scroll position make that change of scene reversible. Text, source-linked evidence and consistent open-stroke icons carry the identity; no external fonts or imagery are required.",
     "keyCharacteristics": [
-      "Graphite identity and neutral work planes with ink-blue selection.",
-      "Adjacent inbox and detail, becoming a list-to-detail flow on narrow screens.",
-      "Ruled correspondence with no floating-card elevation.",
-      "Separate PR, review, CI and activity evidence, each with explicit context.",
-      "System fonts, native controls and source-linked text instead of imagery."
+      "White porcelain work surfaces, graphite actions and neutral horizontal navigation.",
+      "Full-width collection followed by a separate focused reading scene.",
+      "Operational text at 14px, correspondence at 16px and substantial control targets.",
+      "Connected evidence routing, soft surface depth and ruled contribution rows.",
+      "Independent evidence labels, original-source links and reversible navigation."
     ],
     "rules": [
-      { "name": "The Separate Evidence Rule", "body": "Selection, PR state, changes-requested reviews, CI evidence and actor classification are different signals; never collapse them into one color or one implied verdict.", "section": "colors" },
-      { "name": "The Reading Priority Rule", "body": "Keep titles and message bodies above metadata in the hierarchy; compact supporting text must not become the default for new reading surfaces.", "section": "typography" },
-      { "name": "The Adjacent Context Rule", "body": "On wide screens, preserve the selected contribution beside its discussion; use rules and tonal selection, not floating layers, to connect them.", "section": "elevation" }
+      {
+        "name": "The Independent Signals Rule",
+        "body": "Color supports explicit labels; selection, lifecycle state, review outcome, CI and actor classification never substitute for one another.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reading Size Rule",
+        "body": "Preserve 14px operational text and 16px correspondence; gain compactness through layout and selective supporting copy, not tiny task labels.",
+        "section": "typography"
+      },
+      {
+        "name": "The Change of Scene Rule",
+        "body": "Keep collection scanning and focused reading separate; return users to their place instead of reserving a permanent side inspector.",
+        "section": "layout"
+      }
     ],
     "dos": [
-      "**Do** use graphite neutrals, white work planes and ink-blue selection consistently across the inbox and detail.",
-      "**Do** preserve separate labels and observation context for PR state, review, CI and activity.",
-      "**Do** keep the selected work adjacent to its context on wide screens and provide a clear return path on narrow screens.",
-      "**Do** retain semantic controls, visible keyboard focus and source-linked actor qualification.",
-      "**Do** keep original human quotations separate from uncurated public activity.",
-      "**Do** clear detail when the selected contribution leaves the filtered results."
+      "**Do** use porcelain/white and graphite, with true-neutral charcoal dark surfaces.",
+      "**Do** preserve the full-width collection and separate focused reading scene.",
+      "**Do** retain 44px control targets, 14px operational text and 16px correspondence.",
+      "**Do** keep original evidence labels, actor qualifications and observation times distinct.",
+      "**Do** preserve filtered previous/next navigation and return-to-collection focus and scroll."
     ],
     "donts": [
-      "**Don't** convert comments or unknown account classifications into inferred author tasks or human endorsements.",
-      "**Don't** suggest that selected-PR refresh updates scheduled CI or guarantees immediate upstream delivery.",
-      "**Don't** replace the correspondence workbench with a scorecard, decorative card grid or floating elevation.",
-      "**Don't** add remote fonts or ornamental imagery to this text-led interface.",
-      "**Don't** use superseded local text sizes or illustrative color ramps as reusable tokens.",
-      "**Don't** present an initial head baseline as newly occurring activity."
+      "**Don't** reintroduce a permanent sidebar or collection/detail split pane.",
+      "**Don't** shrink operational text to recover space; use the compact responsive grids.",
+      "**Don't** imply author tasks, human identity, approval or new CI evidence without the corresponding source.",
+      "**Don't** turn the collection into decorative standalone cards or add ornamental imagery and remote fonts.",
+      "**Don't** promote superseded cascade values, one-off identity details or illustrative ramps into reusable tokens."
     ]
   }
 }
