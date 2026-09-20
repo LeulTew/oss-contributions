@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { validateCatalog, validateSnapshot, selectRows, counts, isStale, chooseSnapshot, freshnessMessage, inboxRows, activityFeed, activityDate, reviewLabel } from '../site/model.mjs';
+import { validateCatalog, validateSnapshot, selectRows, counts, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, inboxRows, activityFeed, activityDate, reviewLabel } from '../site/model.mjs';
 const catalog = JSON.parse(await readFile(new URL('../config/contributions.json', import.meta.url)));
 const quotes = JSON.parse(await readFile(new URL('../config/quotes.json', import.meta.url)));
 const now = Date.parse('2026-09-19T00:00:00Z');
@@ -188,4 +188,18 @@ test('initial head baselines never masquerade as recent changes', () => {
   row.activity.events.push({ ...baseline, id: 'changed', previousHeadSha: 'a'.repeat(40) });
   assert.equal(activityDate(row), now + 60000);
   assert.equal(activityFeed([row]).length, 1);
+});
+test('a late published snapshot upgrades same-head CI without discarding newer direct discussion', () => {
+  const prior = snapshot().contributions[0];
+  const supplement = { row: structuredClone(prior), checkedAt: new Date(now + 120000).toISOString(), cached: false };
+  const incoming = { ...prior, checkedAt: new Date(now + 60000).toISOString(), ci: { ...prior.ci, state: 'success' } };
+  const merged = reconcileDirect(incoming, supplement);
+  assert.equal(merged.row.ci.state, 'success');
+  assert.equal(merged.row.checkedAt, incoming.checkedAt);
+  assert.equal(merged.checkedAt, supplement.checkedAt);
+  assert.equal(supplement.row.checkedAt, prior.checkedAt);
+  const anotherHead = { ...incoming, headSha: 'b'.repeat(40) };
+  assert.equal(reconcileDirect(anotherHead, supplement), supplement);
+  assert.equal(reconcileDirect({ ...incoming, checkedAt: supplement.checkedAt }, supplement), null);
+  assert.equal(reconcileDirect({ ...incoming, updatedAt: new Date(now + 1000).toISOString() }, supplement), null);
 });

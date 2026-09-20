@@ -98,6 +98,15 @@ export function chooseSnapshot(current, incoming) {
   if (current && Date.parse(incoming.fetchedAt) < Date.parse(current.fetchedAt)) throw new Error('An older snapshot was received.');
   return incoming;
 }
+export function reconcileDirect(row, supplement) {
+  if (!supplement || Date.parse(row.checkedAt) >= Date.parse(supplement.checkedAt) ||
+      Date.parse(row.updatedAt) > Date.parse(supplement.row.updatedAt)) return null;
+  if (row.headSha === supplement.row.headSha && Date.parse(row.checkedAt) > Date.parse(supplement.row.checkedAt)) {
+    return { ...supplement, row: { ...supplement.row, ci: row.ci,
+      checkedAt: row.checkedAt, stale: row.stale, error: row.error } };
+  }
+  return supplement;
+}
 export function freshnessMessage(data, now = Date.now()) {
   const minutes = Math.max(0, Math.floor((now - Date.parse(data.fetchedAt)) / 60000));
   const age = minutes < 1 ? 'less than a minute ago' : minutes < 60 ? `${minutes} minute${minutes === 1 ? '' : 's'} ago` : `${Math.floor(minutes / 60)}h ${minutes % 60}m ago`;

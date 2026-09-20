@@ -1,4 +1,4 @@
-import { CI_LABELS, validateCatalog, validateSnapshot, counts, inboxRows, activityFeed, activityDate, reviewLabel, isStale, chooseSnapshot, freshnessMessage, key } from './model.mjs';
+import { CI_LABELS, validateCatalog, validateSnapshot, counts, inboxRows, activityFeed, activityDate, reviewLabel, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, key } from './model.mjs';
 import { createLiveClient } from './live.mjs';
 
 const $ = id => document.getElementById(id);
@@ -283,8 +283,9 @@ async function refresh() {
     data = chooseSnapshot(data, incoming);
     for (const row of data.contributions) {
       const supplement = directRows.get(key(row));
-      if (supplement && (Date.parse(row.checkedAt) >= Date.parse(supplement.checkedAt) ||
-          Date.parse(row.updatedAt) > Date.parse(supplement.row.updatedAt))) { directRows.delete(key(row)); directMessages.delete(key(row)); }
+      const reconciled = reconcileDirect(row, supplement);
+      if (reconciled) directRows.set(key(row), reconciled);
+      else if (supplement) { directRows.delete(key(row)); directMessages.delete(key(row)); }
     }
     sourceWarning = '';
     try { localStorage.setItem(cacheKey, JSON.stringify(data)); }
@@ -321,8 +322,14 @@ async function refreshSelected() {
   try {
     const result = await liveClient.refresh(catalog.find(entry => key(entry) === rowKey), row, { signal: ownController.signal });
     if (attempt !== directGeneration) return;
-    directRows.set(rowKey, result);
-    directMessages.set(rowKey, `PR and discussion checked ${date(result.checkedAt)}. ${result.cached ? 'Short-lived cache. ' : ''}CI retains its scheduled observation time.`);
+    const reconciled = reconcileDirect(data.contributions.find(entry => key(entry) === rowKey), result);
+    if (reconciled) {
+      directRows.set(rowKey, reconciled);
+      directMessages.set(rowKey, `PR and discussion checked ${date(result.checkedAt)}. ${result.cached ? 'Short-lived cache. ' : ''}CI retains its scheduled observation time.`);
+    } else {
+      directRows.delete(rowKey);
+      directMessages.set(rowKey, 'Direct check completed; newer published evidence is retained.');
+    }
   } catch (error) {
     if (attempt !== directGeneration) return;
     directMessages.set(rowKey, ownController.signal.aborted ? 'Direct check canceled. Last-good evidence retained.' :
