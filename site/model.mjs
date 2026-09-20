@@ -1,3 +1,5 @@
+import { validateActivity } from './activity.mjs';
+
 export const CI_LABELS = Object.freeze({
   success: 'Checks successful', failure: 'Failures reported', pending: 'In progress',
   gated: 'Maintainer action', unknown: 'Unknown / no checks', cancelled: 'Canceled',
@@ -24,7 +26,7 @@ export function validateCatalog(catalog) {
 
 export function validateSnapshot(data, catalog) {
   validateCatalog(catalog);
-  if (!data || data.schemaVersion !== 1 || !timestamp(data.fetchedAt) ||
+  if (!data || ![1, 2].includes(data.schemaVersion) || !timestamp(data.fetchedAt) ||
       !Array.isArray(data.contributions) || data.contributions.length !== catalog.length ||
       !Array.isArray(data.quotes) || data.quotes.length > 30 || typeof data.manifestHash !== 'string') {
     throw new Error('Invalid snapshot.');
@@ -44,6 +46,7 @@ export function validateSnapshot(data, catalog) {
         (row.error !== null && !text(row.error)) ||
         (row.state === 'MERGED' ? !timestamp(row.mergedAt) : row.mergedAt !== null)) throw new Error('Invalid contribution evidence.');
     if (Date.parse(row.checkedAt) > Date.parse(data.fetchedAt) + 60000) throw new Error('Invalid observation time.');
+    if (data.schemaVersion === 2) validateActivity(row.activity, row);
     if (row.ci.counts && (!['success', 'failure', 'pending', 'gated', 'cancelled', 'neutral'].every(name =>
       Number.isSafeInteger(row.ci.counts[name]) && row.ci.counts[name] >= 0) ||
       Object.keys(row.ci.counts).some(name => !['success', 'failure', 'pending', 'gated', 'cancelled', 'neutral'].includes(name)))) {
@@ -63,7 +66,12 @@ export function validateSnapshot(data, catalog) {
   }
   return {
     ...data,
-    contributions: data.contributions.map(row => ({ ...row, ...expected.get(key(row)) })),
+    contributions: data.contributions.map(row => ({ ...row, ...expected.get(key(row)),
+      activity: data.schemaVersion === 2 ? row.activity : {
+        state: 'unavailable', checkedAt: null, error: 'legacy_snapshot', events: [],
+        review: { state: 'unknown', currentHead: false },
+      },
+    })),
   };
 }
 
@@ -92,6 +100,47 @@ export function chooseSnapshot(current, incoming) {
 }
 export function freshnessMessage(data, now = Date.now()) {
   const minutes = Math.max(0, Math.floor((now - Date.parse(data.fetchedAt)) / 60000));
-  const age = minutes < 1 ? 'less than a minute ago' : minutes < 60 ? `${minutes} minutes ago` : `${Math.floor(minutes / 60)}h ${minutes % 60}m ago`;
+  const age = minutes < 1 ? 'less than a minute ago' : minutes < 60 ? `${minutes} minute${minutes === 1 ? '' : 's'} ago` : `${Math.floor(minutes / 60)}h ${minutes % 60}m ago`;
   return `${minutes > 45 ? 'Updates delayed' : 'Snapshot published'} ${age}`;
+}
+
+export function reviewLabel(row) {
+  const review = row.activity?.review;
+  if (review?.state === 'changes_requested') return review.currentHead ? 'Changes requested' : 'Changes requested on an earlier head';
+  if (review?.state === 'approved') return review.currentHead ? 'Approval recorded' : 'Approval on an earlier head';
+  return review?.state === 'none' ? 'No decisive review recorded' : 'Review evidence unavailable';
+}
+
+export function attention(row) {
+  if (row.state === 'MERGED') return 'merged';
+  if (row.state === 'CLOSED') return 'closed';
+  if (row.activity?.review?.state === 'changes_requested') return 'requests';
+  if (row.ci.state === 'failure') return 'failures';
+  if (row.ci.state === 'gated') return 'waiting';
+  return 'open';
+}
+
+export function activityDate(row) {
+  return Math.max(Date.parse(row.updatedAt), ...(row.activity?.events ?? [])
+    .filter(event => event.kind !== 'head_update' || event.previousHeadSha !== null)
+    .map(event => Date.parse(event.updatedAt)));
+}
+
+export function inboxRows(rows, options = {}, now = Date.now()) {
+  const filtered = selectRows(rows, { ...options, sort: options.sort === 'activity' ? 'updated' : options.sort }, now)
+    .filter(row => !options.view || ['all', 'activity'].includes(options.view) ||
+      (options.view === 'open' ? row.state === 'OPEN' :
+        options.view === 'failures' ? row.state === 'OPEN' && row.ci.state === 'failure' :
+          options.view === 'waiting' ? row.state === 'OPEN' && row.ci.state === 'gated' : attention(row) === options.view));
+  return options.sort === 'activity' ? filtered.sort((a, b) => activityDate(b) - activityDate(a) || key(a).localeCompare(key(b))) : filtered;
+}
+
+export function activityFeed(rows, { excludeAutomation = true, kind = 'all', includeBaselines = false } = {}) {
+  return rows.flatMap(row => (row.activity?.events ?? [])
+    .filter(event => (!excludeAutomation || event.actor.classification !== 'automation') &&
+      (includeBaselines || event.kind !== 'head_update' || event.previousHeadSha !== null) &&
+      (kind === 'all' || (kind === 'reviews' ? event.kind === 'review' || event.kind === 'review_comment' :
+        kind === 'updates' ? ['head_update', 'merged', 'closed'].includes(event.kind) : event.kind === 'comment')))
+    .map(event => ({ row, event })))
+    .sort((a, b) => Date.parse(b.event.updatedAt) - Date.parse(a.event.updatedAt) || a.event.id.localeCompare(b.event.id));
 }

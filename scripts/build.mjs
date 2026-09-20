@@ -7,7 +7,7 @@ export async function build(root = process.cwd()) {
   const manifest = validateManifest(JSON.parse(await readFile(resolve(root, 'config', 'contributions.json'), 'utf8')));
   const quotes = validateQuotes(JSON.parse(await readFile(resolve(root, 'config', 'quotes.json'), 'utf8')));
   const data = JSON.parse(await readFile(resolve(root, 'site', 'data.json'), 'utf8'));
-  if (data.manifestHash !== manifestHash(manifest) || readSnapshot(data, manifest).size !== manifest.length ||
+  if (data.schemaVersion !== 2 || data.manifestHash !== manifestHash(manifest) || readSnapshot(data, manifest).size !== manifest.length ||
       !Number.isFinite(Date.parse(data.fetchedAt)) || data.refreshMinutes !== 15) throw new Error('Invalid collected data.');
   const files = [];
   async function inspect(directory, relative = '') {

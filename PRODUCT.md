@@ -8,17 +8,21 @@ web
 
 ## Users
 
-Visitors evaluating Leul Tewodros Agonafer's selected public open-source contributions, and reviewers following the underlying pull requests.
+Leul Tewodros Agonafer and visitors following a selected public contribution campaign: identify explicit review requests, read recent discussion, understand branch and merge changes, and open the original evidence.
 
 ## Product Purpose
 
-Browse a verified, deliberately selected campaign of 25 public pull requests across 24 repositories. Search changes, distinguish contribution state from CI evidence, and read genuine, source-linked human feedback.
+The hosted site is the only report. Track a deliberately selected campaign of 25 public pull requests across 24 repositories through a contribution inbox and selected-PR activity view. Preserve source-linked summaries, qualified CI evidence, review states and genuine human feedback.
 
 ## Capabilities and Constraints
 
-Static, dependency-free site hosted on GitHub Pages. A read-only GitHub Actions collector refreshes approximately every 15 minutes; schedules can be delayed. Only explicitly allowlisted public pull requests authored by LeulTew are included. No credentials, analytics, private work, unpublished patches, or account-wide scraping belong in the site.
+Static, dependency-free site hosted on GitHub Pages. A read-only GitHub Actions collector is scheduled every 15 minutes, but actual runs can be delayed or dropped for hours. The interface must show actual observation times. Optional on-demand refresh reads only the selected allowlisted public PR and its activity through GitHub's tokenless API, with explicit quota, cache and failure states; it does not refresh CI or promise push delivery.
+
+Only explicitly allowlisted public pull requests authored by LeulTew are included. No credentials, analytics, private work, unpublished patches, account-wide scraping, or local HTML report belong in the site. All upstream interaction is read-only.
 
 Merged and closed records are retained as historical observations. CI success is neither merge approval nor proof that all intended tests executed. Empty check lists, unavailable data, approval-gated workflows, canceled jobs and failed checks must remain distinguishable.
+
+Attention is derived from explicit review states, not sentiment or the presence of a comment. Workflow approval gates mean waiting on a maintainer, not an author request. A comment may address another participant. An API `User` type is not proof of a human; known automation is identified and unknown accounts are labeled honestly. Activity is not automatically promoted to curated praise.
 
 ## Evidence on Hand
 
@@ -29,7 +33,8 @@ The public pull-request allowlist and human-readable summaries live in `config/c
 - Original GitHub records remain authoritative.
 - Show when evidence was checked, not a fabricated live clock.
 - Keep last verified data with explicit stale or error labels.
-- Explain the contribution before exposing technical detail.
+- Make the next inspection clear without inventing a task or an endorsement.
+- Preserve the distinction between PR state, review requests, CI and public conversation.
 
 ## Accessibility & Inclusion
 
@@ -37,4 +42,4 @@ Keyboard access, semantic labels, reduced-motion support, readable contrast and 
 
 ## Assumptions
 
-The supplied brief settles product scope. Ordinary visual choices are made autonomously: visitors need a focused, readable index rather than a marketing page. This site represents selected public work, not all account or employer activity.
+The supplied brief settles product scope. Ordinary visual choices are made autonomously: a task-oriented inbox, selectable work and adjacent activity context serve daily monitoring better than a portfolio table. This site represents selected public work, not all account or employer activity. Desired craft quality is not an award claim.

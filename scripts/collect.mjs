@@ -2,6 +2,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ActivityError, collectActivity, hashBody, unavailableActivity, validateActivity } from '../site/activity.mjs';
 
 export const AUTHOR = { login: 'LeulTew', id: 107800362 };
 const API = 'https://api.github.com';
@@ -52,12 +53,17 @@ export function validateQuotes(quotes) {
 }
 
 export function createClient({ token, fetchImpl = fetch, sleep = ms => new Promise(r => setTimeout(r, ms)),
-  timeoutMs = 20_000, retries = 2 } = {}) {
+  timeoutMs = 20_000, retries = 2, requestBudget = 240 } = {}) {
+  if (!integer(requestBudget) || requestBudget > 240 || !Number.isInteger(retries) ||
+      retries < 0 || retries > 2) fail('invalid_request_budget');
+  let requests = 0;
   return async function get(path) {
     // Never follow API-supplied URLs or redirects with a credential.
     if (!/^\/repos\/[a-zA-Z0-9-]+\/[a-zA-Z0-9_.-]+\//.test(path) || path.includes('..') ||
         path.includes('\\') || path.includes('#')) fail('invalid_api_path');
     for (let attempt = 0; attempt <= retries; attempt++) {
+      if (requests >= requestBudget) fail('request_budget_exhausted');
+      requests++;
       let response;
       try {
         response = await fetchImpl(`${API}${path}`, {
@@ -180,7 +186,7 @@ export function summarizeCI(checks, statuses, workflows, sha) {
   return { state, summary: labels[state], counts, workflowCount: currentWorkflows.length };
 }
 
-export async function collectOne(entry, get, now = () => new Date().toISOString()) {
+export async function collectOne(entry, get, now = () => new Date().toISOString(), priorActivity = null) {
   const base = `/repos/${entry.owner}/${entry.repo}`;
   const pr = validatePR(await get(`${base}/pulls/${entry.number}`), entry);
   const sha = pr.head.sha;
@@ -190,13 +196,20 @@ export async function collectOne(entry, get, now = () => new Date().toISOString(
   });
   const workflows = await paginate(get, `${base}/actions/runs?head_sha=${sha}`, 'workflow_runs');
   const ci = summarizeCI(checks, statuses, workflows, sha);
+  let activity;
+  try {
+    activity = await collectActivity(entry, pr, get, priorActivity, now());
+  } catch (error) {
+    activity = unavailableActivity(priorActivity, safeError(error));
+  }
   const confirmed = validatePR(await get(`${base}/pulls/${entry.number}`), entry);
   if (confirmed.head.sha !== sha || confirmed.state !== pr.state || confirmed.merged_at !== pr.merged_at ||
       confirmed.updated_at !== pr.updated_at) fail('pull_request_changed');
   const state = pr.merged_at ? 'MERGED' : pr.state === 'open' ? 'OPEN' : 'CLOSED';
   return { ...entry, title: pr.title, state, draft: pr.draft, headSha: sha,
     createdAt: pr.created_at, updatedAt: pr.updated_at, mergedAt: pr.merged_at,
-    checkedAt: now(), ci, historical: state !== 'OPEN', stale: false, error: null };
+    checkedAt: now(), ci, historical: state !== 'OPEN', stale: activity.state !== 'complete',
+    error: activity.error, activity };
 }
 
 function reusableRow(row, entry) {
@@ -212,13 +225,26 @@ function reusableRow(row, entry) {
 }
 
 export function readSnapshot(snapshot, manifest) {
-  if (!object(snapshot) || snapshot.schemaVersion !== 1 || snapshot.manifestHash !== manifestHash(manifest) ||
+  if (!object(snapshot) || ![1, 2].includes(snapshot.schemaVersion) || snapshot.manifestHash !== manifestHash(manifest) ||
       !Array.isArray(snapshot.contributions) || snapshot.contributions.length !== manifest.length) return new Map();
   const rows = new Map();
   for (const entry of manifest) {
     const matching = snapshot.contributions.filter(row => object(row) && identity(row) === identity(entry));
     if (matching.length !== 1 || !reusableRow(matching[0], entry)) return new Map();
-    rows.set(identity(entry), matching[0]);
+    const row = matching[0];
+    if (snapshot.schemaVersion === 2) {
+      // Unlike an absent v1 field, invalid v2 evidence must never be silently migrated.
+      try { validateActivity(row.activity, row); } catch { return new Map(); }
+    }
+    if (snapshot.schemaVersion === 1) {
+      const activity = unavailableActivity(null, 'activity_not_collected');
+      // The v1 core observation proves when this head was seen, not when it was pushed.
+      activity.events.push({ id: `head_update:${row.headSha}:${row.checkedAt}`, kind: 'head_update',
+        actor: { login: 'unknown', id: null, classification: 'unknown' },
+        body: '', bodyHash: hashBody(''), date: row.checkedAt, updatedAt: row.checkedAt,
+        url: row.url, state: null, headSha: row.headSha, previousHeadSha: null });
+      rows.set(identity(entry), { ...row, activity });
+    } else rows.set(identity(entry), row);
   }
   return rows;
 }
@@ -230,26 +256,32 @@ export async function collect({ manifest, quotes = [], previous, get, now = () =
   const contributions = [];
   for (const entry of manifest) {
     const prior = cached.get(identity(entry));
-    if (prior && prior.state !== 'OPEN' && !prior.stale && prior.error === null) {
+    if (prior && prior.state !== 'OPEN' && !prior.stale && prior.error === null &&
+        prior.activity.state === 'complete') {
       contributions.push({ ...prior, ...entry, historical: true });
       continue;
     }
     try {
-      contributions.push(await collectOne(entry, get, now));
+      const row = await collectOne(entry, get, now, prior?.activity);
+      // Terminal v1 hydration can add activity without rewriting the historical core check time.
+      if (prior && prior.state !== 'OPEN' && !prior.stale && prior.error === null &&
+          prior.headSha === row.headSha && prior.state === row.state) row.checkedAt = prior.checkedAt;
+      contributions.push(row);
     } catch (error) {
       // A row without a verified PR observation cannot safely invent a state or timestamp.
       if (!prior) fail(`no_verified_snapshot:${identity(entry)}:${safeError(error)}`);
       contributions.push({ ...prior, ...entry, historical: prior.state !== 'OPEN', stale: true,
         error: safeError(error), ci: { ...prior.ci, state: 'unknown',
-          summary: 'Refresh failed; previous CI counts are historical, not current evidence.' } });
+          summary: 'Refresh failed; previous CI counts are historical, not current evidence.' },
+        activity: unavailableActivity(prior.activity, safeError(error)) });
     }
   }
-  return { schemaVersion: 1, fetchedAt: now(), refreshMinutes: 15,
+  return { schemaVersion: 2, fetchedAt: now(), refreshMinutes: 15,
     manifestHash: manifestHash(manifest), contributions, quotes };
 }
 
 function safeError(error) {
-  return error instanceof CollectionError && /^[a-z0-9_]+$/.test(error.code) ?
+  return (error instanceof CollectionError || error instanceof ActivityError) && /^[a-z0-9_]+$/.test(error.code) ?
     error.code : 'collection_unavailable';
 }
 

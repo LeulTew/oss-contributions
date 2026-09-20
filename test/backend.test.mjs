@@ -26,6 +26,7 @@ const envelope = (key, rows, count = rows.length) => ({ [key]: rows, total_count
 function fixture({ pull = pr(), checks = [], statuses = [], workflows = [], mutate, calls = [] } = {}) {
   return async path => {
     calls.push(path);
+    if (/\/(?:comments|reviews)\?/.test(path)) return [];
     if (path.includes('/pulls/')) return pull;
     const page = Number(new URL(`https://api.github.com${path}`).searchParams.get('page'));
     let data;
@@ -99,7 +100,7 @@ test('pagination fully collects all three CI sources and deduplicates after coll
   const workflows = Array.from({ length: 101 }, (_, i) => workflow(i + 1));
   const calls = [];
   const row = await collectOne(entry, fixture({ checks, statuses, workflows, calls }));
-  assert.equal(calls.length, 8);
+  assert.equal(calls.length, 11);
   assert.equal(row.ci.counts.success, 3);
 });
 
@@ -191,7 +192,7 @@ test('stale terminal evidence is retried instead of frozen as a verified observa
   const calls = [];
   const result = await collect({ manifest, previous,
     get: fixture({ pull: { ...pr(), state: 'closed', merged_at: time }, checks: [check()], calls }) });
-  assert.equal(calls.length, 5);
+  assert.equal(calls.length, 8);
   assert.equal(result.contributions[0].stale, false);
   assert.equal(result.contributions[0].ci.state, 'success');
 });
@@ -259,6 +260,80 @@ test('nonretryable 404, redirects, invalid JSON and timeouts stay sanitized', as
   const get = createClient({ fetchImpl: async () => { throw new Error('timeout secret'); },
     sleep: async () => {} });
   await assert.rejects(get('/repos/example/public-repo/pulls/1'), /network_unavailable/);
+});
+
+test('actual HTTP request budget includes retries and stops before exceeding the ceiling', async () => {
+  let requests = 0;
+  const get = createClient({ requestBudget: 2, fetchImpl: async () => {
+    requests++;
+    return new Response('', { status: 503 });
+  }, sleep: async () => {} });
+  await assert.rejects(get('/repos/example/public-repo/pulls/1'), /request_budget_exhausted/);
+  await assert.rejects(get('/repos/example/public-repo/pulls/1'), /request_budget_exhausted/);
+  assert.equal(requests, 2);
+  assert.throws(() => createClient({ requestBudget: 241 }), /invalid_request_budget/);
+});
+
+test('v1 terminal snapshots hydrate activity once and preserve historical core checkedAt', async () => {
+  const previous = await snapshot(fixture({ pull: { ...pr(), state: 'closed', merged_at: time } }));
+  previous.schemaVersion = 1;
+  delete previous.contributions[0].activity;
+  assert.equal(readSnapshot(previous, manifest).get('example/public-repo#1').activity.state, 'unavailable');
+  const calls = [];
+  const result = await collect({ manifest, previous, now: () => '2026-09-19T00:00:00Z',
+    get: fixture({ pull: { ...pr(), state: 'closed', merged_at: time }, calls }) });
+  assert.equal(calls.length, 8);
+  assert.equal(result.schemaVersion, 2);
+  assert.equal(result.contributions[0].checkedAt, time);
+  assert.equal(result.contributions[0].activity.checkedAt, '2026-09-19T00:00:00Z');
+  assert.equal(result.contributions[0].activity.state, 'complete');
+  await collect({ manifest, previous: result,
+    get: async () => { assert.fail('hydrated terminal row must stay cached'); } });
+});
+
+test('activity failures preserve old activity with unavailable marker and never fabricate a clean inbox', async () => {
+  const previous = await snapshot();
+  const underlying = fixture();
+  const get = async path => {
+    if (path.includes('/issues/')) throw new CollectionError('api_http_403');
+    return underlying(path);
+  };
+  const result = await collect({ manifest, previous, get, now: () => '2026-09-19T00:00:00Z' });
+  const row = result.contributions[0];
+  assert.equal(row.stale, true);
+  assert.equal(row.activity.state, 'unavailable');
+  assert.equal(row.activity.error, 'api_http_403');
+  assert.equal(row.activity.checkedAt, time);
+  assert.deepEqual(row.activity.events, previous.contributions[0].activity.events);
+  assert.deepEqual(row.activity.review, { state: 'unknown', currentHead: false });
+  assert.equal(readSnapshot(result, manifest).size, 1);
+  const first = await collect({ manifest, get, now: () => time });
+  assert.equal(first.contributions[0].activity.checkedAt, null);
+});
+
+test('malformed v2 activity cannot be consumed as a v1 snapshot', async () => {
+  const previous = await snapshot();
+  delete previous.contributions[0].activity;
+  assert.equal(readSnapshot(previous, manifest).size, 0);
+  const changed = await snapshot();
+  changed.contributions[0].activity.events[0].headSha = 'b'.repeat(40);
+  assert.equal(readSnapshot(changed, manifest).size, 0);
+});
+
+test('v1 migration retains the dated prior head observation when a new head is collected', async () => {
+  const previous = await snapshot();
+  previous.schemaVersion = 1;
+  delete previous.contributions[0].activity;
+  const nextSha = 'b'.repeat(40);
+  const get = fixture({ pull: { ...pr(), head: { sha: nextSha } },
+    mutate: (data, path) => path.includes('/status?') ? { ...data, sha: nextSha } : data });
+  const result = await collect({ manifest, previous, get, now: () => '2026-09-19T00:00:00Z' });
+  const heads = result.contributions[0].activity.events.filter(event => event.kind === 'head_update');
+  assert.equal(heads.length, 2);
+  assert.equal(heads[0].date, time);
+  assert.equal(heads[0].headSha, sha);
+  assert.equal(heads[1].previousHeadSha, sha);
+  assert.equal(heads[1].headSha, nextSha);
 });
 
 test('build publishes only site and public config, never cache or initial-state', async t => {

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { validateCatalog, validateSnapshot, selectRows, counts, isStale, chooseSnapshot, freshnessMessage } from '../site/model.mjs';
+import { validateCatalog, validateSnapshot, selectRows, counts, isStale, chooseSnapshot, freshnessMessage, inboxRows, activityFeed, activityDate, reviewLabel } from '../site/model.mjs';
 const catalog = JSON.parse(await readFile(new URL('../config/contributions.json', import.meta.url)));
 const quotes = JSON.parse(await readFile(new URL('../config/quotes.json', import.meta.url)));
 const now = Date.parse('2026-09-19T00:00:00Z');
@@ -115,4 +115,77 @@ test('last-good snapshot cannot be replaced by older data or failed validation',
 });
 test('freshness uses actual observation age, never a synthetic update time', () => {
   assert.match(freshnessMessage(snapshot(), now + 46 * 60000), /^Updates delayed 46 minutes ago/);
+});
+test('v1 snapshots remain readable without inventing complete activity or fresh dates', () => {
+  const original = snapshot();
+  const migrated = validateSnapshot(original, catalog);
+  assert.equal(migrated.contributions[0].activity.state, 'unavailable');
+  assert.equal(migrated.contributions[0].activity.checkedAt, null);
+  assert.equal(migrated.contributions[0].activity.review.state, 'unknown');
+  assert.equal(migrated.contributions[0].checkedAt, original.contributions[0].checkedAt);
+  assert.equal(migrated.contributions[4].mergedAt, original.contributions[4].mergedAt);
+  assert.equal(original.contributions[0].activity, undefined);
+});
+test('v2 malformed activity is rejected rather than treated as legacy empty activity', () => {
+  const data = snapshot();
+  data.schemaVersion = 2;
+  assert.throws(() => validateSnapshot(data, catalog));
+  for (const row of data.contributions) row.activity = {
+    state: 'unavailable', checkedAt: null, error: 'legacy_snapshot', events: [],
+    review: { state: 'unknown', currentHead: false },
+  };
+  assert.doesNotThrow(() => validateSnapshot(data, catalog));
+  data.contributions[0].activity.state = 'green';
+  assert.throws(() => validateSnapshot(data, catalog));
+});
+test('explicit review requests and CI failures overlap without conflating action meanings', () => {
+  const rows = validateSnapshot(snapshot(), catalog).contributions;
+  rows[0].activity.review = { state: 'changes_requested', currentHead: false };
+  rows[0].ci.state = 'failure';
+  rows[1].activity.review = { state: 'approved', currentHead: true };
+  const before = structuredClone(rows);
+  assert.deepEqual(inboxRows(rows, { view: 'requests', search: 'jsep window.Date' }, now).map(row => row.number), [283]);
+  assert.equal(inboxRows(rows, { view: 'failures' }, now).length, 1);
+  assert.equal(inboxRows(rows, { view: 'waiting' }, now).length, 1);
+  assert.match(reviewLabel(rows[0]), /earlier head/);
+  assert.equal(reviewLabel(rows[1]), 'Approval recorded');
+  rows[4].activity.review = { state: 'changes_requested', currentHead: true };
+  assert.equal(inboxRows(rows, { view: 'requests' }, now).length, 1);
+  rows[4] = before[4];
+  assert.deepEqual(rows, before);
+});
+test('feed filters retain unclassified actors but exclude automation by default without modifying rows', () => {
+  const rows = validateSnapshot(snapshot(), catalog).contributions;
+  rows[0].activity.events = [
+    { id: '1', kind: 'comment', actor: { classification: 'unknown' }, updatedAt: '2026-09-18T12:00:00Z', body: 'Could another reviewer inspect this?' },
+    { id: '2', kind: 'review', actor: { classification: 'automation' }, updatedAt: '2026-09-18T13:00:00Z' },
+    { id: '3', kind: 'head_update', actor: { classification: 'unknown' }, updatedAt: '2026-09-18T14:00:00Z' },
+  ];
+  const before = structuredClone(rows);
+  assert.deepEqual(activityFeed(rows).map(({ event }) => event.id), ['3', '1']);
+  assert.deepEqual(activityFeed(rows, { excludeAutomation: false, kind: 'reviews' }).map(({ event }) => event.id), ['2']);
+  assert.equal(activityFeed(rows, { kind: 'comments' }).length, 1);
+  assert.equal(inboxRows(rows, { view: 'requests' }, now).length, 0);
+  assert.deepEqual(rows, before);
+});
+test('browser surface keeps a strict API origin and text-only remote rendering', async () => {
+  const html = await readFile(new URL('../site/index.html', import.meta.url), 'utf8');
+  const app = await readFile(new URL('../site/app.mjs', import.meta.url), 'utf8');
+  assert.match(html, /connect-src 'self' https:\/\/api\.github\.com;/);
+  assert.doesNotMatch(app, /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
+  assert.match(app, /element\.textContent = content/);
+  assert.match(html, /60 days without repository activity/);
+  assert.match(html, /CI keeps its own observation time/);
+});
+test('initial head baselines never masquerade as recent changes', () => {
+  const row = validateSnapshot(snapshot(), catalog).contributions[0];
+  const baseline = { id: 'initial', kind: 'head_update', previousHeadSha: null,
+    actor: { classification: 'unknown' }, updatedAt: new Date(now + 60000).toISOString() };
+  row.activity.events.push(baseline);
+  assert.equal(activityDate(row), now);
+  assert.equal(activityFeed([row]).length, 0);
+  assert.equal(activityFeed([row], { includeBaselines: true }).length, 1);
+  row.activity.events.push({ ...baseline, id: 'changed', previousHeadSha: 'a'.repeat(40) });
+  assert.equal(activityDate(row), now + 60000);
+  assert.equal(activityFeed([row]).length, 1);
 });
