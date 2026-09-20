@@ -1,4 +1,4 @@
-import { activityFeed, key } from './model.mjs';
+import { activityFeed, key, isStale, reviewLabel, CI_LABELS } from './model.mjs';
 
 const paths = {
   branch: ['M7 4v11a4 4 0 0 0 4 4h6', 'M7 9h6a4 4 0 0 0 4-4V4', 'M5 2h4v4H5z', 'M15 2h4v4h-4z', 'M15 17h4v4h-4z'],
@@ -39,7 +39,43 @@ export function acceptsSearchShortcut(event, reading) {
     !target?.closest?.('[role="combobox"], [role="textbox"]');
 }
 export function initialTheme(saved) {
-  return ['light', 'dark', 'system'].includes(saved) ? saved : 'light';
+  return ['light', 'dark', 'system'].includes(saved) ? saved : 'dark';
+}
+const reviewStates = Object.freeze({
+  approved: ['Approval recorded', 'review-approved'],
+  changes_requested: ['Changes requested', 'review-request'],
+  none: ['No review decision', 'review-none'],
+  unknown: ['Review unavailable', 'review-unknown'],
+});
+export function reviewPresentation(row) {
+  const { state, currentHead } = row.activity.review;
+  if (!Object.hasOwn(reviewStates, state)) throw new Error('Unknown review state.');
+  const [label, className] = reviewStates[state];
+  return { label, className, earlierHead: ['approved', 'changes_requested'].includes(state) && !currentHead };
+}
+export function signalColumns(rows, now = Date.now()) {
+  return rows.map(row => {
+    const review = row.activity.review;
+    const earlier = ['approved', 'changes_requested'].includes(review.state) && !review.currentHead;
+    const stale = isStale(row, now);
+    const lifecycle = { OPEN: ['open', 'O'], MERGED: ['merged', 'M'], CLOSED: ['closed', 'X'] }[row.state];
+    const reviewMark = { approved: '+', changes_requested: '!', none: '-', unknown: '?' }[review.state];
+    const ciMark = { success: '+', failure: 'X', gated: '!', pending: '…', cancelled: '-', unknown: '?' }[row.ci.state];
+    const signals = [
+      { label: `PR: ${row.state.toLowerCase()}`, tone: lifecycle[0], mark: lifecycle[1] },
+      { label: `Review: ${reviewLabel(row)}`, tone: review.state, mark: `${reviewMark}${earlier ? '~' : ''}` },
+      { label: `CI: ${stale ? 'stale observation / ' : row.historical ? 'historical / ' : ''}${CI_LABELS[row.ci.state]}`, tone: row.ci.state, mark: ciMark },
+    ];
+    return { row, key: key(row), signals, stale, label: `${row.project} #${row.number}. ${signals.map(signal => signal.label).join('. ')}` };
+  });
+}
+export function signalNeighbor(index, length, columns, pressedKey) {
+  if (index < 0 || index >= length || columns < 1) return null;
+  const destination = {
+    ArrowLeft: index - 1, ArrowRight: index + 1, ArrowUp: index - columns,
+    ArrowDown: index + columns, Home: 0, End: length - 1,
+  }[pressedKey];
+  return Number.isInteger(destination) && destination >= 0 && destination < length ? destination : null;
 }
 export function discussionPresentation(row, { kind = 'all', includeAutomation = false } = {}) {
   const available = activityFeed([row], { kind, excludeAutomation: false });

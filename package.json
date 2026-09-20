@@ -1,0 +1,14 @@
+{
+  "name": "leultew-contribution-inbox",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test",
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "marked": "18.0.13",
+    "parse5": "8.0.1"
+  }
+}

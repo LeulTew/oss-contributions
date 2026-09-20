@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { collect, collectOne, CollectionError, createClient, main, manifestHash, readSnapshot,
   summarizeCI, validateManifest } from '../scripts/collect.mjs';
 import { build } from '../scripts/build.mjs';
@@ -354,6 +355,15 @@ test('build publishes only site and public config, never cache or initial-state'
     JSON.parse(await readFile(resolve(root, 'dist', 'data.json'), 'utf8')));
   await assert.rejects(readFile(resolve(root, 'dist', 'PRIVATE.md')), { code: 'ENOENT' });
   await assert.rejects(readFile(resolve(root, 'dist', 'config', 'initial-state.json')), { code: 'ENOENT' });
+  await writeFile(resolve(root, 'site', 'markdown.mjs'), await readFile(new URL('../site/markdown.mjs', import.meta.url), 'utf8'));
+  await build(root);
+  const renderer = await import(pathToFileURL(resolve(root, 'dist', 'markdown.mjs')).href);
+  assert.equal(typeof renderer.renderMarkdown, 'function');
+  const notices = await readFile(resolve(root, 'dist', 'THIRD-PARTY-LICENSES.txt'), 'utf8');
+  assert.match(notices, /marked 18\.0\.13 \(MIT\)/);
+  assert.match(notices, /parse5 8\.0\.1 \(MIT\)/);
+  assert.match(notices, /entities .* \(BSD-2-Clause\)/);
+  assert.doesNotMatch(await readFile(resolve(root, 'dist', 'vendor', 'parse5', 'tokenizer', 'index.js'), 'utf8'), /from ['"]entities/);
   await writeFile(resolve(root, 'site', '.env'), 'secret');
   await assert.rejects(build(root), /Hidden site content/);
 });

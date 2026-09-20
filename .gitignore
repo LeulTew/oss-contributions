@@ -5,3 +5,4 @@
 /test/.backend-fixtures/
 /.impeccable/hooks/
 /.impeccable/hook.cache.json
+/node_modules/

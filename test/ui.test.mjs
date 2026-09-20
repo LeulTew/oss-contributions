@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { navigationPosition, acceptsSearchShortcut, createIcon, initialTheme, discussionPresentation, inspectionCaveat } from '../site/ui.mjs';
+import { navigationPosition, acceptsSearchShortcut, createIcon, initialTheme, discussionPresentation, inspectionCaveat, signalColumns, signalNeighbor, reviewPresentation } from '../site/ui.mjs';
 
 test('reading navigation follows only the filtered set and never wraps past endpoints', () => {
   const rows = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
@@ -24,9 +24,9 @@ test('search shortcut works from contribution buttons but preserves editing and 
   assert.equal(acceptsSearchShortcut({ ...event, defaultPrevented: true }, false), false);
   assert.equal(acceptsSearchShortcut({ ...event, key: 'a' }, false), false);
 });
-test('first visit uses light even on a dark system, while all explicit choices survive', () => {
-  assert.equal(initialTheme(null), 'light');
-  assert.equal(initialTheme('invalid'), 'light');
+test('first visit uses the chosen dark workstation, while all explicit saved choices survive', () => {
+  assert.equal(initialTheme(null), 'dark');
+  assert.equal(initialTheme('invalid'), 'dark');
   for (const theme of ['light', 'dark', 'system']) assert.equal(initialTheme(theme), theme);
 });
 test('icons use a closed local vocabulary rather than remote content', () => {
@@ -83,4 +83,90 @@ test('visible Gin race caveat is bound to its canonical identity and curated ins
   assert.match(inspectionCaveat(row), /did not run its tests.*not race-test proof/);
   assert.equal(inspectionCaveat({ ...row, owner: 'another' }), null);
   assert.equal(inspectionCaveat({ ...row, note: 'Updated context without that inspection.' }), null);
+});
+const signalTime = Date.parse('2026-09-20T18:00:00Z');
+const signalRow = (number = 1) => ({
+  owner: 'test', repo: 'fixture', project: 'Test project', number, state: 'OPEN',
+  checkedAt: new Date(signalTime).toISOString(), historical: false, stale: false,
+  ci: { state: 'success' }, activity: { state: 'complete', review: { state: 'none', currentHead: false }, events: [] },
+});
+test('review classes are closed-mapped and earlier-head evidence is a separate qualifier', () => {
+  const row = signalRow();
+  for (const [state, className] of Object.entries({ approved: 'review-approved', none: 'review-none', unknown: 'review-unknown', changes_requested: 'review-request' })) {
+    row.activity.review = { state, currentHead: true };
+    assert.equal(reviewPresentation(row).className, className);
+    assert.equal(reviewPresentation(row).earlierHead, false);
+  }
+  row.activity.review = { state: 'approved', currentHead: false };
+  assert.deepEqual(reviewPresentation(row), { label: 'Approval recorded', className: 'review-approved', earlierHead: true });
+  row.activity.review.state = 'constructor';
+  assert.throws(() => reviewPresentation(row), /Unknown review state/);
+});
+test('signal field derives one independent column per supplied record without mutation or fixed scope size', () => {
+  for (const length of [0, 1, 25, 100]) {
+    const rows = Array.from({ length }, (_, index) => signalRow(index + 1));
+    const before = structuredClone(rows);
+    const columns = signalColumns(rows, signalTime);
+    assert.equal(columns.length, length);
+    assert.equal(new Set(columns.map(column => column.key)).size, length);
+    assert.deepEqual(rows, before);
+    assert.ok(columns.every(column => column.signals.length === 3));
+    if (length) assert.equal(columns[0].row, rows[0]);
+  }
+});
+test('review and CI never collapse into a combined pass or author task', () => {
+  const row = signalRow();
+  row.activity.review = { state: 'changes_requested', currentHead: true };
+  row.ci.state = 'gated';
+  const column = signalColumns([row], signalTime)[0];
+  assert.deepEqual(column.signals.map(signal => signal.tone), ['open', 'changes_requested', 'gated']);
+  assert.match(column.label, /Review: Changes requested.*CI: Maintainer action/);
+  row.activity.review = { state: 'approved', currentHead: false };
+  assert.equal(signalColumns([row], signalTime)[0].signals[1].tone, 'approved');
+  assert.equal(signalColumns([row], signalTime)[0].signals[1].mark, '+~');
+  assert.match(signalColumns([row], signalTime)[0].label, /Approval on an earlier head/);
+  row.activity.review = { state: 'changes_requested', currentHead: false };
+  assert.equal(signalColumns([row], signalTime)[0].signals[1].tone, 'changes_requested');
+  assert.equal(signalColumns([row], signalTime)[0].signals[1].mark, '!~');
+});
+test('staleness is an independent qualifier without erasing the recorded CI state', () => {
+  const row = signalRow();
+  assert.equal(signalColumns([row], signalTime + 45 * 60000)[0].signals[2].tone, 'success');
+  assert.equal(signalColumns([row], signalTime + 46 * 60000)[0].signals[2].tone, 'success');
+  assert.equal(signalColumns([row], signalTime + 46 * 60000)[0].stale, true);
+  assert.equal(signalColumns([row], signalTime + 45 * 60000)[0].stale, false);
+  assert.match(signalColumns([row], signalTime + 46 * 60000)[0].label, /stale observation/);
+  row.state = 'MERGED'; row.historical = true;
+  const historical = signalColumns([row], signalTime + 999 * 60000)[0];
+  assert.equal(historical.signals[0].tone, 'merged');
+  assert.equal(historical.signals[2].tone, 'success');
+  assert.match(historical.label, /historical/);
+});
+test('all known evidence states have textual labels and symbols, including missing evidence', () => {
+  const row = signalRow();
+  for (const state of ['success', 'failure', 'gated', 'pending', 'cancelled', 'unknown']) {
+    row.ci.state = state;
+    const signal = signalColumns([row], signalTime)[0].signals[2];
+    assert.equal(signal.tone, state);
+    assert.ok(signal.mark);
+    assert.ok(signal.label.startsWith('CI: '));
+  }
+  row.activity.review = { state: 'unknown', currentHead: false };
+  const signal = signalColumns([row], signalTime)[0].signals[1];
+  assert.equal(signal.tone, 'unknown');
+  assert.equal(signal.mark, '?');
+  assert.match(signal.label, /unavailable/);
+});
+test('signal keyboard navigation uses rendered geometry and never wraps outside the filtered set', () => {
+  assert.equal(signalNeighbor(1, 25, 25, 'ArrowRight'), 2);
+  assert.equal(signalNeighbor(1, 25, 25, 'ArrowLeft'), 0);
+  assert.equal(signalNeighbor(24, 25, 25, 'ArrowRight'), null);
+  assert.equal(signalNeighbor(0, 25, 25, 'ArrowLeft'), null);
+  assert.equal(signalNeighbor(4, 25, 6, 'ArrowDown'), 10);
+  assert.equal(signalNeighbor(10, 25, 6, 'ArrowUp'), 4);
+  assert.equal(signalNeighbor(10, 25, 25, 'Home'), 0);
+  assert.equal(signalNeighbor(0, 25, 25, 'End'), 24);
+  for (const key of ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp']) assert.equal(signalNeighbor(0, 1, 1, key), null);
+  assert.equal(signalNeighbor(0, 0, 1, 'End'), null);
+  assert.equal(signalNeighbor(0, 25, 25, 'Enter'), null);
 });

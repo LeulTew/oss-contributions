@@ -1,309 +1,283 @@
 ---
-name: LeulTew Contributions
-description: A compact contribution collection and linear conversation reader.
+name: Signal Bench
+description: A deep-pine evidence workstation with mint featured work and independent PR signals.
 colors:
-  ground: "#f5f5f5"
-  paper: "#fff"
-  ink: "#1c1c1c"
-  muted: "#5b5b5b"
-  line: "#dedede"
-  soft: "#ededed"
-  accent: "#242424"
-  on-accent: "#fff"
-  selected: "#e9e9e9"
-  nav: "#fff"
-  nav-text: "#1c1c1c"
-  green: "#196944"
-  green-soft: "#edf6f0"
-  amber: "#795008"
-  amber-soft: "#fff4dd"
-  red: "#a32f3c"
-  red-soft: "#fbeced"
-  merged: "#4b4b4b"
-  merged-soft: "#ededed"
-  focus: "#242424"
-  dark-ground: "#141414"
-  dark-paper: "#202020"
-  dark-ink: "#f4f4f4"
-  dark-muted: "#bcbcbc"
-  dark-line: "#414141"
-  dark-soft: "#2b2b2b"
-  dark-accent: "#eee"
-  dark-selected: "#313131"
-  dark-nav: "#202020"
-  dark-nav-text: "#f4f4f4"
-  dark-green: "#93d8ad"
-  dark-green-soft: "#1d3326"
-  dark-amber: "#eccc8a"
-  dark-amber-soft: "#352c1e"
-  dark-red: "#f4a7af"
-  dark-red-soft: "#3c2528"
-  dark-merged: "#d4d4d4"
-  dark-merged-soft: "#353535"
-  dark-focus: "#eee"
-  dark-action-ink: "#161616"
+  ground: "#102c25"
+  paper: "#1b3d32"
+  ink: "#eef5e5"
+  muted: "#bbd0c0"
+  line: "#577566"
+  soft: "#294d3e"
+  selected: "#355b44"
+  accent: "#eed078"
+  on-accent: "#26351b"
+  board: "#153f36"
+  board-ink: "#f1f6e4"
+  board-muted: "#d0e2d4"
+  board-line: "#67897a"
+  tile: "#214e41"
+  tile-hover: "#30614e"
+  feature: "#c9dfc7"
+  feature-ink: "#123c35"
+  feature-muted: "#385b4d"
+  feature-line: "#88a88d"
+  green: "#c4e0b7"
+  green-soft: "#2c4e36"
+  amber: "#f4d984"
+  amber-soft: "#423b20"
+  red: "#ffc4ac"
+  red-soft: "#553b30"
+  merged: "#e1ccef"
+  merged-soft: "#463c50"
+  closed: "#f0bfd9"
+  closed-soft: "#543348"
+  review: "#abe5d0"
+  review-soft: "#1c5042"
+  request: "#f1c29b"
+  request-soft: "#533b26"
+  unknown: "#b8dbf0"
+  unknown-soft: "#294454"
+  cancelled: "#d2dbe0"
+  cancelled-soft: "#36454b"
+  focus: "#f2d57b"
+  light-ground: "#e5eee6"
+  light-paper: "#f5f8ed"
+  light-ink: "#123c35"
+  light-muted: "#416158"
+  light-line: "#a0b9ac"
+  light-soft: "#d1e2d5"
+  light-selected: "#e0eccf"
+  light-green: "#245f46"
+  light-green-soft: "#dcebd5"
+  light-amber: "#655011"
+  light-amber-soft: "#f2df99"
+  light-red: "#942e23"
+  light-red-soft: "#f4d9cc"
+  light-merged: "#59466c"
+  light-merged-soft: "#e8dff0"
+  light-closed: "#803a61"
+  light-closed-soft: "#eedce7"
+  light-review: "#216256"
+  light-review-soft: "#d6e9df"
+  light-request: "#7d4319"
+  light-request-soft: "#f6ddbf"
+  light-unknown: "#315d79"
+  light-unknown-soft: "#dbe9f2"
+  light-cancelled: "#555d65"
+  light-cancelled-soft: "#e0e4e6"
+  light-focus: "#894100"
 typography:
-  title:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
-    fontSize: "24px"
-    fontWeight: 650
-    lineHeight: 1.5
-    letterSpacing: "-.025em"
+  display:
+    fontFamily: '"Bahnschrift","Aptos","Helvetica Neue",Arial,sans-serif'
+    fontSize: "58px"
+    fontWeight: 550
+    lineHeight: 1.05
+    letterSpacing: "-.035em"
   headline:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
-    fontSize: "18px"
-    fontWeight: 650
-    lineHeight: 1.5
-  detail-title:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontFamily: '"Bahnschrift","Aptos","Helvetica Neue",Arial,sans-serif'
+    fontSize: "30px"
+    fontWeight: 550
+    lineHeight: 1.15
+    letterSpacing: "-.025em"
+  title:
+    fontFamily: '"Bahnschrift","Aptos","Helvetica Neue",Arial,sans-serif'
     fontSize: "25px"
-    fontWeight: 650
-    lineHeight: 1.3
+    fontWeight: 550
+    lineHeight: 1.2
     letterSpacing: "-.02em"
-  project-title:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
-    fontSize: "16px"
-    fontWeight: 650
-    lineHeight: 1.5
   body:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
+    fontFamily: '"Bahnschrift","Aptos","Helvetica Neue",Arial,sans-serif'
     fontSize: "16px"
-    fontWeight: 400
     lineHeight: 1.5
-  correspondence:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
+  discussion:
+    fontFamily: '"Aptos","Helvetica Neue",Arial,sans-serif'
     fontSize: "16px"
-    fontWeight: 400
     lineHeight: 1.75
-  summary:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
-    fontSize: "15px"
-    fontWeight: 400
-    lineHeight: 1.5
-  operational:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
+  label:
+    fontFamily: '"Bahnschrift","Aptos","Helvetica Neue",Arial,sans-serif'
     fontSize: "14px"
-  action:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
+  code:
+    fontFamily: "Consolas,ui-monospace,monospace"
     fontSize: "14px"
-    fontWeight: 600
-    lineHeight: 1.5
-  quote:
-    fontFamily: '"Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif'
-    fontSize: "20px"
-    fontWeight: 400
-    lineHeight: 1.6
+    lineHeight: 1.7
 rounded:
-  signal: "5px"
-  control: "8px"
-  segmented: "10px"
-  surface: "12px"
+  mark: "1px"
+  tile: "2px"
+  control: "3px"
+  theme-group: "4px"
 spacing:
-  tight: "4px"
   compact: "8px"
-  small: "12px"
-  regular: "16px"
-  medium: "20px"
-  large: "24px"
+  control: "14px"
+  inset: "16px"
+  reading: "24px"
+  feature: "26px"
   section: "32px"
+  desktop-gutter: "48px"
 components:
   button:
     backgroundColor: "{colors.soft}"
     textColor: "{colors.ink}"
-    typography: "{typography.action}"
     rounded: "{rounded.control}"
-    padding: "9px 12px"
-  button-primary:
+    padding: "10px 14px"
+  button-hover:
+    backgroundColor: "{colors.selected}"
+  source-action:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
-    typography: "{typography.action}"
     rounded: "{rounded.control}"
-    padding: "9px 14px"
-  button-primary-dark:
-    backgroundColor: "{colors.dark-accent}"
-    textColor: "{colors.dark-action-ink}"
-    typography: "{typography.action}"
-    rounded: "{rounded.control}"
-    padding: "9px 14px"
-  button-quiet:
-    backgroundColor: "transparent"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.control}"
-    padding: "9px 12px"
-  collection-view:
-    backgroundColor: "transparent"
+    padding: "11px 18px"
+  signal-tile:
+    backgroundColor: "{colors.tile}"
+    textColor: "{colors.board-ink}"
+    rounded: "{rounded.tile}"
+    padding: "12px 9px 10px"
+  signal-tile-hover:
+    backgroundColor: "{colors.tile-hover}"
+  featured-work:
+    backgroundColor: "{colors.feature}"
+    textColor: "{colors.feature-ink}"
+    rounded: "{rounded.tile}"
+    padding: "26px"
+  review-approved:
+    backgroundColor: "{colors.review-soft}"
+    textColor: "{colors.review}"
+    rounded: "{rounded.tile}"
+    padding: "3px 6px"
+  discussion:
+    backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.control}"
-    padding: "8px 12px"
-  collection-view-selected:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.control}"
-    padding: "8px 12px"
-  state-open:
-    backgroundColor: "{colors.green-soft}"
-    textColor: "{colors.green}"
-    typography: "{typography.operational}"
-    rounded: "{rounded.signal}"
-    padding: "3px 7px"
-  collection:
-    backgroundColor: "{colors.paper}"
-    rounded: "{rounded.surface}"
-  context:
-    backgroundColor: "{colors.paper}"
-    rounded: "{rounded.control}"
+    padding: "26px 28px"
 ---
 
-# Design System: LeulTew Contributions
+# Design System: Signal Bench
 
 ## Overview
 
-**Creative North Star: "The Compact Contribution Reader"**
+**Creative North Star: "Signal Bench"**
 
-Porcelain surfaces, graphite controls and true charcoal dark mode keep public work in focus. A short heading and freshness line lead directly to search, native filters, segmented views and ruled contribution rows. Compactness comes from removing ornamental framing and repeated explanation, not shrinking task text.
+A contemporary evidence workstation in deep pine/charcoal, mint featured work and ivory reading contrast. A real per-PR mosaic makes independent evidence visible; an asymmetric index and focused inspector give the work itself priority over administrative chrome. Native controls, square categorical marks and measured local typography provide the character without simulated hardware.
 
-Selecting a contribution opens a separate, linear reading route: one actual PR title, concise status and observation times, then the conversation. Longer context stays in Details. Previous/next follows the filtered collection, while Back restores the user's place. Color qualifies evidence; it does not decorate the interface or invent an author task.
-
-This document follows `site/style.css`, `site/index.html`, `site/app.mjs` and `site/ui.mjs`, including the final mobile overrides. The sidecar `.impeccable/design.json` extends the normative tokens with component samples and illustrative tonal ramps; those ramps are not extra implemented colors. Documentation describes the source, not human approval or an independently completed visual review.
+Rendered alternative B was selected autonomously after a three-world comparison. This records the implemented world, not user approval, a seed assignment or an award. The neutral ledger and the earlier light-first candidate are not visual authority. `site/style.css`, the opening contract in `site/index.html`, and the UI modules define the implementation; product and surface constraints remain in their respective documents.
 
 **Key Characteristics:**
-- Neutral porcelain and graphite, with true charcoal dark surfaces.
-- Search-first collection with strong segmented selection and compact ruled rows.
-- Separate linear reading route with conversation immediately after concise evidence.
-- 14px operational text, 16px messages and 44px controls.
-- Source-qualified signals, disclosure-based context and reversible navigation.
-
-Interaction inspiration: [Animated List](https://reactbits.dev/components/animated-list) and [Pill Nav](https://reactbits.dev/components/pill-nav) informed the compact list and segmented navigation direction. These are native implementations; no component code, assets or dependencies were imported from those references.
+- Deep pine/charcoal, mint featured work and ivory reading contrast.
+- One actual PR per tile; independent lifecycle, review and CI.
+- An asymmetric index with a featured first result and open secondary entries.
+- A focused inspector with source-linked, readable discussion.
+- Dark-first native themes and brief motion that disappears under reduced motion.
 
 ## Colors
 
-The palette is neutral by default. Green, amber and red are reserved for named evidence states; merged work uses a neutral label. The 40 frontmatter colors preserve the implemented light/dark roles. `dark-action-ink` documents the dark value of CSS `--on-accent`.
+Botanical dark surfaces frame pale categorical marks and a mint reading surface; ochre carries actions and qualifications without becoming a universal status.
 
 ### Primary
 
-- **Graphite** (`accent`) and **action text** (`on-accent`) supply primary controls and their contrast.
-- **Selection wash** (`selected`) supplies row hover and selection, not the stronger segmented-view selection.
-- **Focus ink** (`focus`) identifies keyboard focus independently of evidence.
-
-### Secondary
-
-- **Evidence green** (`green`, `green-soft`): open PRs and successful checks, distinguished by text.
-- **Evidence amber** (`amber`, `amber-soft`): pending, gated, canceled or stale evidence and warnings.
-- **Evidence red** (`red`, `red-soft`): closed PRs, reported failures and changes-requested reviews.
-- **Merged neutral** (`merged`, `merged-soft`): lifecycle information without another accent hue.
+`feature` is the mint emphasis for the first filtered contribution and active theme choice. Its `feature-ink`, `feature-muted` and `feature-line` partners keep this surface readable in either theme. `accent` and `on-accent` support source actions, recovery controls and focus on the dark board; semantic `amber` remains a separate warning role.
 
 ### Neutral
 
-- **Porcelain and paper** (`ground`, `paper`) separate the page from fields and collection.
-- **Ink and secondary ink** (`ink`, `muted`) distinguish reading from context.
-- **Quiet rule** (`line`) divides rows, conversation events and supporting sections.
-- **Soft neutral** (`soft`) frames the segmented group and ordinary actions.
-- **Navigation surface and text** (`nav`, `nav-text`) keep the header in the same neutral system.
+The frontmatter's unprefixed theme colors describe the intentional dark default. `ground` surrounds `paper` discussion surfaces; `ink`, `muted`, `line`, `soft` and `selected` establish hierarchy. The signal field retains its own `board` and `tile` family in either theme. `light-*` entries document the light overrides of those roles, not new CSS variable names.
 
-**The Selected Segment Rule.** A selected collection or evidence-view button uses ink on its background and paper for both its label and count; do not leave the selected count muted.
+### Evidence
 
-First visits use light regardless of operating-system preference. Stored light, dark and system choices are preserved. The visibly named theme control cycles light, dark, system; only explicit system mode follows the operating system.
+Green, merged, closed, review, request, unknown and cancelled pairs have distinct roles. The board's compact marks use their own pale categorical backgrounds, while the featured entry locally binds darker text and lighter status backgrounds for readability on mint. Theme colors must not be applied blindly across these materials.
+
+**The Independent Evidence Rule.** Lifecycle, review and CI retain their actual status; age and earlier-head qualifiers add context without replacing the status color or inventing a combined score.
+
+Dark is the first-visit default even on a light-preferring OS. Explicit Light, Dark and System choices persist when storage works; only System follows the OS. CSS owns both complete theme sets and local component overrides.
 
 ## Typography
 
-Use the variable-aware system stack in frontmatter. Code alone uses native monospace; there are no remote fonts or icon fonts.
+**Interface:** Bahnschrift, Aptos, Helvetica Neue, Arial, sans-serif. **Discussion:** Aptos, Helvetica Neue, Arial, sans-serif. **Code:** Consolas, ui-monospace, monospace. These are local stacks, not downloaded fonts.
 
-- **Title:** the compact collection heading uses `title`, reducing to (22px) on mobile. There is no hero display scale.
-- **Detail title:** the actual PR title uses `detail-title`, reducing to (23px) on mobile and wrapping within (45ch). A second paraphrased title or prominent duplicate summary is not part of the reading route.
-- **Headline:** `headline` supports Conversation and empty-state headings.
-- **Project and summary:** `project-title` identifies rows; `summary` explains the change beneath it.
-- **Operational and action:** `operational` carries labels, counts, dates, status and observation context; `action` adds button weight.
-- **Correspondence:** `correspondence` preserves message whitespace and wraps long text within (72ch).
-- **Quotation:** `quote` distinguishes exact human feedback inside its disclosure, not a promotional panel.
+The desktop page title is 58px; general headings use 30px/25px, with component-specific scales for identity and reading. The featured project is 46px with a 22px summary; ordinary project labels are 25px with 16px summaries. Inspector identity is 52px and its actual PR title 36px. Operational labels remain 14px. Discussion is 16px with 1.75 line height and a 72ch maximum.
 
-**The Reading Size Rule.** Preserve 14px operational text and 16px messages; reduce framing and repetition instead of shrinking useful content.
+At 1000px the page title becomes 48px; at 700px, 39px; at 480px, 36px; below 360px, 32px. Mobile inspector identity/title use 40px/27px. Content wraps rather than compressing evidence into tiny labels.
+
+Formatted discussion uses 28/24/20/18px heading levels, 14px code and tables, and native disclosures. Exact observation dates, actor categories, original text and source links remain legible evidence.
 
 ## Layout
 
-The centered page and header share a maximum width of (1344px) and desktop gutters of (48px). The header is (64px) high. The workspace heading pairs Contributions and repository scope with a short freshness line and Reload.
+The outer container is capped at 1536px with 48px desktop side padding. The collection grid pairs the field and index at 1.08:1 with a 32px gap. The field is sticky at 24px and contains five tile columns, 8px gaps, and locally scrollable content capped at 448px high (560px above 1536px).
 
-Search and native filters come first, then segmented lifecycle/activity views and separate evidence-route buttons. Desktop rows use a flexible contribution column, a (320px) evidence column and (100px) recency column, separated by gaps of (24px). Rows have a minimum height of (88px), padding (16px 20px), and no project glyph. A single bordered list contains the rows.
-
-The reading route replaces the collection at every width. Toolbar actions precede one PR title, repository/state metadata, compact Review and CI signals, and separately labeled Discussion and CI observation times. Conversation follows directly unless Details is opened or an important caveat needs to remain visible. There is no evidence side pane, jump link, large reading card or permanent split inspector.
+Each actual filtered PR occupies one tile, not one narrow column or an invented timeline segment. Desktop tiles have a 114px minimum height. The index uses two columns with 28px row/24px column gaps; its first result spans both columns. Later entries use open top-ruled surfaces instead of identical cards. Recent activity uses a chronological reading lane and hides the mosaic.
 
 ### Responsive structure
 
-- **At 1150px and below:** gutters reduce to (32px), filters and the view bar can wrap, and evidence/recency columns narrow.
-- **At 850px and below:** visual column headings disappear; row evidence moves below the contribution while recency stays alongside it.
-- **At 600px and below:** gutters become (16px). Final header rules keep one compact row: Feedback navigation hides and Data & help becomes a labeled icon link. The header minimum is (60px). Collection segments and evidence routes each use three-column grids. Search spans the filter surface above two native-select columns; Reset remains beside search. Contribution rows and reading controls reflow without smaller operational type.
-- **At 360px and below:** gutters become (12px), the small brand mark hides, and scope/actions adapt.
+| Breakpoint | Implemented change |
+| --- | --- |
+| At most 1200px | 32px outer padding, equal collection columns, four tile columns; inspector side rail becomes 270px. |
+| At most 1000px | Collection stacks; mosaic returns to five columns with a 244px scroll cap; masthead search occupies its own row. |
+| At most 700px | 20px outer padding, three tile columns, 104px minimum tile height and a 222px scroll cap; index becomes one column; tabs scroll horizontally; inspector becomes a vertical reading flow. |
+| At most 480px | 16px outer padding, two tile columns, 102px minimum tile height and a 218px scroll cap. |
+| At most 359px | Field heading stacks, filter fields become one column, and detail actions can wrap. |
 
-The product targets (320 CSS pixels) and above. These are source-defined behaviors, not a new browser-review claim. Scrolling belongs to the page rather than nested list or reading panes.
-
-**The Linear Reading Rule.** Put conversation after concise evidence; move long explanation into Details instead of making readers cross a second pane.
-
-Print removes navigation and action toolbars; it does not create another report or change the underlying evidence.
+The inspector is capped at 1250px. Desktop identity and signals share a two-column surface; conversation sits beside a 300px evidence record. The visible qualification spans the inspection surface. On mobile, evidence signals form three columns and the evidence record follows discussion. Reset remains in the search row. Local overflow belongs to the field, tabs, code blocks and tables, not the page.
 
 ## Elevation & Depth
 
-This is primarily a bordered, flat system. The collection, fields and context disclosure use rules; the conversation sits directly on the page rather than in an elevated container. Only the selected collection segment consumes the shared subtle shadow.
+Tonal contrast and rules do most of the work. The featured mint surface has a restrained solid lower offset (`0 5px 0 #6d927b`); discussion events use `0 4px 0 var(--soft)`. These are material distinctions, not floating-card blur effects. Native focus uses a 3px outline with a 4px default offset, tightened where controls sit inside a group or tile.
 
-- **Light selection shadow:** (`0 4px 16px #00000006`).
-- **Dark selection shadow:** (`0 4px 16px #00000014`).
-
-Focus uses an outline (3px) with offset (3px). Search uses a flush offset, and row buttons place the outline inward (-3px) so the list boundary does not clip it.
-
-With reduced motion not requested, background/text feedback takes (140ms ease-out), and entry into reading takes (160ms cubic-bezier(.16,1,.3,1)), moving from (6px) below and opacity (.75). The pressed button translation is (1px); disabled controls remove it. Loading is static.
+**The Evidence Before Effects Rule.** Depth and motion identify surfaces and state; neither simulates hardware nor encodes evidence quality.
 
 ## Shapes
 
-Controls and context share the `control` radius. The segmented group and conversation empty state use `segmented`, while filters, collection and collection empty states use `surface`. Interior rows stay square and flush; semantic chips use `signal` rounding and explicit text.
+Marks use 1px corners, tiles and status chips 2px, general controls and boards 3px, and the theme group 4px. Borders are mostly thin structural rules; secondary entries have a 3px top rule and discussion events a 4px top rule. Lifecycle symbols add a circle, diamond or cross alongside text; CI/review symbols distinguish result categories.
 
-Local SVG icons use a (24 × 24) viewBox, no fill, stroke width (1.7), round caps and joins, and a standard rendered size of (18px). Decorative icons are hidden from assistive technology. Icon-only links and controls retain accessible names. No project-avatar or glyph column accompanies contribution rows.
+Native controls have at least 44px targets. A 22px status mark is informational within its full tile button, not an independent tiny control. Preserve the actual tile geometry rather than reintroducing the former 48px record columns.
 
 ## Components
 
-### Controls and segmented views
+### Native controls, search and navigation
 
-Buttons, native selects and source links have minimum targets of (44px). Base buttons use soft neutral; primary Open PR uses accent/on-accent. Quiet actions are transparent. Disabled controls use opacity (.5), no pressed movement and a not-allowed cursor.
+Buttons use 10px/14px padding, a 3px radius, soft backgrounds and selected hover fill; active buttons move down 1px. Disabled controls use reduced opacity and retain native semantics. The source action uses ochre and an inline original SVG icon. Search is an ivory inset within the pine masthead, with Reset in the same row. Light/Dark/System are explicit pressed-state buttons.
 
-Collection views are pressed buttons inside a soft segmented group, not an ARIA tablist. Evidence routes are separate buttons for Changes requested, CI failures and CI approval. Both selected variants invert ink/paper, including counts. “Changes requested” denotes a review outcome, not assignment to perform a review.
+Collection tabs use a filled active state; evidence filters use an active underline. Filter & sort is a native disclosure. Native elements, original SVG paths and CSS define the UI: no copied component effects, GSAP or UI framework.
 
-### Search and rows
+### Signal mosaic
 
-Search has a programmatic label and a visible placeholder hint. CI and Sort use labeled native selects. `/` focuses search in collection mode, including from row buttons; it does not intercept text editing, ARIA textboxes/comboboxes, composition, handled events or modified keypresses.
+One tile shows project, PR number, optional Stale age and three categorical marks in PR/review/CI order. Tile hover and selection change the background and border. A text preview and accessible label expand the evidence. Arrows move by the computed grid width; Home/End reach the first/last tile.
 
-Full-width row buttons expose project/number, summary, separate evidence chips and recency. Selection opens reading; Open PR remains a distinct source action. Activity uses the same structure with actor-qualified excerpts, clamped to two lines, and optional automation.
+Earlier reviews retain approved or changes-requested tones and display `+~` or `!~`. Index entries and inspector show the real verdict plus a separate Earlier head label. Staleness does not repaint a failed or successful check as a different result.
 
-### Reading and Details
+### Featured index and inspector
 
-Selecting a row saves its focus key and page scroll, updates the selected-PR address parameter, focuses the actual PR title and moves to the top. Previous/next follows filtered order and disables at either end. Back restores focus and scroll; Escape returns when focus is outside input, textarea and select controls. Filtering out the selected PR clears detail and its parameter and cancels its direct request.
+The first filtered contribution is featured by position, not merit. Its mint material, larger project name and summary anchor the index. Subsequent contributions are open stations. The focused inspector gives actual identity/title room beside independently labeled signals.
 
-Review, CI and their observation times remain concise and independent. Refresh discussion reads the selected PR/activity without making CI newer. Relevant stale/history qualifiers, exceptional caveats and refresh failures stay visible rather than being hidden solely to achieve compactness.
+The short Gin race caveat remains visible outside disclosures. Detailed context includes exact dates, head and observation provenance. Initial-head baselines are metadata only. Previous/next follows the filtered set; Back restores the initiating item or tile and page scroll position.
 
-Details toggles a native disclosure for the plain-language summary, dated context, CI qualifications, head metadata and original checks. Opening moves focus to its summary; closing returns focus to Details when needed. Initial recorded heads are baseline metadata here, not conversation events or new changes.
+### Readable public discussion
 
-### Conversation and edge states
+Public messages intentionally render safe Markdown: headings, lists, quotations, tables, fenced code and disclosures. The source body and hash remain unchanged. Original text and Original source are always available for messages.
 
-The linear event list retains actor/classification, date, action, message and source. PR author, verified human, automation and unclassified account are distinct; a comment is not automatically an author task. Long messages have a native full-message disclosure. Messages preserve whitespace at the correspondence size.
+`marked` feeds a pure `parse5` AST; a strict allowlist creates DOM nodes without `innerHTML` or `DOMParser`. HTML comments are hidden except as literal code. Links require safe HTTPS URLs; no automatic image or embed loads occur. Code and tables scroll locally. Limits and per-message exceptions are visible, not silent truncation: 100,000 characters, 10,000 visited AST nodes and 128 render levels. Parsing happens before the latter two limits; deep quotations can still cause a caught RangeError.
 
-Activity-unavailable text is not an all-clear. Empty discussion can offer a button to show hidden automated events; enabling it returns focus to the automation control. Collection empty states reset filters; unavailable snapshots retain labeled last-good evidence or original-source access. Static loading rows do not imply progress or success.
+The pinned, self-hosted parser dependency graph is a deliberate reading feature, not an animation or framework dependency. README.md owns versions, licensing, installation and loading-cost details.
 
-### Supporting disclosures
+### Supporting and unavailable states
 
-Reviewer feedback is a native disclosure below the collection and is hidden in reading. Choosing its header link from reading returns to the collection before opening it. Exact words, attribution and original-review links remain separate from ordinary activity.
+Empty, loading, stale, help and feedback states reuse the same palette and forms. All-snapshot failure applies `body.unavailable`, hides inert controls and removes Loading claims. Empty discussion distinguishes unavailable evidence from hidden automation. Actor categories remain explicit.
 
-One Data & help disclosure holds polling, refresh quotas, privacy, historical-record limits and snapshot context. Header help opens it and focuses its summary. These explanations should not be duplicated ahead of the actual conversation.
+Exact Chi feedback stays in the collection-only Reviewer feedback disclosure and is not generalized into praise for other work.
+
+### Motion
+
+Control-color transitions use 180ms ease-out. Changing collection views restarts a 180ms opacity transition from .65 to 1 with `cubic-bezier(.16,1,.3,1)`. Reduced-motion mode removes animation and transitions and uses automatic scrolling. There is no spring engine, ornamental timeline or animated score.
 
 ## Do's and Don'ts
 
 ### Do:
-
-- **Do** preserve neutral porcelain/graphite light mode and true charcoal dark mode.
-- **Do** keep selected segment labels and counts together in contrasting ink/paper roles.
-- **Do** retain 44px controls, 14px operational text and 16px messages.
-- **Do** keep Discussion and CI timestamps distinct and source-qualified.
-- **Do** preserve filtered navigation and return focus/scroll, with long context in Details.
+- **Do** keep real lifecycle, review and CI separate from age and earlier-head qualifiers.
+- **Do** preserve the mint first result, open secondary entries and real per-PR tile mosaic.
+- **Do** start in dark mode and honor explicit Light, Dark and System choices.
+- **Do** preserve 44px targets, local overflow, readable text and instant reduced-motion updates.
+- **Do** retain original text, source links, exact dates, actor categories and visible formatting limits.
+- **Do** keep the Gin caveat visible and the Chi quotation collection-specific.
 
 ### Don't:
-
-- **Don't** restore a hero, connected attention panel, glyph column or evidence side pane.
-- **Don't** wrap the conversation in a large decorative reading card or repeat the PR title.
-- **Don't** present baseline metadata, anonymous classification or CI success as unsupported activity, humanity or approval.
-- **Don't** shrink task text or duplicate help to make the layout appear informative.
-- **Don't** treat illustrative ramps, obsolete measurements or reference components as shipped implementation.
+- **Don't** restore the neutral ledger, light-first default or narrow record-column field.
+- **Don't** invent combined scores, live activity, fixed UI counts or endorsement from comments.
+- **Don't** replace real status colors with stale or earlier-head age categories.
+- **Don't** inject parser markup into the browser or automatically load message images and embeds.
+- **Don't** claim parser failures are impossible or hide the original message after a formatting error.
+- **Don't** treat source documentation or functional checks as complete artistic approval.

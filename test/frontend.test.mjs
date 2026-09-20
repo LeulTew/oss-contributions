@@ -168,12 +168,15 @@ test('feed filters retain unclassified actors but exclude automation by default 
   assert.equal(inboxRows(rows, { view: 'requests' }, now).length, 0);
   assert.deepEqual(rows, before);
 });
-test('browser surface keeps a strict API origin and text-only remote rendering', async () => {
+test('browser surface keeps a strict API origin, safe Markdown and exact original text access', async () => {
   const html = await readFile(new URL('../site/index.html', import.meta.url), 'utf8');
   const app = await readFile(new URL('../site/app.mjs', import.meta.url), 'utf8');
   assert.match(html, /connect-src 'self' https:\/\/api\.github\.com;/);
   assert.doesNotMatch(app, /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
   assert.match(app, /element\.textContent = content/);
+  assert.match(app, /formatMessage\(message, event\.body, event\.url\)/);
+  assert.match(app, /markdownModule \?\?= import\('\.\/markdown\.mjs'\)/);
+  assert.match(app, /pre\.append\(node\('code', event\.body\)\)/);
   assert.match(html, /60 days without repository activity/);
   assert.match(html, /It does not refresh CI/);
   assert.match(app, /Discussion: .*row\.activity\.checkedAt.*CI: .*row\.checkedAt/);
