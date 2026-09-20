@@ -1,6 +1,6 @@
-import { CI_LABELS, validateCatalog, validateSnapshot, counts, inboxRows, activityFeed, activityDate, reviewLabel, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, key } from './model.mjs';
+import { CI_LABELS, validateCatalog, validateSnapshot, inboxRows, activityFeed, activityDate, reviewLabel, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, key } from './model.mjs';
 import { createLiveClient } from './live.mjs';
-import { createIcon, navigationPosition, acceptsSearchShortcut, initialTheme } from './ui.mjs';
+import { createIcon, navigationPosition, acceptsSearchShortcut, initialTheme, discussionPresentation, inspectionCaveat } from './ui.mjs';
 
 const $ = id => document.getElementById(id);
 const date = value => new Date(value).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }) + ' UTC';
@@ -19,9 +19,9 @@ const link = (label, url, className) => {
 const views = {
   all: ['All contributions', 'Select a contribution to inspect its review, checks and discussion.'],
   activity: ['Recent activity', 'Public discussion and observed changes. A comment is not automatically an author task.'],
-  requests: ['Changes requested', 'Explicit review states, not assigned tasks. Read who the request addresses; earlier-head requests remain labeled.'],
-  failures: ['Check failures', 'Reported CI failures, not inferred code defects. Read the qualified context before acting.'],
-  waiting: ['Waiting on CI approval', 'Upstream workflows need maintainer action. This dashboard cannot approve or rerun them.'],
+  requests: ['Changes requested', 'Review states, not assigned tasks. Earlier-head requests stay labeled.'],
+  failures: ['Check failures', 'Reported failures; context can qualify the cause.'],
+  waiting: ['Waiting on CI approval', 'Upstream workflows require maintainer approval.'],
   open: ['Open contributions', 'Work still in review, including PRs with no current review or CI evidence.'],
   merged: ['Merged contributions', 'Completed upstream merges, with their dated historical observations.'],
   closed: ['Closed contributions', 'Closed without merging. Historical evidence is retained.'],
@@ -53,19 +53,21 @@ function eventAction(event) {
 }
 function renderFreshness() {
   if (!data) return;
-  $('freshness').textContent = `${freshnessMessage(data)} / ${date(data.fetchedAt)}`;
+  $('freshness').textContent = freshnessMessage(data);
+  $('freshness').title = `Published ${date(data.fetchedAt)}`;
   const stale = currentRows().filter(row => isStale(row)).length;
   const missingActivity = currentRows().filter(row => row.activity.state !== 'complete').length;
   const warnings = [
-    !navigator.onLine ? 'Offline. Showing last-good evidence; reconnect to check for changes.' : '',
+    !navigator.onLine ? 'Offline. Showing last-good evidence.' : '',
     sourceWarning,
-    stale ? `${stale} CI/PR observations are stale, not current confirmations.` : '',
-    missingActivity ? `${missingActivity} contributions have unavailable or retained activity evidence; empty request counts are not an all-clear.` : '',
-    Date.now() - Date.parse(data.fetchedAt) > 45 * 60000 ? 'Snapshot over 45 min old. Check a selected PR or GitHub.' : '',
+    stale ? `${stale} stale CI/PR observations. Check the original PR for current evidence.` : '',
+    missingActivity ? `${missingActivity} activity histories unavailable; empty counts are not an all-clear.` : '',
     storageWarning,
   ].filter(Boolean);
   $('data-warning').textContent = warnings.join(' ');
   $('data-warning').hidden = !warnings.length;
+  $('refresh-context').textContent = `Snapshot published ${date(data.fetchedAt)}. ${warnings.join(' ')}`;
+  $('refresh-context').hidden = false;
 }
 function filteredRows() {
   return inboxRows(currentRows(), { search: $('search').value, ci: $('ci-filter').value, sort: $('sort').value, view: selectedView });
@@ -128,9 +130,7 @@ function itemButton(row, event = null) {
     }
   }
   content.append(project, node('p', event ? `${eventAction(event)}${event.body ? `: ${event.body}` : ''}` : row.summary, 'item-summary'));
-  const glyph = node('span', row.project.split(/[\s.-]+/).map(part => part[0]).join('').slice(0, 2), 'project-glyph');
-  glyph.setAttribute('aria-hidden', 'true');
-  button.append(glyph, content, bottom, recency);
+  button.append(content, bottom, recency);
   button.addEventListener('click', () => selectContribution(row));
   item.append(button);
   return item;
@@ -162,10 +162,10 @@ function renderRows() {
   $('results').textContent = feedMode ? `${feed.length} events` : `${filtered.length} of ${data.contributions.length}`;
   $('view-heading').textContent = views[selectedView][0];
   $('view-description').textContent = views[selectedView][1];
-  $('view-description').hidden = selectedView === 'all';
+  $('view-description').hidden = !['requests', 'failures', 'waiting'].includes(selectedView);
   $('empty-heading').textContent = selectedView === 'requests' && !$('search').value ? 'No changes-requested reviews recorded' : feedMode ? 'No matching activity recorded' : 'No matching contributions';
-  $('empty-copy').textContent = selectedView === 'requests' ? 'This is the latest available evidence, not a guarantee that no follow-up is needed. Stale or unavailable observations remain flagged.' :
-    feedMode ? 'Try including automation, or inspect a contribution for its activity availability.' : 'Try another query or reset these filters.';
+  $('empty-copy').textContent = selectedView === 'requests' ? 'Stale or unavailable evidence is not an all-clear.' :
+    feedMode ? 'Include automation or inspect a PR.' : 'Try another search or reset filters.';
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === selectedView)));
   restoreFocus(token);
 }
@@ -185,47 +185,52 @@ function renderDetail() {
   $('next-pr').disabled = !position.next;
   $('detail-github').href = row.url;
   const meta = node('div', undefined, 'detail-meta');
-  meta.append(node('span', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`),
-    node('span', `Opened ${shortDate(row.createdAt)}`), node('span', row.mergedAt ? `Merged ${shortDate(row.mergedAt)}` : `PR updated ${shortDate(row.updatedAt)}`));
+  meta.append(node('span', `${row.owner}/${row.repo} #${row.number}`, 'repo-path'),
+    node('span', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`));
   if (row.draft) meta.append(node('span', 'Draft'));
   const heading = node('h2', row.title);
   heading.tabIndex = -1;
   heading.dataset.focusKey = `heading:${key(row)}`;
-  $('detail-header').replaceChildren(node('p', `${row.owner}/${row.repo} #${row.number}`, 'repo-path'),
-    heading, node('p', row.summary, 'detail-summary'), meta);
+  $('detail-header').replaceChildren(heading, meta);
   const review = node('dl');
-  review.append(node('dt', 'Review'), node('dd', reviewLabel(row), row.activity.review.state === 'changes_requested' ? 'review-request' : ''));
-  review.lastChild.append(node('small', row.activity.checkedAt ? `Observed ${date(row.activity.checkedAt)}` : 'No activity observation available'));
+  const reviewText = row.activity.review.state === 'none' ? 'No decision recorded' : reviewLabel(row);
+  review.append(node('dt', 'Review'), node('dd', reviewText, `signal ${row.activity.review.state === 'changes_requested' ? 'review-request' : ''}`));
   const ci = node('dl');
-  ci.append(node('dt', 'CI evidence'), node('dd', CI_LABELS[row.ci.state], `ci-${row.ci.state}`));
-  ci.lastChild.append(node('small', `${isStale(row) ? 'Stale / ' : row.historical ? 'Historical / ' : ''}${date(row.checkedAt)}`));
+  ci.append(node('dt', 'CI'), node('dd', `${isStale(row) ? 'Stale / ' : row.historical ? 'Historical / ' : ''}${CI_LABELS[row.ci.state]}`, `signal ci-${row.ci.state}`));
   $('detail-signals').replaceChildren(review, ci);
+  $('observation-times').textContent = `Discussion: ${row.activity.checkedAt ? date(row.activity.checkedAt) : 'unavailable'} · CI: ${date(row.checkedAt)}`;
+  const caveat = inspectionCaveat(row);
+  $('qualified-caveat').textContent = caveat ? `${caveat} Inspection: ${shortDate(row.noteAsOf)}.` : '';
+  $('qualified-caveat').hidden = !caveat;
   const directStatus = directMessages.get(selectedKey) ?? (direct ?
-    `PR and discussion checked ${date(direct.checkedAt)}. ${direct.cached ? 'Short-lived browser cache. ' : ''}CI observation time is unchanged.` : 'No sign-in or token. Subject to anonymous API limits.');
+    `${direct.cached ? 'Cached discussion.' : 'Discussion refreshed.'} CI unchanged.` : '');
   $('direct-status').textContent = [directStatus, liveClient?.warning].filter(Boolean).join(' ');
+  $('direct-status').hidden = !$('direct-status').textContent;
   $('refresh-selected').disabled = !!directController && !directController.signal.aborted;
-  const context = [node('p', `${row.note} Context recorded ${date(row.noteAsOf)}.`),
-    node('p', `${row.ci.summary} Head: ${row.headSha}. Scheduled CI observation: ${date(row.checkedAt)}. PR updated: ${date(row.updatedAt)}.`)];
+  const context = [node('p', row.summary)];
+  if (row.note) context.push(node('p', `${row.note} Context recorded ${date(row.noteAsOf)}.`));
+  context.push(node('p', `${row.ci.summary} Head: ${row.headSha}. Opened: ${date(row.createdAt)}. PR updated: ${date(row.updatedAt)}.${row.mergedAt ? ` Merged: ${date(row.mergedAt)}.` : ''}`));
+  const { baseline } = discussionPresentation(row);
+  if (baseline) context.push(node('p', `First recorded head: ${baseline.headSha.slice(0, 8)} (${date(baseline.date)}). Baseline metadata, not an observed change.`));
   if (row.ci.counts) context.push(node('p', `Reported CI signals (may overlap): ${Object.entries(row.ci.counts).map(([name, value]) => `${value} ${name}`).join(', ')}. These are not counts of unique executed tests.`));
   if (row.error) context.push(node('p', `Collection issue: ${row.error}`));
   context.push(link('Open original PR and checks', row.url));
   $('detail-context').replaceChildren(...context);
   document.querySelector('.context-box').open = savedContext;
+  $('open-context').setAttribute('aria-expanded', String(savedContext));
   renderActivity(row);
   restoreFocus(token);
 }
 function renderActivity(row = selectedRow()) {
   if (!row) return;
-  const events = activityFeed([row], { excludeAutomation: !$('include-bots').checked, kind: $('activity-kind').value, includeBaselines: true });
+  const { events, hiddenAutomation, emptyMessage } = discussionPresentation(row, { includeAutomation: $('include-bots').checked, kind: $('activity-kind').value });
   const activity = row.activity;
-  const hiddenBots = activity.events.filter(event => event.actor.classification === 'automation').length;
-  $('activity-count').textContent = `${events.length} shown`;
+  $('activity-count').textContent = events.length;
   $('activity-status').textContent = [
-    activity.state !== 'complete' ? `Activity unavailable${activity.error ? ` (${activity.error})` : ''}. Retained events, if any, are not a new confirmation.` :
-      `Discussion observed ${date(activity.checkedAt)}.`,
-    !$('include-bots').checked && hiddenBots ? `${hiddenBots} automated events hidden.` : '',
-    'Unclassified accounts are not assumed human. Comments alone do not create tasks.',
+    activity.state !== 'complete' ? `Activity unavailable${activity.error ? ` (${activity.error})` : ''}. Retained evidence only.` : '',
+    events.length && hiddenAutomation ? `${hiddenAutomation} automated events hidden.` : '',
   ].filter(Boolean).join(' ');
+  $('activity-status').hidden = !$('activity-status').textContent;
   const rendered = events.map(({ event }) => {
     const item = node('li', undefined, 'activity-event');
     const heading = node('div', undefined, 'event-heading');
@@ -253,14 +258,28 @@ function renderActivity(row = selectedRow()) {
     item.append(source);
     return item;
   });
-  if (!rendered.length) rendered.push(node('li', activity.state === 'complete' ? 'No activity matches this filter.' : 'No complete activity history is available in this observation.', 'activity-event event-body'));
+  if (!rendered.length) {
+    const empty = node('li', undefined, 'activity-empty');
+    empty.append(node('p', emptyMessage));
+    if (hiddenAutomation) {
+      const show = node('button', `Show ${hiddenAutomation} automated event${hiddenAutomation === 1 ? '' : 's'}`);
+      show.type = 'button';
+      show.id = 'show-automation';
+      show.addEventListener('click', () => {
+        $('include-bots').checked = true;
+        renderActivity();
+        $('include-bots').focus();
+      });
+      empty.append(show);
+    }
+    rendered.push(empty);
+  }
   $('activity-list').replaceChildren(...rendered);
 }
 function render() {
   const token = focusToken();
   const rows = currentRows();
-  const totals = counts(rows);
-  $('overview').textContent = `${totals.ALL} PRs / ${new Set(rows.map(row => `${row.owner}/${row.repo}`)).size} repositories / ${totals.OPEN} open / ${totals.MERGED} merged`;
+  $('overview').textContent = `${new Set(rows.map(row => `${row.owner}/${row.repo}`)).size} repositories`;
   for (const element of document.querySelectorAll('[data-count]')) element.textContent = inboxRows(rows, { view: element.dataset.count }).length;
   $('loading').hidden = true;
   $('unavailable').hidden = true;
@@ -347,7 +366,7 @@ async function refreshSelected() {
   directController = ownController;
   const attempt = ++directGeneration;
   const rowKey = key(row);
-  directMessages.set(rowKey, 'Checking this public PR and its discussion. Scheduled CI is not refreshed.');
+  directMessages.set(rowKey, 'Checking discussion. CI is unchanged.');
   renderDetail();
   try {
     const result = await liveClient.refresh(catalog.find(entry => key(entry) === rowKey), row, { signal: ownController.signal });
@@ -355,7 +374,7 @@ async function refreshSelected() {
     const reconciled = reconcileDirect(data.contributions.find(entry => key(entry) === rowKey), result);
     if (reconciled) {
       directRows.set(rowKey, reconciled);
-      directMessages.set(rowKey, `PR and discussion checked ${date(result.checkedAt)}. ${result.cached ? 'Short-lived cache. ' : ''}CI retains its scheduled observation time.`);
+      directMessages.set(rowKey, `${result.cached ? 'Cached discussion.' : 'Discussion refreshed.'} CI unchanged.`);
     } else {
       directRows.delete(rowKey);
       directMessages.set(rowKey, 'Direct check completed; newer published evidence is retained.');
@@ -383,12 +402,28 @@ $('refresh').addEventListener('click', refresh);
 $('refresh-selected').addEventListener('click', refreshSelected);
 $('include-bots').addEventListener('change', () => renderActivity());
 $('activity-kind').addEventListener('change', () => renderActivity());
+$('open-context').addEventListener('click', () => {
+  const context = document.querySelector('.context-box');
+  context.open = !context.open;
+  if (context.open) context.querySelector('summary').focus();
+});
+document.querySelector('.context-box').addEventListener('toggle', event => {
+  $('open-context').setAttribute('aria-expanded', String(event.target.open));
+  if (!event.target.open && event.target.contains(document.activeElement)) $('open-context').focus();
+});
+document.querySelectorAll('[data-panel]').forEach(link => link.addEventListener('click', event => {
+  event.preventDefault();
+  if (link.dataset.panel === 'feedback' && document.body.classList.contains('reading')) returnToList();
+  const panel = $(link.dataset.panel);
+  panel.open = true;
+  panel.querySelector('summary').focus();
+  panel.scrollIntoView({ block: 'start' });
+}));
 function returnToList() {
   directController?.abort(); ++directGeneration; directController = null;
   document.querySelector('.inbox-shell').classList.remove('detail-open');
   document.body.classList.remove('reading');
   const url = new URL(location.href); url.searchParams.delete('pr');
-  if (url.hash === '#evidence-details') url.hash = '';
   history.replaceState(null, '', url);
   renderRows();
   restoreFocus(returnFocusKey ?? `row:${selectedKey}`);

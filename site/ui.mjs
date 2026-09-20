@@ -1,3 +1,5 @@
+import { activityFeed, key } from './model.mjs';
+
 const paths = {
   branch: ['M7 4v11a4 4 0 0 0 4 4h6', 'M7 9h6a4 4 0 0 0 4-4V4', 'M5 2h4v4H5z', 'M15 2h4v4h-4z', 'M15 17h4v4h-4z'],
   activity: ['M3 12h4l3-7 4 14 3-7h4'],
@@ -13,6 +15,7 @@ const paths = {
   lock: ['M7 10V7a5 5 0 0 1 10 0v3', 'M5 10h14v11H5z', 'M12 14v3'],
   external: ['M14 3h7v7', 'm21 3-11 11', 'M10 3H3v18h18v-7'],
   quote: ['M3 13V8a4 4 0 0 1 4-4', 'M3 13h6v7H3z', 'M14 13V8a4 4 0 0 1 4-4', 'M14 13h6v7h-6z'],
+  help: ['M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0', 'M9.5 8a2.5 2.5 0 1 1 4 2c-1.5.8-1.5 1.5-1.5 3', 'M12 16h.01'],
 };
 export function createIcon(name, documentRef = document) {
   if (!Object.hasOwn(paths, name)) throw new Error('Unknown interface icon.');
@@ -37,4 +40,20 @@ export function acceptsSearchShortcut(event, reading) {
 }
 export function initialTheme(saved) {
   return ['light', 'dark', 'system'].includes(saved) ? saved : 'light';
+}
+export function discussionPresentation(row, { kind = 'all', includeAutomation = false } = {}) {
+  const available = activityFeed([row], { kind, excludeAutomation: false });
+  const events = available.filter(({ event }) => includeAutomation || event.actor.classification !== 'automation');
+  return {
+    events,
+    hiddenAutomation: available.length - events.length,
+    baseline: row.activity.events.find(event => event.kind === 'head_update' && event.previousHeadSha === null) ?? null,
+    emptyMessage: row.activity.state !== 'complete' ? 'Activity unavailable. Retained evidence is not a new confirmation.' :
+      kind === 'updates' ? 'No branch or state changes in this view.' :
+        includeAutomation ? 'No discussion or changes in this view.' : 'No non-automated discussion or changes in this view.',
+  };
+}
+export function inspectionCaveat(row) {
+  return key(row) === 'gin-gonic/gin#4836' && row.note.includes('four coverage-mode errors') ?
+    'One inspected race job did not run its tests. Reported pass is not race-test proof.' : null;
 }

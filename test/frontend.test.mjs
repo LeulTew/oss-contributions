@@ -175,7 +175,8 @@ test('browser surface keeps a strict API origin and text-only remote rendering',
   assert.doesNotMatch(app, /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
   assert.match(app, /element\.textContent = content/);
   assert.match(html, /60 days without repository activity/);
-  assert.match(html, /CI keeps its own observation time/);
+  assert.match(html, /It does not refresh CI/);
+  assert.match(app, /Discussion: .*row\.activity\.checkedAt.*CI: .*row\.checkedAt/);
 });
 test('initial head baselines never masquerade as recent changes', () => {
   const row = validateSnapshot(snapshot(), catalog).contributions[0];

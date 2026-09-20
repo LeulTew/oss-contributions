@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-20T15:54:52.967Z",
+  "generatedAt": "2026-09-20T18:22:41.621Z",
   "title": "Design System: LeulTew Contributions",
   "extensions": {
     "colorMeta": {
@@ -566,21 +566,21 @@
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Collection introduction",
-        "purpose": "44px desktop title; final mobile override is 26px at 600px and below."
+      "title": {
+        "displayName": "Collection heading",
+        "purpose": "Compact 24px heading, reducing to 22px at 600px and below; not a hero."
       },
       "headline": {
         "displayName": "Section heading",
-        "purpose": "Base heading hierarchy for work and supporting content."
+        "purpose": "18px headings for Conversation and empty states."
       },
       "detail-title": {
         "displayName": "Selected contribution title",
-        "purpose": "Reading-scene title; 27px at 600px and below, 25px at 360px and below."
+        "purpose": "One actual PR title, 25px with 1.3 line height and 45ch maximum; 23px at 600px and below."
       },
       "project-title": {
         "displayName": "Collection project name",
-        "purpose": "Row identity; 16px on mobile, with a separate 14px PR number."
+        "purpose": "16px row identity at every width, with a separate 14px PR number."
       },
       "body": {
         "displayName": "Reading baseline",
@@ -588,52 +588,47 @@
       },
       "correspondence": {
         "displayName": "Comment body",
-        "purpose": "16px source text with preserved line breaks and 1.8 line height."
+        "purpose": "16px source text with preserved line breaks, 1.75 line height and 72ch maximum."
       },
       "summary": {
         "displayName": "Collection summary",
-        "purpose": "Plain-language change explanation in the full-width collection."
+        "purpose": "15px plain-language change explanation beneath the project name."
       },
       "operational": {
         "displayName": "Operational text",
-        "purpose": "Final grouped 14px labels, dates, evidence, actor classification and controls."
+        "purpose": "14px labels, dates, evidence and actor classification; context paragraphs use 1.7 line height."
       },
       "action": {
         "displayName": "Action text",
-        "purpose": "Semibold 14px text on substantial controls."
+        "purpose": "Semibold 14px text on controls with a 44px minimum target."
       },
       "quote": {
         "displayName": "Original feedback",
-        "purpose": "Curated source quotation; mobile reduces to 23px."
+        "purpose": "Exact human feedback inside its disclosure, 20px with 1.6 line height and normal weight."
       }
     },
     "shadows": [
       {
-        "name": "paper-surface",
-        "value": "0 8px 28px #00000008",
-        "purpose": "Shared light-theme paper depth from site/style.css."
-      },
-      {
-        "name": "paper-surface-dark",
-        "value": "0 8px 28px #00000014",
-        "purpose": "Dark-theme replacement for the shared surface shadow."
-      },
-      {
         "name": "selected-collection-view",
-        "value": "0 3px 8px #00000012",
-        "purpose": "Small lift under the solid selected view button."
+        "value": "0 4px 16px #00000006",
+        "purpose": "Light shared shadow, consumed only by the selected collection segment in site/style.css."
+      },
+      {
+        "name": "selected-collection-view-dark",
+        "value": "0 4px 16px #00000014",
+        "purpose": "Dark counterpart of the selected-segment shadow; collection, fields and reading remain flat."
       }
     ],
     "motion": [
       {
         "name": "control-state",
-        "value": "background-color 160ms ease-out, color 160ms ease-out",
+        "value": "background-color 140ms ease-out, color 140ms ease-out",
         "purpose": "Buttons and links only when reduced motion is not requested."
       },
       {
         "name": "reading-entry",
-        "value": "220ms cubic-bezier(.16,1,.3,1)",
-        "purpose": "Reading scene translates from 10px below and fades from .65 opacity only when reduced motion is not requested."
+        "value": "160ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "Reading enters from 6px below and .75 opacity only when reduced motion is not requested."
       },
       {
         "name": "pressed-feedback",
@@ -647,7 +642,7 @@
         "value": "1150px"
       },
       {
-        "name": "stacked-reading-max",
+        "name": "two-column-rows-max",
         "value": "850px"
       },
       {
@@ -665,118 +660,120 @@
       "name": "Secondary action",
       "kind": "button",
       "refersTo": "button",
-      "description": "Base control from site/style.css with 44px minimum height.",
-      "html": "<button class=\"ds-button\" type=\"button\">Reload</button>",
-      "css": ".ds-button{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;min-height:44px;border:1px solid transparent;border-radius:10px;padding:10px 16px;background:var(--soft,#ededed);color:var(--ink,#1c1c1c);font-size:14px;font-weight:600;cursor:pointer}.ds-button:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-button:active{transform:translateY(1px)}.ds-button:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-button:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "description": "Base control from site/style.css with 44px minimum height; refresh does not make CI newer.",
+      "html": "<button class=\"ds-button\" type=\"button\">Refresh discussion</button>",
+      "css": ".ds-button{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;min-height:44px;border:1px solid transparent;border-radius:8px;padding:9px 12px;background:var(--soft,#ededed);color:var(--ink,#1c1c1c);font-size:14px;font-weight:600;cursor:pointer}.ds-button:hover{background:var(--selected,#e9e9e9)}.ds-button:active{transform:translateY(1px)}.ds-button:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-button:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
       "name": "Primary action",
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Primary action from site/style.css; the inline external icon uses the exact path geometry in site/ui.mjs. The sample uses the initial profile destination from site/index.html; selection supplies the original PR URL.",
-      "html": "<a class=\"ds-primary\" href=\"https://github.com/LeulTew\">Open on GitHub<svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M14 3h7v7\"></path><path d=\"m21 3-11 11\"></path><path d=\"M10 3H3v18h18v-7\"></path></svg></a>",
-      "css": ".ds-primary{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:inline-flex;gap:9px;align-items:center;justify-content:center;background:var(--accent,#242424);color:var(--on-accent,#fff);min-height:46px;border-radius:10px;padding:10px 17px;font-size:14px;font-weight:600;text-decoration:none}.ds-primary:hover{background:color-mix(in srgb,var(--accent,#242424) 88%,var(--paper,#fff));color:var(--on-accent,#fff)}.ds-primary:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-primary.ds-dark,:host-context([data-theme=dark]) .ds-primary{color:#161616}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-color-scheme:dark){:host-context(:root[data-theme=system]) .ds-primary{color:#161616}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "html": "<a class=\"ds-primary\" href=\"https://github.com/LeulTew\">Open PR<svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M14 3h7v7\"></path><path d=\"m21 3-11 11\"></path><path d=\"M10 3H3v18h18v-7\"></path></svg></a>",
+      "css": ".ds-primary{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;display:inline-flex;gap:8px;align-items:center;justify-content:center;background:var(--accent,#242424);color:var(--on-accent,#fff);min-height:44px;border-radius:8px;padding:9px 14px;font-size:14px;font-weight:600;text-decoration:none}.ds-primary:hover{background:color-mix(in srgb,var(--accent,#242424) 88%,var(--paper,#fff))}.ds-primary:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}.ds-icon{display:block;width:18px;height:18px;flex-shrink:0}@media(max-width:360px){.ds-primary{padding-inline:10px}}@media(prefers-reduced-motion:no-preference){.ds-primary{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
-      "name": "Back action",
+      "name": "Quiet action",
       "kind": "button",
-      "description": "Inline return control from site/style.css with the local back icon from site/ui.mjs. The app restores saved collection focus and page scroll.",
-      "html": "<button class=\"ds-back\" type=\"button\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m10 5-7 7 7 7\"></path><path d=\"M3 12h18\"></path></svg>Back to work</button>",
-      "css": ".ds-back{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:inline-flex;align-items:center;gap:8px;min-height:44px;border:1px solid transparent;border-radius:10px;padding:10px 16px 10px 0;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:600;cursor:pointer}.ds-back:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-back:active{transform:translateY(1px)}.ds-back:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-reduced-motion:no-preference){.ds-back{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "refersTo": "button-quiet",
+      "description": "Transparent Reset control from site/style.css; focus and pressed feedback remain visible without another filled action.",
+      "html": "<button class=\"ds-quiet\" type=\"button\">Reset</button>",
+      "css": ".ds-quiet{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;min-height:44px;border:1px solid transparent;border-radius:8px;padding:9px 12px;background:transparent;color:var(--muted,#5b5b5b);font-size:14px;font-weight:600;cursor:pointer}.ds-quiet:hover{background:var(--selected,#e9e9e9)}.ds-quiet:active{transform:translateY(1px)}.ds-quiet:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-quiet:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-quiet{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
       "name": "Collection views",
       "kind": "nav",
       "refersTo": "collection-view-selected",
-      "description": "Source-based collection view buttons; final mobile rules use a three-column grid. Selection remains a pressed button state, not an ARIA tablist.",
-      "html": "<nav class=\"ds-views\" aria-label=\"Contribution views\"><button class=\"ds-view\" type=\"button\" aria-pressed=\"true\">All work</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Open</button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Merged</button></nav>",
-      "css": ".ds-views{display:flex;flex-wrap:wrap;gap:6px}.ds-view{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:flex;align-items:center;gap:9px;min-height:46px;padding:10px 15px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted,#5b5b5b);font-size:15px;font-weight:550;cursor:pointer}.ds-view[aria-pressed=true]{background:var(--ink,#1c1c1c);color:var(--paper,#fff);box-shadow:0 3px 8px #00000012}.ds-view:not([aria-pressed=true]):hover{background:var(--paper,#fff);color:var(--ink,#1c1c1c)}.ds-view:active{transform:translateY(1px)}.ds-view:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}@media(max-width:600px){.ds-views{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:4px}.ds-view{justify-content:center;padding:9px 8px;gap:4px;font-size:14px}}@media(prefers-reduced-motion:no-preference){.ds-view{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "description": "Soft segmented group from site/style.css; selected labels and counts invert together. Counts are source placeholder dashes, not live data. Mobile uses three columns.",
+      "html": "<nav class=\"ds-views\" aria-label=\"Contribution views\"><button class=\"ds-view\" type=\"button\" aria-pressed=\"true\">All <span class=\"ds-count\">-</span></button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Open <span class=\"ds-count\">-</span></button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Merged <span class=\"ds-count\">-</span></button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Closed <span class=\"ds-count\">-</span></button><button class=\"ds-view\" type=\"button\" aria-pressed=\"false\">Activity</button></nav>",
+      "css": ".ds-views{display:flex;gap:2px;padding:3px;border-radius:10px;background:var(--soft,#ededed)}.ds-view{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;display:flex;align-items:center;gap:6px;min-height:44px;padding:8px 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:500;cursor:pointer}.ds-view[aria-pressed=true]{background:var(--ink,#1c1c1c);color:var(--paper,#fff);box-shadow:var(--shadow,0 4px 16px #00000006)}.ds-count{font-variant-numeric:tabular-nums;color:var(--muted,#5b5b5b)}.ds-view[aria-pressed=true] .ds-count{color:inherit}.ds-view:active{transform:translateY(1px)}.ds-view:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}@media(max-width:600px){.ds-views{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.ds-view{justify-content:center;padding-inline:7px}}@media(prefers-reduced-motion:no-preference){.ds-view{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
-      "name": "Search surface",
+      "name": "Search and native filter",
       "kind": "input",
-      "description": "Paper search surface from site/style.css; slash focuses search in collection mode only and does not intercept editing or modified keypresses.",
-      "html": "<div class=\"ds-search-surface\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0\"></path><path d=\"m15 15 6 6\"></path></svg><input class=\"ds-search\" type=\"search\" aria-label=\"Search contributions\" placeholder=\"Find a project, a change, a PR...\" autocomplete=\"off\"><kbd class=\"ds-key\" aria-hidden=\"true\">/</kbd></div>",
-      "css": ".ds-search-surface{display:flex;align-items:center;gap:12px;padding:10px 20px;background:var(--paper,#fff);color:var(--muted,#5b5b5b);border-radius:14px;box-shadow:var(--shadow,0 8px 28px #00000008);font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6}.ds-search{font:inherit;font-size:15px;width:100%;min-width:0;min-height:46px;border:0;background:transparent;color:var(--ink,#1c1c1c);padding:10px 0}.ds-search::placeholder{color:var(--muted,#5b5b5b);opacity:1}.ds-search:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:0}.ds-key{background:var(--soft,#ededed);border:1px solid var(--line,#dedede);border-radius:5px;padding:0 7px;font-family:inherit;font-size:13px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(max-width:600px){.ds-key{display:none}}"
+      "description": "Flat bordered filter surface from site/style.css, sampled with search and CI select. Sort uses the same native-select treatment. Slash behavior lives in site/ui.mjs, not this static sample.",
+      "html": "<div class=\"ds-filters\"><div class=\"ds-search-field\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0\"></path><path d=\"m15 15 6 6\"></path></svg><input class=\"ds-search\" type=\"search\" aria-label=\"Search contributions\" placeholder=\"Search projects or changes\" autocomplete=\"off\"><kbd class=\"ds-key\" aria-hidden=\"true\">/</kbd></div><label class=\"ds-filter-label\">CI <select class=\"ds-select\"><option>All evidence</option><option>Failures</option><option>Approval needed</option><option>Successful</option><option>In progress</option><option>Unknown</option><option>Canceled</option><option>Stale</option></select></label></div>",
+      "css": ".ds-filters{display:flex;align-items:center;gap:20px;padding:8px 12px;background:var(--paper,#fff);color:var(--muted,#5b5b5b);border:1px solid var(--line,#dedede);border-radius:12px;font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5}.ds-search-field{display:flex;align-items:center;gap:10px;flex:1;min-width:150px}.ds-search{font:inherit;font-size:15px;width:100%;min-width:0;min-height:44px;border:0;background:transparent;color:var(--ink,#1c1c1c);padding:8px 0}.ds-search::placeholder{color:var(--muted,#5b5b5b);opacity:1}.ds-search:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:0}.ds-key{border:1px solid var(--line,#dedede);border-radius:4px;padding:0 6px;font-family:inherit;font-size:14px}.ds-icon{display:block;width:18px;height:18px;flex-shrink:0}.ds-filter-label{display:flex;align-items:center;gap:8px;font-size:14px}.ds-select{font:inherit;min-height:44px;max-width:100%;padding:8px 10px;border:1px solid var(--line,#dedede);border-radius:8px;background:var(--paper,#fff);color:var(--ink,#1c1c1c)}.ds-select:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}@media(max-width:1150px){.ds-filters{flex-wrap:wrap;gap:8px}.ds-search-field{min-width:240px}}@media(max-width:600px){.ds-filters{padding:8px 10px}.ds-search-field{min-width:0;flex-basis:100%}.ds-key{display:none}}"
     },
     {
       "name": "Evidence chip",
       "kind": "chip",
       "refersTo": "state-open",
-      "description": "Textual lifecycle chip from site/style.css, using the final 14px operational override. Sample names a vocabulary state, not a live observation.",
+      "description": "14px textual lifecycle chip from site/style.css. Sample names a vocabulary state, not a live observation.",
       "html": "<span class=\"ds-state\">Open</span>",
-      "css": ".ds-state{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;font-size:14px;line-height:1.7;font-weight:550;color:var(--green,#196944);background:var(--green-soft,#edf6f0)}.ds-state::before{content:\"\";width:5px;height:5px;border-radius:50%;background:currentColor}"
+      "css": ".ds-state{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:5px;font-size:14px;line-height:1.5;font-weight:500;color:var(--green,#196944);background:var(--green-soft,#edf6f0)}.ds-state::before{content:\"\";width:5px;height:5px;border-radius:50%;background:currentColor}"
     },
     {
-      "name": "Connected evidence routing",
+      "name": "Evidence routes",
       "kind": "nav",
-      "description": "Connected dark attention surface from site/style.css. The final mobile layout keeps three columns rather than stacked full-width routes; illustrative samples omit live counts.",
-      "html": "<nav class=\"ds-band\" aria-label=\"Evidence views\"><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Changes requested</button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Check failures</button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">Awaiting CI approval</button></nav>",
-      "css": ".ds-band{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-radius:16px;overflow:hidden;background:var(--paper,#fff);color:var(--ink,#1c1c1c);border:1px solid var(--line,#dedede)}.ds-route{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid transparent;border-left:1px solid var(--line,#dedede);border-radius:0;padding:16px;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:500;text-align:left;cursor:pointer}.ds-route:hover,.ds-route[aria-pressed=true]{background:var(--selected,#e9e9e9);color:var(--ink,#1c1c1c)}.ds-route:active{transform:translateY(1px)}.ds-route:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:-4px}@media(max-width:600px){.ds-band{border-radius:15px}.ds-route{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:6px;min-height:58px;padding:10px 12px;line-height:1.4}}@media(prefers-reduced-motion:no-preference){.ds-route{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "description": "Independent evidence-view buttons from site/style.css, without a connected panel. Selected counts inherit paper contrast; placeholder dashes are not observations.",
+      "html": "<nav class=\"ds-routes\" aria-label=\"Evidence views\"><button class=\"ds-route\" type=\"button\" aria-pressed=\"true\">Changes requested <span class=\"ds-count\">-</span></button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">CI failures <span class=\"ds-count\">-</span></button><button class=\"ds-route\" type=\"button\" aria-pressed=\"false\">CI approval <span class=\"ds-count\">-</span></button></nav>",
+      "css": ".ds-routes{display:flex;gap:4px}.ds-route{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;display:flex;align-items:center;gap:6px;min-height:44px;border:1px solid transparent;border-radius:8px;padding:9px 12px;background:transparent;color:var(--ink,#1c1c1c);font-size:14px;font-weight:400;cursor:pointer}.ds-route[aria-pressed=true]{background:var(--ink,#1c1c1c);color:var(--paper,#fff)}.ds-count{font-variant-numeric:tabular-nums;color:var(--muted,#5b5b5b)}.ds-route[aria-pressed=true] .ds-count{color:inherit}.ds-route:active{transform:translateY(1px)}.ds-route:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}@media(max-width:600px){.ds-routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:8px}.ds-route{justify-content:center;flex-wrap:wrap;gap:3px;padding:6px}}@media(prefers-reduced-motion:no-preference){.ds-route{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
-      "name": "Reading container",
-      "kind": "card",
-      "refersTo": "discussion",
-      "description": "Discussion surface from site/style.css. This is a reading region, not a per-contribution decorative card. Neutral sample copy is not attributed feedback.",
-      "html": "<section class=\"ds-reading\" aria-label=\"Conversation preview\"><h3 class=\"ds-reading-heading\">Conversation &amp; changes</h3><p class=\"ds-message\">Read public discussion with its actor classification, dated context and original source.</p></section>",
-      "css": ".ds-reading{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;min-width:0;border-radius:18px;background:var(--paper,#fff);color:var(--ink,#1c1c1c);box-shadow:var(--shadow,0 8px 28px #00000008);padding:28px}.ds-reading-heading{margin:0;font-size:21px;font-weight:650;line-height:1.4;letter-spacing:-.015em}.ds-message{margin:24px 0 0;padding-top:24px;border-top:1px solid var(--line,#dedede);font-size:16px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;max-width:70ch}@media(max-width:1150px){.ds-reading{padding:24px}}@media(max-width:600px){.ds-reading{padding:22px 18px}.ds-reading-heading{font-size:20px}}"
+      "name": "Linear conversation",
+      "kind": "custom",
+      "description": "Unboxed conversation rules and message typography from site/style.css. Explanatory sample copy is not an attributed human comment; actual events include actor, classification, date and source.",
+      "html": "<section class=\"ds-conversation\" aria-label=\"Conversation preview\"><h3 class=\"ds-conversation-heading\">Conversation</h3><div class=\"ds-event\"><p class=\"ds-message\">Source messages retain their words and line breaks. Longer context and initial head metadata belong in Details.</p></div></section>",
+      "css": ".ds-conversation{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;min-width:0;color:var(--ink,#1c1c1c);margin-top:20px;border-top:1px solid var(--line,#dedede)}.ds-conversation-heading{margin:0;padding:16px 0;font-size:18px;font-weight:650}.ds-event{padding:20px 0;border-top:1px solid var(--line,#dedede)}.ds-message{margin:0;font-size:16px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;max-width:72ch}@media(max-width:600px){.ds-conversation{margin-top:16px}.ds-conversation-heading{padding:12px 0}}"
     },
     {
-      "name": "Previous contribution",
-      "kind": "button",
-      "description": "44px reading-toolbar control from site/style.css and site/ui.mjs. App navigation follows the filtered collection and disables at its endpoints.",
-      "html": "<button class=\"ds-previous\" type=\"button\" aria-label=\"Previous contribution\"><svg class=\"ds-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"m6 14 6-6 6 6\"></path></svg></button>",
-      "css": ".ds-previous{display:grid;place-items:center;width:44px;min-height:44px;padding:10px;border:1px solid transparent;border-radius:10px;background:var(--paper,#fff);color:var(--ink,#1c1c1c);cursor:pointer}.ds-previous:hover{background:var(--selected,#e9e9e9);color:var(--accent,#242424)}.ds-previous:active{transform:translateY(1px)}.ds-previous:disabled{opacity:.5;cursor:not-allowed;transform:none}.ds-previous:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-icon{display:block;width:20px;height:20px;flex-shrink:0}@media(prefers-reduced-motion:no-preference){.ds-previous{transition:background-color 160ms ease-out,color 160ms ease-out}}"
+      "name": "Contribution row",
+      "kind": "custom",
+      "refersTo": "collection",
+      "description": "Continuous list and 88px minimum row from site/style.css, without a glyph column. Placeholder copy demonstrates the three content areas without asserting live evidence.",
+      "html": "<ul class=\"ds-list\" aria-label=\"Contribution sample\"><li><button class=\"ds-row\" type=\"button\" aria-pressed=\"false\"><span class=\"ds-content\"><span class=\"ds-project\">Project</span><span class=\"ds-summary\">Plain-language contribution summary.</span></span><span class=\"ds-evidence\">Review and CI evidence</span><span class=\"ds-recency\">Activity date</span></button></li></ul>",
+      "css": ".ds-list{list-style:none;margin:0;padding:0;background:var(--paper,#fff);border:1px solid var(--line,#dedede);border-radius:12px;overflow:hidden}.ds-list li+li{border-top:1px solid var(--line,#dedede)}.ds-row{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;display:grid;grid-template-columns:minmax(0,1fr) 320px 100px;align-items:center;gap:24px;width:100%;min-height:88px;padding:16px 20px;border:0;border-radius:0;background:transparent;color:var(--ink,#1c1c1c);text-align:left;font-size:14px;font-weight:400;cursor:pointer}.ds-row:hover,.ds-row[aria-pressed=true]{background:var(--selected,#e9e9e9)}.ds-row:active{transform:translateY(1px)}.ds-row:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:-3px}.ds-content{min-width:0}.ds-project{display:block;font-size:16px;font-weight:650}.ds-summary{display:block;font-size:15px;color:var(--muted,#5b5b5b);margin-top:4px}.ds-evidence{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.ds-recency{display:grid;justify-items:end;gap:6px;color:var(--muted,#5b5b5b)}@media(max-width:1150px){.ds-row{grid-template-columns:minmax(0,1fr) 260px 90px;gap:20px}}@media(max-width:850px){.ds-row{grid-template-columns:minmax(0,1fr) 100px;gap:8px 16px}.ds-evidence{grid-column:1;grid-row:2}.ds-recency{grid-column:2;grid-row:1}}@media(max-width:600px){.ds-row{grid-template-columns:minmax(0,1fr);padding:16px;gap:10px}.ds-evidence,.ds-recency{grid-column:1;grid-row:auto}.ds-recency{display:flex;justify-content:space-between}}@media(prefers-reduced-motion:no-preference){.ds-row{transition:background-color 140ms ease-out,color 140ms ease-out}}"
     },
     {
       "name": "Context disclosure",
       "kind": "custom",
-      "description": "Native disclosure within the evidence region from site/style.css. Its sample explains placement without fabricating a CI result.",
-      "html": "<details class=\"ds-context\"><summary class=\"ds-context-heading\">Contribution context &amp; CI evidence</summary><p class=\"ds-context-copy\">Scheduled CI observations remain independently dated when PR discussion is refreshed.</p></details>",
-      "css": ".ds-context{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.6;margin-top:22px;border-top:1px solid var(--line,#dedede);padding-top:14px;color:var(--ink,#1c1c1c)}.ds-context-heading{font-size:14px;font-weight:550;min-height:44px;padding:10px 0;cursor:pointer}.ds-context-heading:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:4px}.ds-context-copy{font-size:14px;line-height:1.8;overflow-wrap:anywhere;margin:12px 0 0}"
+      "refersTo": "context",
+      "description": "Native context disclosure from site/style.css, shown expanded. Closing hides it; the app's separate Details button reopens it and manages focus. Copy is explanatory, not a CI observation.",
+      "html": "<details class=\"ds-context\" open><summary class=\"ds-context-heading\">Contribution &amp; CI details</summary><div class=\"ds-context-content\"><p class=\"ds-context-copy\">Long context and initial recorded heads belong here. Refreshing discussion does not update the CI observation time.</p></div></details>",
+      "css": ".ds-context{font-family:\"Segoe UI Variable Text\",\"Segoe UI\",system-ui,-apple-system,sans-serif;line-height:1.5;margin:12px 0;border:1px solid var(--line,#dedede);border-radius:8px;background:var(--paper,#fff);color:var(--ink,#1c1c1c)}.ds-context:not([open]){display:none}.ds-context-heading{font-size:14px;font-weight:600;min-height:44px;padding:10px 14px;cursor:pointer}.ds-context-heading:focus-visible{outline:3px solid var(--focus,#242424);outline-offset:3px}.ds-context-content{padding:0 16px 16px}.ds-context-copy{font-size:14px;line-height:1.7;overflow-wrap:anywhere;margin:12px 0 0}"
     }
   ],
   "narrative": {
-    "northStar": "The Release-Control Surface",
-    "overview": "White porcelain, graphite interaction and a neutral horizontal masthead make a clear place to inspect public work. A connected evidence-routing band leads into a full-width collection; substantial controls and readable text replace a cramped administrative frame. Rounded surfaces and restrained depth separate tasks without turning each contribution into a decorative card. Color is reserved for explicit evidence roles, not a branded wash.\n\nOpening a contribution changes the scene from scanning to reading. The collection recedes, conversation gains space, and independently dated review and CI summaries stay above it. Expanded refresh and supporting context sit beside discussion on desktop and after it on smaller screens; a jump link keeps them reachable. Previous/next navigation and return to the original focus and scroll position make that change of scene reversible. Text, source-linked evidence and consistent open-stroke icons carry the identity; no external fonts or imagery are required.",
+    "northStar": "The Compact Contribution Reader",
+    "overview": "Porcelain surfaces, graphite controls and true charcoal dark mode keep public work in focus. A short heading and freshness line lead directly to search, native filters, segmented views and ruled contribution rows. Compactness comes from removing ornamental framing and repeated explanation, not shrinking task text.\n\nSelecting a contribution opens a separate, linear reading route: one actual PR title, concise status and observation times, then the conversation. Longer context stays in Details. Previous/next follows the filtered collection, while Back restores the user's place. Color qualifies evidence; it does not decorate the interface or invent an author task.",
     "keyCharacteristics": [
-      "White porcelain work surfaces, graphite actions and neutral horizontal navigation.",
-      "Full-width collection followed by a separate focused reading scene.",
-      "Operational text at 14px, correspondence at 16px and substantial control targets.",
-      "Connected evidence routing, soft surface depth and ruled contribution rows.",
-      "Independent evidence labels, original-source links and reversible navigation."
+      "Neutral porcelain and graphite, with true charcoal dark surfaces.",
+      "Search-first collection with strong segmented selection and compact ruled rows.",
+      "Separate linear reading route with conversation immediately after concise evidence.",
+      "14px operational text, 16px messages and 44px controls.",
+      "Source-qualified signals, disclosure-based context and reversible navigation."
     ],
     "rules": [
       {
-        "name": "The Independent Signals Rule",
-        "body": "Color supports explicit labels; selection, lifecycle state, review outcome, CI and actor classification never substitute for one another.",
+        "name": "The Selected Segment Rule",
+        "body": "A selected collection or evidence-view button uses ink on its background and paper for both its label and count; do not leave the selected count muted.",
         "section": "colors"
       },
       {
         "name": "The Reading Size Rule",
-        "body": "Preserve 14px operational text and 16px correspondence; gain compactness through layout and selective supporting copy, not tiny task labels.",
+        "body": "Preserve 14px operational text and 16px messages; reduce framing and repetition instead of shrinking useful content.",
         "section": "typography"
       },
       {
-        "name": "The Change of Scene Rule",
-        "body": "Keep collection scanning and focused reading separate; return users to their place instead of reserving a permanent side inspector.",
+        "name": "The Linear Reading Rule",
+        "body": "Put conversation after concise evidence; move long explanation into Details instead of making readers cross a second pane.",
         "section": "layout"
       }
     ],
     "dos": [
-      "**Do** use porcelain/white and graphite, with true-neutral charcoal dark surfaces.",
-      "**Do** preserve the full-width collection and separate focused reading scene.",
-      "**Do** retain 44px control targets, 14px operational text and 16px correspondence.",
-      "**Do** keep original evidence labels, actor qualifications and observation times distinct.",
-      "**Do** preserve filtered previous/next navigation and return-to-collection focus and scroll."
+      "**Do** preserve neutral porcelain/graphite light mode and true charcoal dark mode.",
+      "**Do** keep selected segment labels and counts together in contrasting ink/paper roles.",
+      "**Do** retain 44px controls, 14px operational text and 16px messages.",
+      "**Do** keep Discussion and CI timestamps distinct and source-qualified.",
+      "**Do** preserve filtered navigation and return focus/scroll, with long context in Details."
     ],
     "donts": [
-      "**Don't** reintroduce a permanent sidebar or collection/detail split pane.",
-      "**Don't** shrink operational text to recover space; use the compact responsive grids.",
-      "**Don't** imply author tasks, human identity, approval or new CI evidence without the corresponding source.",
-      "**Don't** turn the collection into decorative standalone cards or add ornamental imagery and remote fonts.",
-      "**Don't** promote superseded cascade values, one-off identity details or illustrative ramps into reusable tokens."
+      "**Don't** restore a hero, connected attention panel, glyph column or evidence side pane.",
+      "**Don't** wrap the conversation in a large decorative reading card or repeat the PR title.",
+      "**Don't** present baseline metadata, anonymous classification or CI success as unsupported activity, humanity or approval.",
+      "**Don't** shrink task text or duplicate help to make the layout appear informative.",
+      "**Don't** treat illustrative ramps, obsolete measurements or reference components as shipped implementation."
     ]
   }
 }
