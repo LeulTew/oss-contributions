@@ -1,6 +1,7 @@
 import { CI_LABELS, validateCatalog, validateSnapshot, inboxRows, activityFeed, activityDate, isStale, chooseSnapshot, reconcileDirect, freshnessMessage, key } from './model.mjs';
 import { createLiveClient } from './live.mjs';
-import { createIcon, navigationPosition, acceptsSearchShortcut, initialTheme, discussionPresentation, inspectionCaveat, signalColumns, signalNeighbor, reviewPresentation } from './ui.mjs';
+import { createIcon, navigationPosition, acceptsSearchShortcut, initialTheme, discussionPresentation, inspectionCaveat, reviewPresentation } from './ui.mjs';
+import { DEFAULT_ROUTE, readRoute, routeQuery, workspaceFeed } from './workspace.mjs';
 
 const $ = id => document.getElementById(id);
 const date = value => new Date(value).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }) + ' UTC';
@@ -29,9 +30,11 @@ const views = {
 const actorLabels = { author: 'PR author', human: 'Verified human', automation: 'Automation', unknown: 'Unclassified account' };
 const eventLabels = { comment: 'commented', review_comment: 'left an inline review comment', head_update: 'Head change observed', merged: 'PR merged', closed: 'PR closed' };
 let data = null, catalog = null, liveClient = null, controller = null, directController = null;
-let generation = 0, directGeneration = 0, selectedView = 'all', selectedKey = null;
+let route = readRoute(location.search);
+let generation = 0, directGeneration = 0, selectedView = route.view, selectedKey = route.pr;
 let sourceWarning = '', storageWarning = '', timer = null;
 let returnFocusKey = null, returnScroll = 0;
+history.scrollRestoration = 'manual';
 const directRows = new Map();
 const directMessages = new Map();
 let markdownModule;
@@ -72,167 +75,146 @@ function renderFreshness() {
   const warnings = [
     !navigator.onLine ? 'Offline. Showing last-good evidence.' : '',
     sourceWarning,
-    stale ? `${stale} stale CI/PR observations. Check the original PR for current evidence.` : '',
+    stale ? `${stale} stale PR/CI observations. Open GitHub for current evidence.` : '',
     missingActivity ? `${missingActivity} activity histories unavailable; empty counts are not an all-clear.` : '',
     storageWarning,
   ].filter(Boolean);
   $('data-warning').textContent = warnings.join(' ');
   $('data-warning').hidden = !warnings.length;
+  $('data-warning').classList.toggle('warning', !!sourceWarning || !navigator.onLine || missingActivity > 0);
   $('refresh-context').textContent = `Snapshot published ${date(data.fetchedAt)}. ${warnings.join(' ')}`;
   $('refresh-context').hidden = false;
-  const columns = new Map(signalColumns(currentRows()).map(column => [column.key, column]));
-  for (const button of $('signal-field').querySelectorAll('button')) {
-    const column = columns.get(button.dataset.key);
-    if (!column) continue;
-    button.title = column.label;
-    button.setAttribute('aria-label', column.label);
-    button.dataset.stale = String(column.stale);
-    const age = button.querySelector('.field-age');
-    if (column.stale && !age) {
-      const badge = node('span', 'Stale', 'field-age');
-      badge.setAttribute('aria-hidden', 'true');
-      button.append(badge);
-    } else if (!column.stale) age?.remove();
-    button.querySelectorAll('.field-mark').forEach((mark, index) => {
-      mark.textContent = column.signals[index].mark;
-      mark.dataset.tone = column.signals[index].tone;
-    });
-    if (document.activeElement === button) $('signal-preview').textContent = column.label;
+  for (const element of document.querySelectorAll('[data-age-key]')) {
+    const row = currentRows().find(row => key(row) === element.dataset.ageKey);
+    element.hidden = !row || !isStale(row);
   }
 }
 function filteredRows() {
   return inboxRows(currentRows(), { search: $('search').value, ci: $('ci-filter').value, sort: $('sort').value, view: selectedView });
 }
-function selectContribution(row, { focus = true } = {}) {
-  if (!document.body.classList.contains('reading')) {
-    returnFocusKey = focusToken() ?? `row:${key(row)}`;
-    returnScroll = window.scrollY;
-  }
-  if (selectedKey !== key(row) && directController) {
+function applyRoute() {
+  selectedView = route.view;
+  selectedKey = route.pr;
+  for (const [id, value] of [['search', route.search], ['ci-filter', route.ci], ['sort', route.sort], ['review-filter', route.view], ['feed-kind', route.kind], ['activity-kind', route.kind]]) $(id).value = value;
+  $('feed-bots').checked = $('include-bots').checked = route.automation;
+}
+function navigate(next, { replace = false, focus = false } = {}) {
+  if (route.pr !== next.pr && directController) {
     directController.abort();
     directMessages.set(selectedKey, 'Direct check canceled on selection change. Last-good evidence retained.');
     directController = null;
     ++directGeneration;
   }
-  selectedKey = key(row);
-  const url = new URL(location.href);
-  url.searchParams.set('pr', selectedKey);
-  history.replaceState(null, '', url);
-  document.querySelector('.inbox-shell').classList.add('detail-open');
-  document.body.classList.add('reading');
-  renderRows();
-  renderDetail();
+  history.replaceState({ ...history.state, scroll: window.scrollY, focus: focusToken() }, '');
+  route = readRoute(routeQuery(next));
+  history[replace ? 'replaceState' : 'pushState'](
+    { scroll: 0, focus: null, fromList: !!next.pr && (history.state?.fromList || !selectedKey) },
+    '', `${location.pathname}${routeQuery(route)}`);
+  applyRoute();
+  if (data) render();
+  else renderWorkspace();
   if (focus) {
-    const heading = $('detail-header').querySelector('h2');
+    const heading = selectedRow() ? $('detail-header').querySelector('h2') : $('page-heading');
     heading.tabIndex = -1;
     heading.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
 }
-function itemButton(row, event = null) {
-  const item = node('li', undefined, `inbox-item${event ? ' feed-item' : ''}`);
-  const button = node('button');
-  button.type = 'button';
-  button.dataset.focusKey = event ? `event:${key(row)}:${event.id}` : `row:${key(row)}`;
-  button.dataset.key = key(row);
-  button.setAttribute('aria-pressed', String(key(row) === selectedKey));
-  button.setAttribute('aria-controls', 'detail');
-  const content = node('div', undefined, 'item-content');
-  const project = node('span', row.project, 'item-project');
-  project.append(node('span', `#${row.number}`, 'item-number'));
-  const time = node('time', shortDate(event?.updatedAt ?? new Date(activityDate(row))), 'item-date');
-  time.dateTime = event?.updatedAt ?? row.updatedAt;
-  time.title = date(time.dateTime);
-  const recency = node('div', undefined, 'item-recency');
-  recency.append(time);
-  const bottom = node('div', undefined, 'item-bottom');
-  bottom.append(node('span', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`));
-  if (event) bottom.append(node('span', `${event.actor.login} / ${actorLabels[event.actor.classification]}`, 'signal'));
-  else {
-    bottom.append(node('span', CI_LABELS[row.ci.state], `signal ci-${row.ci.state}`));
-    const review = reviewPresentation(row);
-    bottom.append(node('span', review.label, `signal ${review.className}`));
-    if (review.earlierHead) bottom.append(node('span', 'Earlier head', 'signal earlier-review'));
-    if (isStale(row)) bottom.append(node('span', 'Stale', 'signal stale'));
-    const count = activityFeed([row]).length;
-    if (count) {
-      const eventCount = node('span', undefined, 'event-count');
-      eventCount.append(createIcon('review'), node('span', `${count} event${count === 1 ? '' : 's'}`));
-      recency.append(eventCount);
-    }
+function selectContribution(row, { replace = false } = {}) {
+  if (!selectedKey) {
+    returnFocusKey = focusToken() ?? `row:${key(row)}`;
+    returnScroll = window.scrollY;
   }
-  content.append(project, node('p', event ? `${eventAction(event)}${event.body ? `: ${event.body}` : ''}` : row.summary, 'item-summary'));
-  if (!event && inspectionCaveat(row)) content.append(node('p', inspectionCaveat(row), 'item-caveat'));
-  const action = node('span', undefined, 'item-open');
-  action.append(createIcon('chevron'));
-  button.append(content, bottom, recency, action);
-  button.addEventListener('click', () => selectContribution(row));
-  item.append(button);
+  navigate({ ...route, pr: key(row) }, { replace, focus: true });
+}
+function contributionLink(row, label, className, token = `row:${key(row)}`) {
+  const anchor = link(label, `${location.pathname}${routeQuery({ ...route, pr: key(row) })}`, className);
+  anchor.dataset.focusKey = token;
+  anchor.dataset.key = key(row);
+  anchor.addEventListener('click', event => {
+    if (event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
+    event.preventDefault();
+    selectContribution(row);
+  });
+  return anchor;
+}
+function ageBadge(row) {
+  const age = node('span', 'Stale', 'signal stale');
+  age.dataset.ageKey = key(row);
+  age.hidden = !isStale(row);
+  return age;
+}
+function itemButton(row) {
+  const item = node('li', undefined, 'pr-row');
+  const icon = node('span', undefined, `pr-icon state-${row.state.toLowerCase()}`);
+  icon.append(createIcon('branch'));
+  icon.title = row.state.toLowerCase();
+  const content = node('div');
+  const title = contributionLink(row, row.summary, 'pr-title');
+  title.title = row.title;
+  const meta = node('div', undefined, 'pr-meta');
+  meta.append(link(`${row.owner}/${row.repo}`, `https://github.com/${row.owner}/${row.repo}`),
+    node('span', `#${row.number}`), node('span', row.state.toLowerCase(), `state state-${row.state.toLowerCase()}`));
+  const time = node('time', `Updated ${shortDate(new Date(activityDate(row)))}`);
+  time.dateTime = new Date(activityDate(row)).toISOString();
+  time.title = date(time.dateTime);
+  meta.append(time);
+  const signals = node('div', undefined, 'row-signals');
+  signals.append(node('span', CI_LABELS[row.ci.state], `signal ci-${row.ci.state}`));
+  const review = reviewPresentation(row);
+  signals.append(node('span', review.label, `signal ${review.className}`));
+  if (review.earlierHead) signals.append(node('span', 'Earlier head', 'signal earlier-review'));
+  if (row.historical) signals.append(node('span', 'Historical', 'signal stale'));
+  signals.append(ageBadge(row));
+  content.append(title, meta, signals);
+  if (inspectionCaveat(row)) content.append(node('p', inspectionCaveat(row), 'item-caveat'));
+  const count = activityFeed([row]).length;
+  const tail = node('span', undefined, 'row-tail');
+  tail.append(createIcon('review'), node('span', String(count)));
+  tail.title = `${count} non-automated events; unclassified accounts included`;
+  tail.setAttribute('aria-label', tail.title);
+  item.append(icon, content, tail);
   return item;
 }
-function renderSignalField(rows) {
-  $('signal-board').hidden = selectedView === 'activity' || !rows.length;
-  $('signal-scope').textContent = `${rows.length} ${rows.length === 1 ? 'contribution' : 'contributions'} in this view`;
-  $('signal-preview').textContent = 'Select a PR to inspect. Arrow keys move through the field.';
-  $('signal-field').replaceChildren(...signalColumns(rows).map(({ row, key: identity, signals, label }) => {
-    const button = node('button', undefined, 'signal-cell');
-    button.type = 'button';
-    button.dataset.focusKey = `signal:${identity}`;
-    button.dataset.key = identity;
-    button.setAttribute('aria-label', label);
-    button.setAttribute('aria-controls', 'detail');
-    button.setAttribute('aria-pressed', String(identity === selectedKey));
-    button.title = label;
-    const project = node('span', row.project, 'field-project');
-    project.setAttribute('aria-hidden', 'true');
-    const number = node('span', `#${row.number}`, 'field-number');
-    number.setAttribute('aria-hidden', 'true');
-    const marks = node('span', undefined, 'field-signals');
-    for (const signal of signals) {
-      const mark = node('span', signal.mark, 'field-mark');
-      mark.dataset.tone = signal.tone;
-      mark.setAttribute('aria-hidden', 'true');
-      marks.append(mark);
-    }
-    button.append(project, number, marks);
-    button.dataset.stale = String(isStale(row));
-    if (isStale(row)) {
-      const age = node('span', 'Stale', 'field-age');
-      age.setAttribute('aria-hidden', 'true');
-      button.append(age);
-    }
-    for (const event of ['focus', 'pointerenter']) button.addEventListener(event, () => { $('signal-preview').textContent = button.getAttribute('aria-label'); });
-    button.addEventListener('click', () => selectContribution(row));
-    return button;
-  }));
+function feedItem(row, event) {
+  const item = node('li', undefined, 'feed-item');
+  const project = node('div', undefined, 'feed-project');
+  project.append(contributionLink(row, `${row.project} #${row.number}`, '', `event:${key(row)}:${event.id}`),
+    node('span', row.summary));
+  item.append(project);
+  if (route.tab === 'feedback') item.append(messageElement(row, event, 'article'));
+  else {
+    const line = node('div', undefined, 'timeline-event');
+    line.append(node('strong', event.kind === 'head_update' ? 'Dashboard observation' : event.actor.login),
+      node('span', eventAction(event)), node('span', actorLabels[event.actor.classification], 'actor-label'),
+      node('time', date(event.updatedAt)), link('Original source', event.url));
+    if (event.kind === 'review' && event.headSha && event.headSha !== row.headSha) line.append(node('span', 'Earlier head', 'signal earlier-review'));
+    item.append(line);
+  }
+  return item;
 }
 function renderRows() {
   if (!data) return;
   const token = focusToken();
   const filtered = filteredRows();
-  if (selectedKey && !filtered.some(row => key(row) === selectedKey)) {
-    directController?.abort();
-    directController = null;
-    ++directGeneration;
-    selectedKey = null;
-    const url = new URL(location.href);
-    url.searchParams.delete('pr');
-    history.replaceState(null, '', url);
-    document.querySelector('.inbox-shell').classList.remove('detail-open');
-    document.body.classList.remove('reading');
-    renderDetail();
-  }
-  const feedMode = selectedView === 'activity';
+  document.querySelector('.list-toolbar').dataset.filtered = String(!!route.search || route.ci !== 'all' || !['all', 'open', 'merged', 'closed'].includes(route.view));
+  const feedMode = ['activity', 'feedback'].includes(route.tab);
   $('rows').classList.toggle('is-feed', feedMode);
-  const feed = feedMode ? activityFeed(filtered, { excludeAutomation: !$('feed-bots').checked }) : [];
-  $('rows').replaceChildren(...(feedMode ? feed.map(({ row, event }) => itemButton(row, event)) : filtered.map(row => itemButton(row))));
-  renderSignalField(filtered);
-  const count = feedMode ? feed.length : filtered.length;
+  const feed = workspaceFeed(filtered, route);
+  $('rows').replaceChildren(...(feedMode ? feed.events.map(({ row, event }) => feedItem(row, event)) : filtered.map(row => itemButton(row))));
+  $('rows').setAttribute('aria-label', feedMode ? route.tab === 'feedback' ? 'Review and comment messages' : 'Recent activity' : 'Pull requests');
+  const count = feedMode ? feed.total : filtered.length;
   $('rows').hidden = !count;
   $('empty').hidden = !!count;
   $('feed-controls').hidden = !feedMode;
-  $('results').textContent = feedMode ? `${feed.length} events` : `${filtered.length} of ${data.contributions.length}`;
-  $('view-heading').textContent = views[selectedView][0];
+  $('feed-kind').querySelector('[value=updates]').disabled = route.tab === 'feedback';
+  $('state-filters').hidden = feedMode;
+  $('feedback-highlight').hidden = route.tab !== 'feedback';
+  $('feed-pagination').hidden = !feedMode || feed.pages < 2;
+  $('feed-page').textContent = `Page ${feed.page} of ${feed.pages}`;
+  $('feed-previous').disabled = feed.page === 1;
+  $('feed-next').disabled = feed.page === feed.pages;
+  $('results').textContent = feedMode ? `${feed.total} ${route.tab === 'feedback' ? 'messages' : 'events'}` : `${filtered.length} of ${data.contributions.length}`;
   $('view-description').textContent = views[selectedView][1];
   $('view-description').hidden = !['requests', 'failures', 'waiting'].includes(selectedView);
   $('empty-heading').textContent = selectedView === 'requests' && !$('search').value ? 'No changes-requested reviews recorded' : feedMode ? 'No matching activity recorded' : 'No matching contributions';
@@ -243,7 +225,6 @@ function renderRows() {
 }
 function renderDetail() {
   const row = selectedRow();
-  $('detail-empty').hidden = !!row;
   $('detail-content').hidden = !row;
   if (!row) return;
   const token = focusToken();
@@ -252,18 +233,17 @@ function renderDetail() {
   contextElement.dataset.key = selectedKey;
   const direct = directRows.get(selectedKey);
   const position = navigationPosition(filteredRows(), selectedKey, key);
-  $('detail-position').textContent = `${position.index + 1} of ${position.total}`;
+  $('detail-position').textContent = position.index < 0 ? 'Outside filters' : `${position.index + 1} of ${position.total}`;
   $('previous-pr').disabled = !position.previous;
   $('next-pr').disabled = !position.next;
   $('detail-github').href = row.url;
   const meta = node('div', undefined, 'detail-meta');
-  meta.append(node('span', `${row.owner}/${row.repo} #${row.number}`, 'repo-path'));
+  meta.append(link(`${row.owner}/${row.repo}`, `https://github.com/${row.owner}/${row.repo}`), node('span', ` #${row.number} · Opened ${shortDate(row.createdAt)}`));
   if (row.draft) meta.append(node('span', 'Draft'));
-  const project = node('p', row.project, 'detail-project');
   const heading = node('h2', row.title);
   heading.tabIndex = -1;
   heading.dataset.focusKey = `heading:${key(row)}`;
-  $('detail-header').replaceChildren(project, heading, meta);
+  $('detail-header').replaceChildren(heading, meta);
   const lifecycle = node('dl');
   lifecycle.append(node('dt', 'Pull request'), node('dd', row.state[0] + row.state.slice(1).toLowerCase(), `state state-${row.state.toLowerCase()}`));
   const review = node('dl');
@@ -273,7 +253,11 @@ function renderDetail() {
   if (verdict.earlierHead) decision.append(node('span', 'Earlier head', 'signal earlier-review'));
   review.append(node('dt', 'Review'), decision);
   const ci = node('dl');
-  ci.append(node('dt', 'CI'), node('dd', `${isStale(row) ? 'Stale / ' : row.historical ? 'Historical / ' : ''}${CI_LABELS[row.ci.state]}`, `signal ci-${row.ci.state}`));
+  const checks = node('dd');
+  checks.append(node('span', CI_LABELS[row.ci.state], `signal ci-${row.ci.state}`));
+  if (row.historical) checks.append(node('span', 'Historical', 'signal stale'));
+  checks.append(ageBadge(row));
+  ci.append(node('dt', 'CI'), checks);
   $('detail-signals').replaceChildren(lifecycle, review, ci);
   $('observation-times').textContent = `Discussion: ${row.activity.checkedAt ? date(row.activity.checkedAt) : 'unavailable'} · CI: ${date(row.checkedAt)}`;
   const caveat = inspectionCaveat(row);
@@ -294,7 +278,6 @@ function renderDetail() {
   context.push(link('Open original PR and checks', row.url));
   $('detail-context').replaceChildren(...context);
   document.querySelector('.context-box').open = savedContext;
-  $('open-context').setAttribute('aria-expanded', String(savedContext));
   renderActivity(row);
   restoreFocus(token);
 }
@@ -308,17 +291,41 @@ function renderActivity(row = selectedRow()) {
     events.length && hiddenAutomation ? `${hiddenAutomation} automated events hidden.` : '',
   ].filter(Boolean).join(' ');
   $('activity-status').hidden = !$('activity-status').textContent;
-  const rendered = events.map(({ event }) => {
-    const item = node('li', undefined, 'activity-event');
+  const rendered = events.map(({ event }) => messageElement(row, event));
+  if (!rendered.length) {
+    const empty = node('li', undefined, 'activity-empty');
+    empty.append(node('p', emptyMessage));
+    if (hiddenAutomation) {
+      const show = node('button', `Show ${hiddenAutomation} automated event${hiddenAutomation === 1 ? '' : 's'}`);
+      show.type = 'button';
+      show.id = 'show-automation';
+      show.addEventListener('click', () => {
+        navigate({ ...route, automation: true }, { replace: true });
+        $('include-bots').focus();
+      });
+      empty.append(show);
+    }
+    rendered.push(empty);
+  }
+  $('activity-list').replaceChildren(...rendered);
+}
+function messageElement(row, event, tag = 'li') {
+    const item = node(tag, undefined, 'activity-event');
+    item.dataset.eventId = event.id;
     const heading = node('div', undefined, 'event-heading');
     const observed = event.kind === 'head_update';
     const actor = node('strong', observed ? 'Dashboard observation' : event.actor.login);
-    if (!observed) actor.append(node('span', actorLabels[event.actor.classification], 'actor-label'));
     const time = node('time', date(event.date));
     time.dateTime = event.date;
-    heading.append(actor, time);
-    const action = `${eventAction(event)}${event.kind === 'review' && event.headSha && event.headSha !== row.headSha ? ' / earlier head' : ''}${event.date !== event.updatedAt ? ` / edited ${date(event.updatedAt)}` : ''}`;
-    item.append(heading, node('p', action, 'event-action'));
+    heading.append(actor);
+    if (!observed) heading.append(node('span', actorLabels[event.actor.classification], 'actor-label'));
+    const action = `${eventAction(event)}${event.date !== event.updatedAt ? ` / edited ${date(event.updatedAt)}` : ''}`;
+    heading.append(node('span', action, `event-action${event.state === 'CHANGES_REQUESTED' ? ' requested' : event.state === 'APPROVED' ? ' approved' : ''}`), time);
+    if (event.kind === 'review' && event.headSha && event.headSha !== row.headSha) heading.append(node('span', 'Earlier head', 'signal earlier-review'));
+    const source = link('Source \u2197', event.url, 'event-source');
+    source.dataset.focusKey = `source:${key(row)}:${event.id}`;
+    heading.append(source);
+    item.append(heading);
     if (event.body) {
       const message = node('div', undefined, 'event-body markdown-body');
       formatMessage(message, event.body, event.url);
@@ -331,34 +338,14 @@ function renderActivity(row = selectedRow()) {
     if (observed) item.append(node('p', event.previousHeadSha ?
       `Observed ${event.previousHeadSha.slice(0, 8)} → ${event.headSha.slice(0, 8)}. This is an observation time, not a claimed push time.` :
       `First recorded head: ${event.headSha.slice(0, 8)}. This establishes a baseline; it does not mean the branch changed at this time.`, 'event-body'));
-    const source = link('Original source \u2197', event.url, 'event-source');
-    source.dataset.focusKey = `source:${key(row)}:${event.id}`;
-    item.append(source);
     return item;
-  });
-  if (!rendered.length) {
-    const empty = node('li', undefined, 'activity-empty');
-    empty.append(node('p', emptyMessage));
-    if (hiddenAutomation) {
-      const show = node('button', `Show ${hiddenAutomation} automated event${hiddenAutomation === 1 ? '' : 's'}`);
-      show.type = 'button';
-      show.id = 'show-automation';
-      show.addEventListener('click', () => {
-        $('include-bots').checked = true;
-        renderActivity();
-        $('include-bots').focus();
-      });
-      empty.append(show);
-    }
-    rendered.push(empty);
-  }
-  $('activity-list').replaceChildren(...rendered);
 }
 function render() {
   document.body.classList.remove('unavailable');
   const token = focusToken();
   const rows = currentRows();
   $('overview').textContent = `${rows.length} selected PRs / ${new Set(rows.map(row => `${row.owner}/${row.repo}`)).size} repositories`;
+  $('pr-count').textContent = rows.length;
   for (const element of document.querySelectorAll('[data-count]')) element.textContent = inboxRows(rows, { view: element.dataset.count }).length;
   $('loading').hidden = true;
   $('unavailable').hidden = true;
@@ -367,21 +354,33 @@ function render() {
     const block = node('blockquote', quote.body); block.cite = quote.source;
     const caption = node('figcaption');
     const source = link('Original review \u2197', quote.source); source.dataset.focusKey = `quote:${quote.source}`;
-    caption.append(node('strong', quote.author), node('span', `${quote.role} / ${quote.project}`), node('br'), node('span', shortDate(quote.date)), node('br'), source);
+    caption.append(node('strong', quote.author), node('span', `${quote.role} · ${quote.project}`), node('span', shortDate(quote.date)), source);
     figure.append(block, caption);
     return figure;
   }));
   if (!data.quotes.length) $('quotes').append(node('p', 'No source-verified quotation is available.'));
-  if (!selectedKey) {
-    const requested = new URL(location.href).searchParams.get('pr');
-    if (rows.some(row => key(row) === requested)) {
-      selectedKey = requested;
-      document.querySelector('.inbox-shell').classList.add('detail-open');
-      document.body.classList.add('reading');
-      returnFocusKey = `row:${requested}`;
-    }
+  renderWorkspace();
+  if (!selectedRow() && route.tab !== 'help') renderRows();
+  else $('rows').replaceChildren();
+  renderDetail(); renderFreshness(); restoreFocus(token);
+}
+function renderWorkspace() {
+  const reading = !!selectedRow();
+  document.body.classList.toggle('reading', reading);
+  $('collection').hidden = reading || route.tab === 'help';
+  $('detail').hidden = !reading;
+  $('about').hidden = reading || route.tab !== 'help';
+  $('route-warning').hidden = !data || !selectedKey || reading;
+  $('route-warning').textContent = 'This PR is not in the published collection. Browse the available contributions instead.';
+  const title = { prs: 'Pull requests', activity: 'Activity', feedback: 'Feedback', help: 'Help' }[route.tab];
+  $('page-heading').textContent = title;
+  $('page-heading').hidden = reading;
+  document.title = `${reading ? `${selectedRow().project} #${selectedRow().number}` : title} · LeulTew`;
+  for (const anchor of document.querySelectorAll('[data-tab]')) {
+    if (anchor.dataset.tab === route.tab) anchor.setAttribute('aria-current', 'page');
+    else anchor.removeAttribute('aria-current');
+    anchor.href = `${location.pathname}${routeQuery({ ...route, tab: anchor.dataset.tab, pr: null, page: 1 })}`;
   }
-  renderRows(); renderDetail(); renderFreshness(); restoreFocus(token);
 }
 async function getJSON(path, signal) {
   const response = await fetch(new URL(path, import.meta.url), { cache: 'no-store', signal, credentials: 'omit', redirect: 'error' });
@@ -432,7 +431,8 @@ async function refresh() {
       $('loading').hidden = true; $('unavailable').hidden = false;
       $('overview').textContent = 'No verified snapshot';
       $('freshness').textContent = 'Unable to load verified data'; $('results').textContent = 'No snapshot loaded';
-      $('data-warning').textContent = sourceWarning; $('data-warning').hidden = false;
+      $('data-warning').textContent = 'No verified snapshot could be loaded. Reload or open the original PR links.'; $('data-warning').hidden = false;
+      renderWorkspace();
     }
   } finally {
     clearTimeout(timeout);
@@ -468,62 +468,53 @@ async function refreshSelected() {
     if (attempt === directGeneration) { directController = null; render(); }
   }
 }
-function clearFilters() { $('filters').reset(); selectedView = 'all'; renderRows(); }
+function clearFilters() { navigate({ ...DEFAULT_ROUTE, tab: route.tab }); }
 $('filters').addEventListener('submit', event => event.preventDefault());
-$('signal-field').addEventListener('keydown', event => {
-  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.isComposing) return;
-  const buttons = [...$('signal-field').querySelectorAll('button')];
-  const columns = getComputedStyle($('signal-field')).gridTemplateColumns.split(' ').length;
-  const target = signalNeighbor(buttons.indexOf(event.target), buttons.length, columns, event.key);
-  if (target !== null) { event.preventDefault(); buttons[target].focus(); }
-});
-for (const [id, event] of [['search', 'input'], ['ci-filter', 'change'], ['sort', 'change'], ['feed-bots', 'change']]) $(id).addEventListener(event, renderRows);
+for (const [id, property, event] of [['search', 'search', 'input'], ['ci-filter', 'ci', 'change'], ['sort', 'sort', 'change'], ['review-filter', 'view', 'change'], ['feed-kind', 'kind', 'change'], ['activity-kind', 'kind', 'change']]) {
+  $(id).addEventListener(event, () => navigate({ ...route, [property]: $(id).value, page: 1 }, { replace: true }));
+}
+for (const id of ['feed-bots', 'include-bots']) $(id).addEventListener('change', () => navigate({ ...route, automation: $(id).checked, page: 1 }, { replace: true }));
 document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
-  selectedView = button.dataset.view;
-  document.querySelector('.inbox-shell').classList.remove('detail-open');
-  document.body.classList.remove('reading');
-  renderRows();
+  navigate({ ...route, view: button.dataset.view, pr: null, page: 1 });
 }));
 $('clear').addEventListener('click', clearFilters);
 $('empty-clear').addEventListener('click', () => { clearFilters(); $('search').focus(); });
 $('refresh').addEventListener('click', refresh);
 $('refresh-selected').addEventListener('click', refreshSelected);
-$('include-bots').addEventListener('change', () => renderActivity());
-$('activity-kind').addEventListener('change', () => renderActivity());
-$('open-context').addEventListener('click', () => {
-  const context = document.querySelector('.context-box');
-  context.open = !context.open;
-  if (context.open) context.querySelector('summary').focus();
-});
-document.querySelector('.context-box').addEventListener('toggle', event => {
-  $('open-context').setAttribute('aria-expanded', String(event.target.open));
-  if (!event.target.open && event.target.contains(document.activeElement)) $('open-context').focus();
-});
-document.querySelectorAll('[data-panel]').forEach(link => link.addEventListener('click', event => {
+document.querySelectorAll('[data-tab]').forEach(anchor => anchor.addEventListener('click', event => {
+  if (event.button || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) return;
   event.preventDefault();
-  if (link.dataset.panel === 'feedback' && document.body.classList.contains('reading')) returnToList();
-  const panel = $(link.dataset.panel);
-  panel.open = true;
-  panel.querySelector('summary').focus();
-  panel.scrollIntoView({ block: 'start' });
+  navigate({ ...route, tab: anchor.dataset.tab, pr: null, page: 1 }, { focus: true });
 }));
 function returnToList() {
-  directController?.abort(); ++directGeneration; directController = null;
-  document.querySelector('.inbox-shell').classList.remove('detail-open');
-  document.body.classList.remove('reading');
-  const url = new URL(location.href); url.searchParams.delete('pr');
-  history.replaceState(null, '', url);
-  renderRows();
-  restoreFocus(returnFocusKey ?? `row:${selectedKey}`);
-  window.scrollTo(0, returnScroll);
+  if (history.state?.fromList) history.back();
+  else {
+    const token = returnFocusKey ?? `row:${selectedKey}`;
+    navigate({ ...route, pr: null }, { replace: true });
+    restoreFocus(token);
+    window.scrollTo(0, returnScroll);
+  }
 }
+window.addEventListener('popstate', () => {
+  directController?.abort(); ++directGeneration; directController = null;
+  route = readRoute(location.search);
+  applyRoute();
+  if (data) render();
+  else renderWorkspace();
+  restoreFocus(history.state?.focus);
+  window.scrollTo(0, history.state?.scroll ?? 0);
+});
 $('back-to-list').addEventListener('click', returnToList);
 for (const [id, direction] of [['previous-pr', 'previous'], ['next-pr', 'next']]) $(id).addEventListener('click', () => {
   const target = navigationPosition(filteredRows(), selectedKey, key)[direction];
-  if (target) selectContribution(target);
+  if (target) selectContribution(target, { replace: true });
+});
+for (const [id, delta] of [['feed-previous', -1], ['feed-next', 1]]) $(id).addEventListener('click', () => {
+  const feed = workspaceFeed(filteredRows(), route);
+  navigate({ ...route, page: feed.page + delta }, { focus: true });
 });
 document.addEventListener('keydown', event => {
-  if (acceptsSearchShortcut(event, document.body.classList.contains('reading'))) {
+  if (acceptsSearchShortcut(event, document.body.classList.contains('reading') || route.tab === 'help')) {
     event.preventDefault(); $('search').focus();
   } else if (event.key === 'Escape' && document.body.classList.contains('reading') &&
       !['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target?.tagName)) {
@@ -558,4 +549,6 @@ window.addEventListener('offline', renderFreshness);
 window.addEventListener('online', refresh);
 setInterval(() => { if (!document.hidden) renderFreshness(); }, 60000);
 schedule();
+applyRoute();
+renderWorkspace();
 refresh();

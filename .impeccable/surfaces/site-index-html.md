@@ -2,27 +2,33 @@
 version: 1
 slug: "site-index-html"
 primary_target: "site/index.html"
-related_targets: ["site/style.css","site/app.mjs","site/ui.mjs","site/markdown.mjs"]
+related_targets: ["site/style.css","site/app.mjs","site/workspace.mjs","site/ui.mjs","site/markdown.mjs"]
 ---
 
-Mode: Operate for collection and activity; Read for selected-PR inspection.
+Mode: Operate for PRs and Activity; Read for Feedback, selected-PR conversation and Help.
 
-Audience and task: the contributor and visitors interpreting a selected public campaign. Search real work, distinguish independent evidence, inspect original sources, and return to the same filtered place.
+Audience and task: the contributor and visitors inspecting selected public work. Find a change, distinguish independent evidence, read its actual discussion, open its source and return to the same place.
 
-Direction: Signal Bench, rendered alternative B chosen autonomously after a three-world comparison. This is neither user approval nor a seed assignment. The neutral/light-first administrative candidate and ledger are not visual authority. The implemented world is deep pine/charcoal with mint featured work, ivory reading contrast and ochre qualifications, not simulated hardware.
+Direction: user-pinned GitHub/Primer-like category canon, implemented originally without affiliation. Neutral white/slate/charcoal surfaces, system typography, blue links and categorical green/purple/red/amber marks. No seed, concept tournament, hero, mosaic or featured PR.
 
-First viewport: masthead search and a strong title lead into a real per-PR mosaic beside an asymmetric contribution index. The first filtered index result spans both index columns as a mint reading surface; later entries are open stations. Counts come from actual records. No fixed campaign count, score or decorative activity drives the field.
+First viewport: compact repository identity and native Theme disclosure above PRs, Activity, Feedback and Help navigation. Modest heading, snapshot status and search/filter controls precede one bordered PR list. Every matching PR appears once. Counts derive from the catalog and current records; no hardcoded campaign count, score or decorative activity.
 
-Mosaic: each native button identifies one filtered PR and carries separate PR/review/CI text-symbol-color marks. Stale age is separate. Earlier-head approval and change requests retain their actual tone and add `+~` or `!~`; entries and inspector use an additional Earlier head label. Arrows follow the actual grid width; Home/End reach its ends.
+Routes: native links carry shareable tab/filter state and canonical `?pr=` identity. Tabs, state buttons, selection and feed pages push history. Input filters, automation toggles and previous/next PR replace it. Search terms combine with AND, alongside state/review, CI and sort; Reset retains the current tab. Browser Back restores saved focus and scroll. Previous/next follows filtered PRs. Slash focuses search outside inspection/Help without interrupting editable controls; Escape leaves inspection outside inputs, textareas and selects.
 
-Responsive structure: desktop has a sticky five-column mosaic beside the index. At 1200px it uses four tile columns; at 1000px the collection stacks and returns to five; at 700px it uses three, and at 480px two. Bounded field scrolling and, at 700px and below, horizontally scrolling tabs remain local. At 700px the index becomes one column and the inspector stacks. Reset stays beside search; controls retain at least 44px targets.
+PRs: one shared frame and divided rows show a contribution summary, repository/number, independent PR/review/CI signals and dates. Earlier-head reviews retain their actual decision color with a neutral qualifier. Stale age stays neutral, including stale-only global notices; genuine failures/unavailable histories remain explicit. The short Gin race qualification is visible rather than buried.
 
-Inspection: large project identity and actual PR title sit beside independent evidence. The visible Gin race qualification crosses the inspection surface. Conversation and its evidence record are separate desktop columns; the evidence record follows discussion on mobile. Source/refresh actions, exact observation dates, historical/stale/gated qualifications and actor categories remain explicit. Initial-head baselines are metadata, not timeline events.
+Activity and Feedback: both paginate ten entries. Activity shows concise source-linked events; Feedback shows full actual comments, submitted reviews and inline review comments, with safe Markdown, Original text and source links. Automation is hidden by default and can be included. Unclassified actors are not called human. The current schema is a flat timeline: never invent parent/reply relationships. Baseline head metadata does not become an activity event.
 
-Discussion: safe Markdown headings, lists, quotations, tables, code and disclosures improve reading without changing message bodies or hashes. Marked output passes through a pure parse5 AST and strict DOM allowlist, never innerHTML/DOMParser. Original text and source remain available. HTML comments are hidden outside literal code; links require safe HTTPS, and images/embeds do not load automatically. Character/node/render-depth limits and per-message parser failures remain visible, including possible deep-quotation RangeError failures.
+Scoped quotation: Feedback alone contains the initially closed Featured review · Chi disclosure. Preserve the exact curated quotation and its attribution/permalink; it applies only to that contribution, not the whole campaign.
 
-Theme and motion: dark is intentional on first visit; explicit Light/Dark/System choices persist. System follows OS preference. Local Bahnschrift/Aptos/Helvetica Neue/Arial typography uses 14px operational text and 16px discussion text. Native control and collection-content transitions run for 180ms; reduced-motion updates are instant. No animation framework or copied component effect defines the world.
+Inspection: actual PR title and independent signals precede the conversation. Open on GitHub and Refresh discussion remain explicit; the important Gin qualification stays visible. Details & checks collapses deeper summary, dated context, observation times, baseline and check evidence. Direct refresh observes PR/discussion separately and never advances CI.
 
-Supporting states: feedback, help, empty, loading, stale and unavailable states share the materials. All-snapshot failure hides inert controls and removes loading labels. Exact Chi praise stays collection-only and source-linked. The Markdown dependency exception is deliberate and documented; there is no UI framework or bundler.
+Responsive structure: main width is bounded at 1216px. At 800px the conversation/context columns stack, with collapsed context before discussion. At 480px search takes a full row, state controls remain a single compact row, decorative nav icons and trailing row counts disappear, and source actions fill the width. Redundant unfiltered result counts remain accessible without extending the visible mobile stack. Long prose wraps; code and tables scroll locally. Native controls retain 44px minimum targets.
 
-Product/data boundaries and refresh guarantees remain in PRODUCT.md and README.md. This source-based description records implementation, not a score, award or complete artistic approval.
+Theme and motion: dark first visit, saved Light/Dark/System preference when storage works, System follows OS. Native Theme disclosure contains the three choices. System UI text is generally 14px, messages 16px, with compact code/counter exceptions. Only button/link background, border and text color transition for 150ms ease-out; no view animation. Reduced motion removes transitions and animation.
+
+Help and failure: Help stays in primary navigation and remains readable even if every JSON load fails. It explains status semantics, polling, anonymous API limits, privacy, sources, formatting and licenses. All-snapshot failure hides inert search/filter controls and loading claims rather than pretending evidence is empty or successful. No upstream mutation is offered.
+
+Discussion safety: pinned self-hosted marked output passes through a pure parse5 AST and a strict DOM allowlist, never innerHTML/DOMParser. Exact bodies, hashes and source remain intact. Images/embeds never autoload; links require safe HTTPS. Formatting limits and per-message parser exceptions remain visible while original text stays available.
+
+Product/data guarantees, dependency versions, installation and refresh budgets remain in PRODUCT.md and README.md. This contract records implemented structure, not an award, optimization score or approval claim.

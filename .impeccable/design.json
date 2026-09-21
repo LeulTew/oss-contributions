@@ -1,185 +1,146 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-20T22:32:25.951Z",
-  "title": "Design System: Signal Bench",
+  "generatedAt": "2026-09-21T08:15:00Z",
+  "title": "Design System: Contribution workspace",
   "extensions": {
     "colorMeta": {
-      "feature": { "role": "primary", "displayName": "Mint Featured Work" },
-      "accent": { "role": "primary", "displayName": "Ochre Action" },
-      "ground": { "role": "neutral", "displayName": "Deep Pine Ground" },
-      "paper": { "role": "neutral", "displayName": "Dark Reading Surface" },
-      "ink": { "role": "neutral", "displayName": "Ivory Reading Text" },
-      "board": { "role": "neutral", "displayName": "Pine Signal Board" },
-      "light-paper": { "role": "neutral", "displayName": "Ivory Light Reading Surface" },
-      "review": { "displayName": "Approval Evidence" },
-      "request": { "displayName": "Change-Request Evidence" }
+      "bg": { "role": "neutral", "displayName": "Charcoal Canvas", "tonalRamp": ["oklch(15% .015 255)", "oklch(26% .015 255)", "oklch(38% .015 255)", "oklch(49% .015 255)", "oklch(61% .015 255)", "oklch(72% .015 255)", "oklch(84% .015 255)", "oklch(95% .015 255)"] },
+      "subtle": { "role": "neutral", "displayName": "Dark Subtle Surface", "tonalRamp": ["oklch(15% .02 255)", "oklch(26% .02 255)", "oklch(38% .02 255)", "oklch(49% .02 255)", "oklch(61% .02 255)", "oklch(72% .02 255)", "oklch(84% .02 255)", "oklch(95% .02 255)"] },
+      "hover": { "role": "neutral", "displayName": "Dark Hover Surface", "tonalRamp": ["oklch(15% .018 255)", "oklch(26% .018 255)", "oklch(38% .018 255)", "oklch(49% .018 255)", "oklch(61% .018 255)", "oklch(72% .018 255)", "oklch(84% .018 255)", "oklch(95% .018 255)"] },
+      "text": { "role": "neutral", "displayName": "Dark Reading Text", "tonalRamp": ["oklch(15% .01 250)", "oklch(26% .01 250)", "oklch(38% .01 250)", "oklch(49% .01 250)", "oklch(61% .01 250)", "oklch(72% .01 250)", "oklch(84% .01 250)", "oklch(95% .01 250)"] },
+      "muted": { "role": "neutral", "displayName": "Dark Metadata", "tonalRamp": ["oklch(15% .02 250)", "oklch(26% .02 250)", "oklch(38% .02 250)", "oklch(49% .02 250)", "oklch(61% .02 250)", "oklch(72% .02 250)", "oklch(84% .02 250)", "oklch(95% .02 250)"] },
+      "border": { "role": "neutral", "displayName": "Dark Slate Divider", "tonalRamp": ["oklch(15% .018 250)", "oklch(26% .018 250)", "oklch(38% .018 250)", "oklch(49% .018 250)", "oklch(61% .018 250)", "oklch(72% .018 250)", "oklch(84% .018 250)", "oklch(95% .018 250)"] },
+      "strong-border": { "role": "neutral", "displayName": "Dark Strong Divider", "tonalRamp": ["oklch(15% .018 255)", "oklch(26% .018 255)", "oklch(38% .018 255)", "oklch(49% .018 255)", "oklch(61% .018 255)", "oklch(72% .018 255)", "oklch(84% .018 255)", "oklch(95% .018 255)"] },
+      "link": { "role": "primary", "displayName": "Dark Link Blue", "tonalRamp": ["oklch(15% .11 245)", "oklch(26% .11 245)", "oklch(38% .11 245)", "oklch(49% .11 245)", "oklch(61% .11 245)", "oklch(72% .11 245)", "oklch(84% .11 245)", "oklch(95% .11 245)"] },
+      "green": { "role": "secondary", "displayName": "Dark Status Green", "tonalRamp": ["oklch(15% .18 145)", "oklch(26% .18 145)", "oklch(38% .18 145)", "oklch(49% .18 145)", "oklch(61% .18 145)", "oklch(72% .18 145)", "oklch(84% .18 145)", "oklch(95% .18 145)"] },
+      "purple": { "role": "secondary", "displayName": "Dark Merged Purple", "tonalRamp": ["oklch(15% .13 300)", "oklch(26% .13 300)", "oklch(38% .13 300)", "oklch(49% .13 300)", "oklch(61% .13 300)", "oklch(72% .13 300)", "oklch(84% .13 300)", "oklch(95% .13 300)"] },
+      "red": { "role": "secondary", "displayName": "Dark Status Red", "tonalRamp": ["oklch(15% .16 27)", "oklch(26% .16 27)", "oklch(38% .16 27)", "oklch(49% .16 27)", "oklch(61% .16 27)", "oklch(72% .16 27)", "oklch(84% .16 27)", "oklch(95% .16 27)"] },
+      "amber": { "role": "secondary", "displayName": "Dark Qualification Amber", "tonalRamp": ["oklch(15% .14 85)", "oklch(26% .14 85)", "oklch(38% .14 85)", "oklch(49% .14 85)", "oklch(61% .14 85)", "oklch(72% .14 85)", "oklch(84% .14 85)", "oklch(95% .14 85)"] },
+      "warning": { "role": "neutral", "displayName": "Dark Warning Surface", "tonalRamp": ["oklch(15% .025 85)", "oklch(26% .025 85)", "oklch(38% .025 85)", "oklch(49% .025 85)", "oklch(61% .025 85)", "oklch(72% .025 85)", "oklch(84% .025 85)", "oklch(95% .025 85)"] },
+      "light-bg": { "role": "neutral", "displayName": "White Canvas", "tonalRamp": ["oklch(15% 0 0)", "oklch(26% 0 0)", "oklch(38% 0 0)", "oklch(49% 0 0)", "oklch(61% 0 0)", "oklch(72% 0 0)", "oklch(84% 0 0)", "oklch(95% 0 0)"] },
+      "light-subtle": { "role": "neutral", "displayName": "Light Subtle Surface", "tonalRamp": ["oklch(15% .004 250)", "oklch(26% .004 250)", "oklch(38% .004 250)", "oklch(49% .004 250)", "oklch(61% .004 250)", "oklch(72% .004 250)", "oklch(84% .004 250)", "oklch(95% .004 250)"] },
+      "light-hover": { "role": "neutral", "displayName": "Light Hover Surface", "tonalRamp": ["oklch(15% .006 250)", "oklch(26% .006 250)", "oklch(38% .006 250)", "oklch(49% .006 250)", "oklch(61% .006 250)", "oklch(72% .006 250)", "oklch(84% .006 250)", "oklch(95% .006 250)"] },
+      "light-text": { "role": "neutral", "displayName": "Light Reading Text", "tonalRamp": ["oklch(15% .014 255)", "oklch(26% .014 255)", "oklch(38% .014 255)", "oklch(49% .014 255)", "oklch(61% .014 255)", "oklch(72% .014 255)", "oklch(84% .014 255)", "oklch(95% .014 255)"] },
+      "light-muted": { "role": "neutral", "displayName": "Light Metadata", "tonalRamp": ["oklch(15% .023 250)", "oklch(26% .023 250)", "oklch(38% .023 250)", "oklch(49% .023 250)", "oklch(61% .023 250)", "oklch(72% .023 250)", "oklch(84% .023 250)", "oklch(95% .023 250)"] },
+      "light-border": { "role": "neutral", "displayName": "Light Slate Divider", "tonalRamp": ["oklch(15% .014 250)", "oklch(26% .014 250)", "oklch(38% .014 250)", "oklch(49% .014 250)", "oklch(61% .014 250)", "oklch(72% .014 250)", "oklch(84% .014 250)", "oklch(95% .014 250)"] },
+      "light-strong-border": { "role": "neutral", "displayName": "Light Strong Divider", "tonalRamp": ["oklch(15% .019 250)", "oklch(26% .019 250)", "oklch(38% .019 250)", "oklch(49% .019 250)", "oklch(61% .019 250)", "oklch(72% .019 250)", "oklch(84% .019 250)", "oklch(95% .019 250)"] },
+      "light-link": { "role": "primary", "displayName": "Light Link Blue", "tonalRamp": ["oklch(15% .19 257)", "oklch(26% .19 257)", "oklch(38% .19 257)", "oklch(49% .19 257)", "oklch(61% .19 257)", "oklch(72% .19 257)", "oklch(84% .19 257)", "oklch(95% .19 257)"] },
+      "light-green": { "role": "secondary", "displayName": "Light Status Green", "tonalRamp": ["oklch(15% .14 145)", "oklch(26% .14 145)", "oklch(38% .14 145)", "oklch(49% .14 145)", "oklch(61% .14 145)", "oklch(72% .14 145)", "oklch(84% .14 145)", "oklch(95% .14 145)"] },
+      "light-purple": { "role": "secondary", "displayName": "Light Merged Purple", "tonalRamp": ["oklch(15% .21 295)", "oklch(26% .21 295)", "oklch(38% .21 295)", "oklch(49% .21 295)", "oklch(61% .21 295)", "oklch(72% .21 295)", "oklch(84% .21 295)", "oklch(95% .21 295)"] },
+      "light-red": { "role": "secondary", "displayName": "Light Status Red", "tonalRamp": ["oklch(15% .21 27)", "oklch(26% .21 27)", "oklch(38% .21 27)", "oklch(49% .21 27)", "oklch(61% .21 27)", "oklch(72% .21 27)", "oklch(84% .21 27)", "oklch(95% .21 27)"] },
+      "light-amber": { "role": "secondary", "displayName": "Light Qualification Amber", "tonalRamp": ["oklch(15% .12 78)", "oklch(26% .12 78)", "oklch(38% .12 78)", "oklch(49% .12 78)", "oklch(61% .12 78)", "oklch(72% .12 78)", "oklch(84% .12 78)", "oklch(95% .12 78)"] },
+      "light-warning": { "role": "neutral", "displayName": "Light Warning Surface", "tonalRamp": ["oklch(15% .07 102)", "oklch(26% .07 102)", "oklch(38% .07 102)", "oklch(49% .07 102)", "oklch(61% .07 102)", "oklch(72% .07 102)", "oklch(84% .07 102)", "oklch(95% .07 102)"] },
+      "accent": { "role": "primary", "displayName": "Navigation Coral", "tonalRamp": ["oklch(15% .14 35)", "oklch(26% .14 35)", "oklch(38% .14 35)", "oklch(49% .14 35)", "oklch(61% .14 35)", "oklch(72% .14 35)", "oklch(84% .14 35)", "oklch(95% .14 35)"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Workstation Title", "purpose": "Desktop page title; responsive sizes remain in the stylesheet." },
-      "discussion": { "displayName": "Public Discussion", "purpose": "Readable source-preserving Markdown, maximum 72ch." },
-      "code": { "displayName": "Literal Code", "purpose": "Locally scrollable formatted code and wrapped original-text disclosure." }
+      "headline": { "displayName": "Workspace Heading", "purpose": "Modest page, help and empty-state headings." },
+      "title": { "displayName": "PR and Conversation Title", "purpose": "Semibold reading anchors; PR links become 15px on narrow screens." },
+      "body": { "displayName": "Operational Text", "purpose": "Controls, metadata and status labels." },
+      "discussion": { "displayName": "Message Body", "purpose": "Full public messages without excerpt clipping." },
+      "code": { "displayName": "Literal Code", "purpose": "Local scrolling for code; wrapped original text." }
     },
     "shadows": [
-      { "name": "featured-offset", "value": "0 5px 0 #6d927b", "purpose": "Solid lower edge on the first filtered contribution." },
-      { "name": "discussion-offset", "value": "0 4px 0 var(--soft)", "purpose": "Discussion reading-surface separation." }
+      { "name": "anchored-menu", "value": "0 8px 24px #0002", "purpose": "Theme and Filters overlays only." },
+      { "name": "theme-selected", "value": "inset 0 -2px var(--link)", "purpose": "Pressed theme choice, not card elevation." }
     ],
     "motion": [
-      { "name": "control-color", "value": "180ms ease-out", "purpose": "Native button/link background, border and text-color transitions." },
-      { "name": "collection-content", "value": "180ms cubic-bezier(.16,1,.3,1)", "purpose": "Opacity .65 to 1 on collection-view change; distinct keyframe names restart the transition." },
-      { "name": "reduced-motion", "value": "animation:none; transition:none; scroll-behavior:auto", "purpose": "Instant state changes under prefers-reduced-motion:reduce." }
+      { "name": "control-color", "value": "150ms ease-out", "purpose": "Button/link background-color, border-color and color; no view animation." },
+      { "name": "reduced-motion", "value": "animation:none; transition:none; scroll-behavior:auto", "purpose": "Immediate updates for reduced-motion preference." }
     ],
     "breakpoints": [
-      { "name": "wide-min", "value": "1537px" },
-      { "name": "desktop-max", "value": "1200px" },
-      { "name": "stacked-collection-max", "value": "1000px" },
-      { "name": "mobile-reader-max", "value": "700px" },
-      { "name": "two-tile-columns-max", "value": "480px" },
-      { "name": "compact-max", "value": "359px" }
+      { "name": "stacked-max", "value": "800px" },
+      { "name": "narrow-max", "value": "480px" }
     ],
-    "sourceAuthority": {
-      "stylesheet": "site/style.css",
-      "directionContract": "site/index.html",
-      "behavior": ["site/app.mjs", "site/ui.mjs", "site/markdown.mjs"],
-      "product": "PRODUCT.md",
-      "surface": ".impeccable/surfaces/site-index-html.md",
-      "selection": "Rendered alternative B chosen autonomously; not user approval or a seed assignment."
-    },
+    "focus": { "outline": "2px solid var(--link)", "offset": "3px" },
     "themeBehavior": {
       "firstVisit": "dark, independent of OS preference",
-      "storedPreferences": ["light", "dark", "system"],
-      "storageFailure": "Current-tab choice remains usable; no persistence is promised.",
-      "tokenMapping": "Unprefixed frontmatter theme colors describe dark; light-* entries describe matching light overrides. CSS variables keep their unprefixed names.",
-      "componentMaterials": "Board/tile and mint feature families remain stable across themes; featured entries and compact evidence marks have source-defined local color treatments."
+      "choices": ["light", "dark", "system"],
+      "storageFailure": "Current-tab choice remains usable; persistence is not promised.",
+      "tokenMapping": "Unprefixed frontmatter colors are dark; light-* are light overrides. CSS variables remain unprefixed in both themes."
     },
-    "evidenceSemantics": {
-      "signals": ["lifecycle", "review", "CI"],
-      "combinedScore": false,
-      "counts": "Derived from catalog and filtered records.",
-      "baseline": "Initial-head metadata, not an activity event.",
-      "review": "Earlier approvals/change requests retain their real status tone and use +~/!~ on tiles; index and inspector add a separate Earlier head label.",
-      "age": "Stale observation age remains separate from status.",
-      "caveat": "Gin race qualification stays visible outside disclosures.",
-      "quotation": "Exact Chi feedback remains collection-only."
-    },
-    "responsiveBehavior": {
-      "desktop": "Five-column mosaic beside a 1.08:1 asymmetric collection layout. First index result spans both index columns.",
-      "at1200": "Four tile columns; equal collection columns.",
-      "at1000": "Collection stacks; five tile columns and 244px field scroll cap.",
-      "at700": "Three tile columns, one-column index, horizontal local tab scroll, vertical inspector.",
-      "at480": "Two tile columns and 218px field scroll cap.",
-      "at359": "Field heading and filter fields stack.",
-      "keyboard": "Arrows use the current computed grid width; Home/End reach field ends."
-    },
-    "discussionPolicy": {
-      "pipeline": "marked -> pure parse5 AST -> strict allowlisted DOM",
-      "insertion": "No innerHTML or DOMParser.",
-      "source": "Body and hash unchanged; Original text and Original source retained.",
-      "links": "HTTPS without credentials; relative links resolve against the source.",
-      "comments": "HTML comments hidden outside literal code.",
-      "media": "No automatic image or embed loads.",
-      "limits": { "characters": 100000, "nodes": 10000, "renderDepth": 128 },
-      "failure": "Visible per-message failures and limits; deep-quotation RangeError remains possible because parsing precedes node/depth enforcement.",
-      "loading": "Pinned self-hosted parsers load lazily for discussion; maintenance, license and cost details live in README.md."
-    },
-    "scope": "Source extraction only; no backend, data model, live refresh, activity, author or CI guarantee changes. No artistic score or approval claim.",
-    "extractionLimits": [
-      "No synthesized tonal ramps or invented scales.",
-      "Component previews are static, source-derived examples; application event wiring remains in the UI modules."
-    ]
+    "rampPolicy": "Synthesized OKLCH preview ramps are illustrative metadata, not shipped palette additions. DESIGN.md hex primitives remain normative.",
+    "sourceAuthority": {
+      "stylesheet": "site/style.css",
+      "structure": "site/index.html",
+      "behavior": ["site/app.mjs", "site/workspace.mjs"],
+      "product": "PRODUCT.md",
+      "surface": ".impeccable/surfaces/site-index-html.md",
+      "direction": "User-pinned GitHub/Primer-like category standard; original implementation, no affiliation."
+    }
   },
   "components": [
     {
-      "name": "Native Button",
+      "name": "Native action",
       "kind": "button",
       "refersTo": "button",
-      "description": "Soft native control with selected hover, focus outline and active press.",
+      "description": "Neutral action with a 44px minimum target.",
       "html": "<button class=\"ds-button\" type=\"button\">Reload</button>",
-      "css": ".ds-button{font:500 14px/1.4 Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif;min-height:44px;border:1px solid transparent;border-radius:3px;padding:10px 14px;background:var(--soft,#294d3e);color:var(--ink,#eef5e5);cursor:pointer}.ds-button:hover{background:var(--selected,#355b44)}.ds-button:focus-visible{outline:3px solid var(--focus,#f2d57b);outline-offset:4px}.ds-button:active:not(:disabled){transform:translateY(1px)}.ds-button:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 180ms ease-out,border-color 180ms ease-out,color 180ms ease-out}}"
+      "css": ".ds-button{font:500 14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;min-height:44px;padding:8px 12px;border:1px solid var(--border,#3d444d);border-radius:6px;color:var(--text,#f0f6fc);background:var(--subtle,#151b23);cursor:pointer}.ds-button:hover{background:var(--hover,#212830);border-color:var(--strong-border,#656c76)}.ds-button:focus-visible{outline:2px solid var(--link,#79c0ff);outline-offset:3px}.ds-button:disabled{opacity:.5;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){.ds-button{transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out}}@media(prefers-reduced-motion:reduce){.ds-button{transition:none;animation:none}}"
     },
     {
-      "name": "Original Source Action",
-      "kind": "button",
-      "refersTo": "source-action",
-      "description": "Ochre source link with the original external-link SVG grammar.",
-      "html": "<a class=\"ds-source\" href=\"https://github.com/LeulTew/oss-contributions\">Open source<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M14 3h7v7\"/><path d=\"m21 3-11 11\"/><path d=\"M10 3H3v18h18v-7\"/></svg></a>",
-      "css": ".ds-source{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:44px;padding:11px 18px;border-radius:3px;background:var(--accent,#eed078);color:var(--on-accent,#26351b);font:600 14px Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif;text-decoration:none}.ds-source svg{width:20px;height:20px}.ds-source:hover{background:#f8df98}.ds-source:focus-visible{outline:3px solid var(--focus,#f2d57b);outline-offset:4px}@media(prefers-reduced-motion:no-preference){.ds-source{transition:background-color 180ms ease-out,border-color 180ms ease-out,color 180ms ease-out}}"
-    },
-    {
-      "name": "Search and Reset",
+      "name": "Contribution search",
       "kind": "input",
-      "description": "Ivory search inset with Reset in the same row.",
-      "html": "<div class=\"ds-search\"><input type=\"search\" aria-label=\"Search contributions\" placeholder=\"Search projects or changes\"><button type=\"button\">Reset</button></div>",
-      "css": ".ds-search{display:flex;align-items:center;min-width:0;padding:0 6px 0 14px;border:1px solid #6c8a76;border-radius:3px;background:#f2f6e6;color:#173d32;font-family:Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-search input{flex:1;width:100%;min-width:0;min-height:48px;padding:8px 0;border:0;background:transparent;color:#173d32;font:inherit;font-size:16px}.ds-search input::placeholder{color:#466050;opacity:1}.ds-search button{min-width:52px;min-height:44px;margin-left:8px;padding:8px;border:1px solid transparent;border-radius:3px;background:transparent;color:#355342;font:500 14px/1.4 Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-search button:hover{background:#d7e5ce}.ds-search :focus-visible{outline:3px solid #315f37;outline-offset:1px}"
+      "refersTo": "search",
+      "description": "Canvas-backed native search with room for the inline search icon.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M10.5 3a7.5 7.5 0 1 0 4.8 13.3l4.7 4.7 1.4-1.4-4.7-4.7A7.5 7.5 0 0 0 10.5 3Zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z\"/></svg><input type=\"search\" aria-label=\"Search contributions\" placeholder=\"Search projects, titles or PR numbers\"></label>",
+      "css": ".ds-search{display:block;position:relative}.ds-search svg{position:absolute;left:12px;top:13px;width:18px;height:18px;fill:var(--muted,#919ba6);pointer-events:none}.ds-search input{font:14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;width:100%;min-height:44px;padding:10px 40px;border:1px solid var(--border,#3d444d);border-radius:6px;color:var(--text,#f0f6fc);background:var(--bg,#0d1117)}.ds-search input::placeholder{color:var(--muted,#919ba6);opacity:1}.ds-search input:focus-visible{outline:2px solid var(--link,#79c0ff);outline-offset:3px}"
     },
     {
-      "name": "Theme Choices",
+      "name": "Workspace navigation",
       "kind": "nav",
-      "description": "Explicit native Light/Dark/System choices; the first-visit state is Dark.",
-      "html": "<div class=\"ds-theme\" role=\"group\" aria-label=\"Color theme\"><button type=\"button\" aria-pressed=\"false\">Light</button><button type=\"button\" aria-pressed=\"true\">Dark</button><button type=\"button\" aria-pressed=\"false\">System</button></div>",
-      "css": ".ds-theme{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;padding:3px;border:1px solid var(--board-line,#67897a);border-radius:4px;background:var(--board,#153f36)}.ds-theme button{min-width:52px;min-height:44px;padding:8px;border:1px solid transparent;border-radius:3px;background:transparent;color:var(--board-ink,#f1f6e4);font:400 14px/1.4 Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-theme button:hover{background:var(--tile-hover,#30614e)}.ds-theme button[aria-pressed=true]{background:var(--feature,#c9dfc7);color:var(--feature-ink,#123c35);font-weight:600;border-color:#e6f2dc}.ds-theme button:focus-visible{outline:3px solid var(--accent,#eed078);outline-offset:1px;position:relative;z-index:1}"
+      "refersTo": "navigation",
+      "description": "Real destinations with an active underline, not decorative tabs.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace\"><a href=\"?tab=prs\" aria-current=\"page\">PRs</a><a href=\"?tab=activity\">Activity</a><a href=\"?tab=feedback\">Feedback</a><a href=\"?tab=help\">Help</a></nav>",
+      "css": ".ds-nav{display:flex;gap:8px;background:var(--subtle,#151b23);font:14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}.ds-nav a{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 14px;color:var(--text,#f0f6fc);border-bottom:2px solid transparent;text-decoration:none}.ds-nav a[aria-current=page]{font-weight:600;border-bottom-color:var(--accent,#fd8c73)}.ds-nav a:hover{background:var(--hover,#212830)}.ds-nav a:focus-visible{outline:2px solid var(--link,#79c0ff);outline-offset:3px}@media(max-width:480px){.ds-nav{gap:0}.ds-nav a{padding:8px;flex:1}}@media(prefers-reduced-motion:no-preference){.ds-nav a{transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out}}@media(prefers-reduced-motion:reduce){.ds-nav a{transition:none;animation:none}}"
     },
     {
-      "name": "Approval and Earlier Head",
+      "name": "Neutral age qualifier",
       "kind": "chip",
-      "refersTo": "review-approved",
-      "description": "Actual approval status and a separate earlier-head qualifier; neither is an action.",
-      "html": "<span class=\"ds-approved\">Approval recorded</span> <span class=\"ds-earlier\">Earlier head</span>",
-      "css": ".ds-approved,.ds-earlier{display:inline-flex;align-items:center;gap:6px;padding:3px 6px;border-radius:2px;font:400 14px/1.45 Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-approved{color:var(--review,#abe5d0);background:var(--review-soft,#1c5042)}.ds-approved:before{content:'+';font:600 14px/1 Arial,sans-serif}.ds-earlier{color:var(--muted,#bbd0c0);background:transparent;border:1px solid var(--line,#577566)}"
+      "refersTo": "age-pill",
+      "description": "Noninteractive observation age; no invented action or hover state.",
+      "html": "<span class=\"ds-age\">Stale</span>",
+      "css": ".ds-age{display:inline-flex;align-items:center;padding:0 6px;border:1px solid var(--border,#3d444d);border-radius:20px;color:var(--muted,#919ba6);font:14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}"
     },
     {
-      "name": "PR Signal Tile",
-      "kind": "custom",
-      "refersTo": "signal-tile",
-      "description": "Illustrative tile anatomy, not a live status claim. Earlier approval retains its tone and +~ mark.",
-      "html": "<button class=\"ds-tile\" type=\"button\" aria-label=\"Example PR. PR open. Approval on earlier head. CI unknown.\" aria-pressed=\"false\"><span class=\"ds-project\">Example PR</span><span class=\"ds-number\">#123</span><span class=\"ds-marks\" aria-hidden=\"true\"><span class=\"ds-open\">O</span><span class=\"ds-approval\">+~</span><span class=\"ds-unknown\">?</span></span></button>",
-      "css": ".ds-tile{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:1fr auto auto;align-content:start;gap:6px;min-width:0;min-height:114px;padding:12px 9px 10px;border:1px solid transparent;border-radius:2px;background:var(--tile,#214e41);color:var(--board-ink,#f1f6e4);text-align:left;font-family:Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-tile:hover,.ds-tile[aria-pressed=true]{background:var(--tile-hover,#30614e);border-color:#c6debb}.ds-tile:focus-visible{outline:3px solid var(--accent,#eed078);outline-offset:1px;border-color:var(--accent,#eed078)}.ds-tile:active{transform:translateY(1px)}.ds-project{grid-column:1/-1;font-size:14px;line-height:1.25;font-weight:500;overflow-wrap:anywhere}.ds-number{grid-column:1;grid-row:2;font-size:14px;line-height:1.4;color:var(--board-muted,#d0e2d4)}.ds-marks{grid-column:1/-1;grid-row:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:2px}.ds-marks span{display:grid;place-items:center;height:22px;border-radius:1px;color:#183629;font:600 14px/22px Arial,sans-serif}.ds-open{background:#cce7bc}.ds-approval{background:#abdccd}.ds-unknown{background:#c6d8e7}"
-    },
-    {
-      "name": "Featured Work",
+      "name": "Discussion message",
       "kind": "card",
-      "refersTo": "featured-work",
-      "description": "Illustrative first-result reading surface; featured position is not a quality score.",
-      "html": "<button class=\"ds-feature\" type=\"button\"><span class=\"ds-feature-project\">Project</span><span class=\"ds-feature-summary\">The actual contribution summary belongs here.</span></button>",
-      "css": ".ds-feature{display:grid;gap:22px;min-height:44px;width:100%;padding:26px;border:1px solid var(--feature-line,#88a88d);border-radius:2px;background:var(--feature,#c9dfc7);color:var(--feature-ink,#123c35);box-shadow:0 5px 0 #6d927b;text-align:left;font-family:Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif}.ds-feature:hover{background:#d8e8ca;border-color:#426d53}.ds-feature:focus-visible{outline:3px solid var(--focus,#f2d57b);outline-offset:5px}.ds-feature:active{transform:translateY(1px)}.ds-feature-project{font-size:46px;font-weight:500;letter-spacing:-.035em;line-height:1.15;overflow-wrap:anywhere}.ds-feature-summary{font-size:22px;line-height:1.35;max-width:36ch;overflow-wrap:anywhere}"
+      "refersTo": "discussion",
+      "description": "Bordered message with metadata and accessible literal source; sample text is not a quotation.",
+      "html": "<article class=\"ds-message\"><header><strong>Account</strong><span>Unclassified account</span><a href=\"#source\">Source ↗</a></header><div class=\"ds-message-body\">Message content</div><details><summary>Original text</summary><pre>Message content</pre></details></article>",
+      "css": ".ds-message{border:1px solid var(--border,#3d444d);border-radius:6px;color:var(--text,#f0f6fc);background:var(--bg,#0d1117);font:14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;overflow-wrap:anywhere}.ds-message header{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:52px;padding:8px 16px;background:var(--subtle,#151b23);color:var(--muted,#919ba6);border-bottom:1px solid var(--border,#3d444d);border-radius:6px 6px 0 0}.ds-message strong{color:var(--text,#f0f6fc)}.ds-message a{display:inline-flex;align-items:center;min-height:44px;margin-left:auto;color:var(--link,#79c0ff);text-decoration:none}.ds-message a:hover{text-decoration:underline}.ds-message-body{padding:16px;font-size:16px;line-height:1.6}.ds-message details{margin:0 16px 12px;color:var(--muted,#919ba6)}.ds-message summary{min-height:44px;padding:10px 0;cursor:pointer}.ds-message pre{font:13px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow:auto;padding:12px;background:var(--subtle,#151b23);border:1px solid var(--border,#3d444d);border-radius:6px}.ds-message a:focus-visible,.ds-message summary:focus-visible{outline:2px solid var(--link,#79c0ff);outline-offset:3px}@media(prefers-reduced-motion:no-preference){.ds-message a{transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out}}@media(prefers-reduced-motion:reduce){.ds-message a{transition:none;animation:none}}"
     },
     {
-      "name": "Discussion Reading Surface",
+      "name": "Recorded context disclosure",
       "kind": "custom",
-      "refersTo": "discussion",
-      "description": "Illustrative safe rendered message and native original-text disclosure; actual content is reconstructed by the allowlist.",
-      "html": "<article class=\"ds-discussion\"><div class=\"ds-body\"><p>Public discussion retains its <strong>readable structure</strong> and original evidence.</p></div><details class=\"ds-original\"><summary>Original text</summary><pre>Public discussion retains its **readable structure** and original evidence.</pre></details></article>",
-      "css": ".ds-discussion{padding:26px 28px;background:var(--paper,#1b3d32);color:var(--ink,#eef5e5);border-top:4px solid var(--line,#577566);box-shadow:0 4px 0 var(--soft,#294d3e)}.ds-body{font:16px/1.75 Aptos,'Helvetica Neue',Arial,sans-serif;max-width:72ch;overflow-wrap:anywhere}.ds-body p{margin:0 0 1em}.ds-original{margin-top:18px;border-top:1px solid var(--line,#577566);color:var(--muted,#bbd0c0)}.ds-original summary{min-height:44px;padding:12px 0;font:14px/1.5 Bahnschrift,Aptos,'Helvetica Neue',Arial,sans-serif;cursor:pointer}.ds-original summary:focus-visible{outline:3px solid var(--focus,#f2d57b);outline-offset:4px}.ds-original pre{max-width:100%;padding:16px;background:var(--soft,#294d3e);color:var(--ink,#eef5e5);border:1px solid var(--line,#577566);border-radius:2px;font:14px/1.7 Consolas,ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}"
+      "description": "Collapsed supporting evidence with native keyboard behavior.",
+      "html": "<details class=\"ds-context\"><summary>Details &amp; checks</summary><p>Recorded context and observation times.</p></details>",
+      "css": ".ds-context{border-block:1px solid var(--border,#3d444d);color:var(--muted,#919ba6);font:14px/1.5 -apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif}.ds-context summary{min-height:44px;padding:10px 0;color:var(--text,#f0f6fc);font-weight:500;cursor:pointer}.ds-context summary:focus-visible{outline:2px solid var(--link,#79c0ff);outline-offset:3px}.ds-context p{margin:12px 0;overflow-wrap:anywhere}"
     }
   ],
   "narrative": {
-    "northStar": "Signal Bench",
-    "overview": "A contemporary evidence workstation in deep pine/charcoal, mint featured work and ivory reading contrast. A real per-PR mosaic makes independent evidence visible; an asymmetric index and focused inspector give the work itself priority over administrative chrome. Native controls, square categorical marks and measured local typography provide the character without simulated hardware.\n\nRendered alternative B was selected autonomously after a three-world comparison. This records the implemented world, not user approval, a seed assignment or an award. The neutral ledger and the earlier light-first candidate are not visual authority. `site/style.css`, the opening contract in `site/index.html`, and the UI modules define the implementation; product and surface constraints remain in their respective documents.",
+    "northStar": "Familiar contribution workspace",
+    "overview": "The user-pinned GitHub/Primer-like category standard is the visual authority: system type, neutral surfaces, blue links and categorical status marks. This is an original implementation with no GitHub affiliation, not a new brand concept or a copied component library.\n\nCompact controls and modest headings leave room for real contribution evidence and readable discussion. Dark is the first-visit default; Light, Dark and System remain explicit, persistent choices when storage is available.",
     "keyCharacteristics": [
-      "Deep pine/charcoal, mint featured work and ivory reading contrast.",
-      "One actual PR per tile; independent lifecycle, review and CI.",
-      "An asymmetric index with a featured first result and open secondary entries.",
-      "A focused inspector with source-linked, readable discussion.",
-      "Dark-first native themes and brief motion that disappears under reduced motion."
+      "Neutral surfaces and fine slate dividers.",
+      "System typography with a compact operational scale and larger reading text.",
+      "Independent status marks with text and symbols, not color alone.",
+      "Native links, buttons, selects and disclosures."
     ],
     "rules": [
-      { "name": "The Independent Evidence Rule", "body": "Lifecycle, review and CI retain their actual status; age and earlier-head qualifiers add context without replacing the status color or inventing a combined score.", "section": "colors" },
-      { "name": "The Evidence Before Effects Rule", "body": "Depth and motion identify surfaces and state; neither simulates hardware nor encodes evidence quality.", "section": "elevation" }
+      { "name": "The Independent Evidence Rule", "body": "PR state, review and CI keep their own categorical marks; stale age and earlier-head qualifiers remain neutral and never recolor the underlying decision.", "section": "colors" },
+      { "name": "The Flat Reading Rule", "body": "Lists and messages use borders and subtle header bands, not lifted-card shadows.", "section": "elevation" }
     ],
     "dos": [
-      "**Do** keep real lifecycle, review and CI separate from age and earlier-head qualifiers.",
-      "**Do** preserve the mint first result, open secondary entries and real per-PR tile mosaic.",
-      "**Do** start in dark mode and honor explicit Light, Dark and System choices.",
-      "**Do** preserve 44px targets, local overflow, readable text and instant reduced-motion updates.",
-      "**Do** retain original text, source links, exact dates, actor categories and visible formatting limits.",
-      "**Do** keep the Gin caveat visible and the Chi quotation collection-specific."
+      "**Do** keep lifecycle, review, CI and observation age visually independent.",
+      "**Do** use neutral bordered reading surfaces, blue links and native controls.",
+      "**Do** retain full message text, source access and honest actor labels.",
+      "**Do** preserve explicit theme choice, visible focus and reduced-motion behavior."
     ],
     "donts": [
-      "**Don't** restore the neutral ledger, light-first default or narrow record-column field.",
-      "**Don't** invent combined scores, live activity, fixed UI counts or endorsement from comments.",
-      "**Don't** replace real status colors with stale or earlier-head age categories.",
-      "**Don't** inject parser markup into the browser or automatically load message images and embeds.",
-      "**Don't** claim parser failures are impossible or hide the original message after a formatting error.",
-      "**Don't** treat source documentation or functional checks as complete artistic approval."
+      "**Don't** restore pine/mint branding, a mosaic, a hero or a featured PR.",
+      "**Don't** substitute color, sentiment or a combined score for evidence.",
+      "**Don't** add decorative view animation or lifted reading cards.",
+      "**Don't** imply GitHub affiliation, an award or a design score."
     ]
   }
 }

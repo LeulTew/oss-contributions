@@ -1,116 +1,101 @@
 <!doctype html>
 <!--
-THESIS: Make independent contribution evidence the work surface, not an administrative table.
-OWN-WORLD: Signal Bench uses deep pine, mint work surfaces, ochre qualifications,
-measured grotesque typography and square categorical marks. No simulated hardware.
-STORY: Search actual work, navigate its three-signal mosaic, inspect a contribution,
-read public discussion and return to the same filtered place. Sources remain primary.
-FIRST VIEWPORT: Masthead search and a strong title lead directly to a navigable signal
-field beside an asymmetric contribution index. Its first result is a mint reading plate;
-the remaining changes are open stations. Mobile exposes scrollable tiles before the index.
-FORM: Original unseeded direction B, selected autonomously by the coordinating parent,
-not user approval. The collection operates; the separate reader places independent
-signals beside the title, qualifications across the surface and evidence beside discussion.
+THESIS: A familiar contribution workspace, with one PR list and readable discussion.
+OWN-WORLD: GitHub-like neutral surfaces, slate borders, system type, blue links and
+categorical status icons. Original implementation, no GitHub affiliation.
+STORY: Find a change, inspect its conversation, open its source, return to your place.
+FIRST VIEWPORT: Compact repository header, one navigation row, search and filters
+above a single bordered list. No hero, mosaic, featured card or repeated dataset.
+FORM: User-pinned category standard, played straight. No seed or concept tournament.
+PRs, Activity, Feedback and Help have shareable routes and browser history. Full
+safe Markdown and exact source text remain accessible; unknown actors stay unknown.
 -->
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="LeulTew's selected public contributions, conversation and review evidence.">
+  <meta name="description" content="LeulTew's public pull requests, activity and review conversations.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self' https://api.github.com; img-src 'self'; base-uri 'none'; form-action 'none'">
-  <title>Contributions / LeulTew</title>
+  <title>Pull requests · LeulTew</title>
   <link rel="icon" href="./mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.mjs"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to contributions</a>
-  <header class="masthead"><div class="masthead-inner">
-    <a class="brand" href="./"><span class="brand-mark" data-icon="branch" aria-hidden="true"></span><span>LeulTew<span class="brand-caption">Public contributions</span></span></a>
-    <form id="filters" role="search" aria-label="Search and filter contributions">
-      <div class="search-field"><span data-icon="search" aria-hidden="true"></span><label for="search" class="visually-hidden">Search contributions</label><input id="search" type="search" placeholder="Search projects or changes" autocomplete="off"><kbd aria-hidden="true">/</kbd></div>
-      <button id="clear" class="quiet search-reset" type="button">Reset</button>
-    </form>
-    <nav class="primary-nav" aria-label="Workspace"><a href="#feedback" data-panel="feedback">Feedback</a><a href="#about" data-panel="about" aria-label="Data and help"><span data-icon="help" aria-hidden="true"></span><span class="nav-label">Data &amp; help</span></a></nav>
-    <div class="masthead-actions"><div id="theme" class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button><button type="button" data-theme-choice="system" aria-pressed="false">System</button></div><a class="profile-link" href="https://github.com/LeulTew" aria-label="LeulTew on GitHub"><span data-icon="external" aria-hidden="true"></span></a></div>
-  </div></header>
-  <main id="main" tabindex="-1">
-    <div class="workspace-heading">
-      <div class="collection-top"><h1>Contribution signals.</h1><p id="overview">Loading...</p></div>
-      <section class="snapshot-bar" aria-label="Data freshness"><p id="freshness" role="status">Loading snapshot...</p><button id="refresh" type="button" aria-label="Reload published snapshot">Reload</button></section>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <a class="brand" href="./"><span data-icon="branch" aria-hidden="true"></span><span>LeulTew <span class="path-divider">/</span> <strong>contributions</strong></span></a>
+      <span class="public-label">Public</span>
+      <details class="theme-menu"><summary>Theme</summary><div id="theme" class="theme-switch" role="group" aria-label="Color theme"><button type="button" data-theme-choice="light" aria-pressed="false">Light</button><button type="button" data-theme-choice="dark" aria-pressed="true">Dark</button><button type="button" data-theme-choice="system" aria-pressed="false">System</button></div></details>
     </div>
+    <nav class="primary-nav" aria-label="Workspace">
+      <a href="./" data-tab="prs" aria-current="page"><span data-icon="branch" aria-hidden="true"></span>PRs <span id="pr-count" class="counter">–</span></a>
+      <a href="?tab=activity" data-tab="activity"><span data-icon="activity" aria-hidden="true"></span>Activity</a>
+      <a href="?tab=feedback" data-tab="feedback"><span data-icon="review" aria-hidden="true"></span>Feedback</a>
+      <a href="?tab=help" data-tab="help"><span data-icon="help" aria-hidden="true"></span>Help</a>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <div class="workspace-heading"><h1 id="page-heading">Pull requests</h1><div class="snapshot-bar"><span id="freshness" role="status">Loading snapshot…</span><button id="refresh" type="button" aria-label="Reload published snapshot">Reload</button></div></div>
     <p id="data-warning" class="notice warning" role="status" hidden></p>
-    <section class="inbox-shell" aria-label="Contribution collection">
-      <div class="inbox-column" id="inbox-column">
-        <div class="collection-layout">
-        <section id="signal-board" class="signal-board" aria-labelledby="signal-title" hidden>
-          <div class="signal-board-heading"><div><h2 id="signal-title">Signal field</h2><p id="signal-scope"></p></div><p class="signal-reading-order">One tile per PR<span>PR / Review / CI</span></p></div>
-          <div class="signal-scroll"><div id="signal-field" class="signal-field" role="group" aria-label="Contributions by lifecycle, review and CI" aria-describedby="signal-preview"></div></div>
-          <div class="signal-board-footer"><p id="signal-preview" role="status"></p><details class="signal-key"><summary>Read the signals</summary><div>
-            <p><strong>PR</strong> O open / M merged / X closed.</p>
-            <p><strong>Review</strong> + approved / ! changes requested / ~ earlier head / - no decision / ? unavailable.</p>
-            <p><strong>CI</strong> + reported pass / X failure / ! approval gated / … pending / - canceled / ? unknown.</p>
-            <p><strong>Stale</strong> Observation age, not a CI result.</p>
-          </div></details></div>
-        </section>
-        <div class="results-panel">
-        <div class="viewbar">
-          <nav class="collection-tabs" aria-label="Contribution views"><button data-view="all" aria-pressed="true">All <span data-count="all">-</span></button><button data-view="open" aria-pressed="false">Open <span data-count="open">-</span></button><button data-view="merged" aria-pressed="false">Merged <span data-count="merged">-</span></button><button data-view="closed" aria-pressed="false">Closed <span data-count="closed">-</span></button><button data-view="activity" aria-pressed="false">Activity</button></nav>
-          <nav class="evidence-filters" aria-label="Evidence views"><button data-view="requests" aria-pressed="false">Changes requested <span data-count="requests">-</span></button><button data-view="failures" aria-pressed="false">CI failures <span data-count="failures">-</span></button><button data-view="waiting" aria-pressed="false">CI approval <span data-count="waiting">-</span></button></nav>
+    <p id="route-warning" class="notice warning" role="status" hidden></p>
+    <section id="collection" aria-label="Contributions">
+      <form id="filters" role="search" aria-label="Search and filter contributions">
+        <div class="search-field"><span data-icon="search" aria-hidden="true"></span><label for="search" class="visually-hidden">Search contributions</label><input id="search" type="search" placeholder="Search projects, titles or PR numbers" autocomplete="off"><kbd aria-hidden="true">/</kbd></div>
+        <button id="clear" type="button">Reset</button>
+        <details class="filter-menu"><summary>Filters</summary><div class="filter-options">
+          <label for="ci-filter">CI status</label><select id="ci-filter"><option value="all">All checks</option><option value="failure">Failures</option><option value="gated">Approval needed</option><option value="success">Reported pass</option><option value="pending">In progress</option><option value="unknown">Unknown</option><option value="cancelled">Canceled</option><option value="stale">Stale</option></select>
+          <label for="review-filter">PR / review</label><select id="review-filter"><option value="all">All pull requests</option><option value="open">Open</option><option value="merged">Merged</option><option value="closed">Closed</option><option value="requests">Changes requested</option><option value="failures">CI failures</option><option value="waiting">CI approval needed</option></select>
+          <label for="sort">Sort</label><select id="sort"><option value="activity">Recent activity</option><option value="updated">PR updated</option><option value="newest">Newest PR</option><option value="project">Project A–Z</option></select>
+        </div></details>
+      </form>
+      <section id="feedback-highlight" hidden aria-label="Source-verified review">
+        <details id="feedback"><summary>Featured review · Chi</summary><div id="quotes"></div></details>
+      </section>
+      <div class="list-frame">
+        <div class="list-toolbar">
+          <div id="state-filters" class="state-filters" role="group" aria-label="PR state"><button data-view="all" aria-pressed="true">All <span data-count="all">–</span></button><button data-view="open" aria-pressed="false">Open <span data-count="open">–</span></button><button data-view="merged" aria-pressed="false">Merged <span data-count="merged">–</span></button><button data-view="closed" aria-pressed="false">Closed <span data-count="closed">–</span></button></div>
+          <div id="feed-controls" class="feed-controls" hidden><label for="feed-kind" class="visually-hidden">Event type</label><select id="feed-kind"><option value="all">All events</option><option value="reviews">Reviews</option><option value="comments">Comments</option><option value="updates">Branch &amp; state</option></select><label><input type="checkbox" id="feed-bots"> Include automation</label></div>
+          <span id="results" role="status">Loading…</span>
         </div>
-        <details class="collection-controls"><summary>Filter &amp; sort</summary><div class="filter-line"><div><label for="ci-filter">CI evidence</label><select id="ci-filter" form="filters"><option value="all">All evidence</option><option value="failure">Failures</option><option value="gated">Approval needed</option><option value="success">Successful</option><option value="pending">In progress</option><option value="unknown">Unknown</option><option value="cancelled">Canceled</option><option value="stale">Stale</option></select></div><div><label for="sort">Order contributions</label><select id="sort" form="filters"><option value="activity">Recent activity</option><option value="updated">PR updated</option><option value="newest">Newest PR</option><option value="project">Project A-Z</option></select></div></div></details>
-        <div class="inbox-heading"><div><h2 id="view-heading" class="visually-hidden">All contributions</h2><p id="view-description"></p></div><span id="results" role="status">Loading...</span></div>
-        <div id="feed-controls" class="feed-controls" hidden><label><input type="checkbox" id="feed-bots"> Include automation</label></div>
+        <p id="view-description" class="filter-description" hidden></p>
         <div id="loading" class="loading" aria-hidden="true"><div></div><div></div><div></div></div>
-        <ul id="rows" class="inbox-list" aria-label="Contribution results"></ul>
-        <div id="empty" class="empty" hidden><span data-icon="search" aria-hidden="true"></span><h3 id="empty-heading">No matching contributions</h3><p id="empty-copy">Try a different search or filter.</p><button id="empty-clear" type="button">Reset filters</button></div>
-        <div id="unavailable" class="empty" hidden><h3>Snapshot unavailable</h3><p>Reload or read the original records. No status is inferred.</p><a href="https://github.com/LeulTew/oss-contributions/blob/main/config/contributions.json">Original PR links</a></div>
-        </div>
-        </div>
+        <ul id="rows" class="pr-list" aria-label="Pull requests"></ul>
+        <div id="empty" class="empty" hidden><h2 id="empty-heading">No matching contributions</h2><p id="empty-copy">Try a different search or filter.</p><button id="empty-clear" type="button">Reset filters</button></div>
+        <div id="unavailable" class="empty" hidden><h2>Snapshot unavailable</h2><p>Reload or read the original records.</p><a href="https://github.com/LeulTew/oss-contributions/blob/main/config/contributions.json">Original PR links</a></div>
       </div>
-      <section id="detail" class="detail-column" aria-label="Selected contribution">
-        <div id="detail-empty" hidden></div>
-        <div id="detail-content" hidden>
-          <div class="detail-toolbar">
-            <button id="back-to-list" class="back-button" type="button"><span data-icon="back" aria-hidden="true"></span>Back</button>
-            <div class="detail-pagination"><span id="detail-position"></span><button id="previous-pr" class="icon-button" aria-label="Previous contribution" type="button"><span data-icon="up" aria-hidden="true"></span></button><button id="next-pr" class="icon-button" aria-label="Next contribution" type="button"><span data-icon="down" aria-hidden="true"></span></button></div>
-            <div class="detail-actions"><button id="refresh-selected" type="button">Refresh discussion</button><a id="detail-github" class="primary-button" href="https://github.com/LeulTew">Open PR<span data-icon="external" aria-hidden="true"></span></a></div>
-          </div>
-          <div class="inspection-surface">
-            <div id="detail-header" class="detail-header"></div>
-            <div class="signals-overview"><div id="detail-signals" class="detail-signals"></div></div>
-            <p id="qualified-caveat" class="notice warning" hidden></p>
-            <p id="direct-status" role="status" hidden></p>
-          </div>
-          <section class="discussion-pane" aria-label="Contribution conversation">
-            <div class="activity-heading"><h3>Conversation</h3><span id="activity-count"></span><div class="activity-toolbar"><label class="visually-hidden" for="activity-kind">Activity type</label><select id="activity-kind"><option value="all">All activity</option><option value="reviews">Reviews</option><option value="comments">Comments</option><option value="updates">Branch &amp; state</option></select><label><input id="include-bots" type="checkbox"> Automation</label></div></div>
+      <nav id="feed-pagination" class="feed-pagination" aria-label="Activity pages" hidden><button id="feed-previous" type="button">Previous</button><span id="feed-page" role="status"></span><button id="feed-next" type="button">Next</button></nav>
+    </section>
+    <section id="detail" aria-label="Selected contribution" hidden>
+      <div id="detail-content" hidden>
+        <div class="detail-toolbar"><button id="back-to-list" type="button"><span data-icon="back" aria-hidden="true"></span>Back</button><div class="detail-pagination"><span id="detail-position"></span><button id="previous-pr" class="icon-button" aria-label="Previous contribution" type="button"><span data-icon="up" aria-hidden="true"></span></button><button id="next-pr" class="icon-button" aria-label="Next contribution" type="button"><span data-icon="down" aria-hidden="true"></span></button></div><a id="detail-github" class="source-button" href="https://github.com/LeulTew">Open on GitHub<span data-icon="external" aria-hidden="true"></span></a></div>
+        <div id="detail-header" class="detail-header"></div>
+        <div id="detail-signals" class="detail-signals"></div>
+        <p id="qualified-caveat" class="notice warning" hidden></p>
+        <div class="detail-layout">
+          <section class="discussion-pane" aria-label="Conversation">
+            <div class="activity-heading"><h2>Conversation <span id="activity-count" class="counter"></span></h2><button id="refresh-selected" type="button">Refresh discussion</button></div>
+            <p id="direct-status" class="notice" role="status" hidden></p>
+            <div class="activity-toolbar"><label class="visually-hidden" for="activity-kind">Activity type</label><select id="activity-kind"><option value="all">All activity</option><option value="reviews">Reviews</option><option value="comments">Comments</option><option value="updates">Branch &amp; state</option></select><label><input id="include-bots" type="checkbox"> Include automation</label></div>
             <p id="activity-status" class="activity-status" hidden></p>
             <ol id="activity-list" class="activity-list"></ol>
           </section>
-          <aside class="inspection-record" aria-labelledby="record-heading">
-            <h3 id="record-heading">Evidence record</h3>
-            <p id="observation-times" class="observation-times"></p>
-            <button class="quiet details-toggle" id="open-context" type="button" aria-controls="detail-context" aria-expanded="false">Contribution &amp; CI details<span data-icon="down" aria-hidden="true"></span></button>
-            <details class="context-box"><summary>Recorded context</summary><div id="detail-context"></div></details>
-          </aside>
+          <aside class="inspection-record" aria-label="Recorded context"><details class="context-box"><summary>Details &amp; checks</summary><p id="observation-times"></p><div id="detail-context"></div></details><p class="reply-hint">To reply, use the original conversation on GitHub.</p></aside>
         </div>
-      </section>
+      </div>
+    </section>
+    <section id="about" class="help-page" hidden aria-labelledby="help-heading">
+      <h2 id="help-heading">About this tracker</h2>
+      <p id="overview"></p>
+      <details open><summary>What the statuses mean</summary><p>PR state, review decisions and CI are independent. A comment is not automatically an author task. Earlier-head decisions and stale observations stay labeled. An unclassified account is not assumed human.</p><p>Initial heads are baseline metadata, not activity. Subsequent head events are observations, not claimed push times. Merged and closed records retain historical evidence. CI success is not proof that every intended test executed.</p></details>
+      <details><summary>Refresh &amp; API limits</summary><p>The shared snapshot is scheduled every 15 minutes. GitHub may delay or drop runs; public schedules disable after 60 days without repository activity. The browser checks published JSON every five minutes while visible. This is polling, not push.</p><p>Refresh discussion reads only the selected public PR and its activity from api.github.com without a token. It does not refresh CI. Limits: five-minute cache, 35 requests per hour, 10 per attempt, 20-second timeout, cancellation and rate-limit backoff. Anonymous quota is shared by IP; storage failures can limit coordination to this tab.</p><p id="refresh-context"></p></details>
+      <details><summary>Sources, privacy &amp; formatting</summary><p>Only selected public PRs are included. No credentials, analytics, upstream writes, private work or account-wide history. Failed requests retain labeled last-good evidence.</p><p>Messages use safe Markdown; original text, body hashes and source links remain intact. Images are not loaded. Formatting failures leave the original text available. Review quotations retain their exact wording and apply only to their original contribution.</p><p>Review replies are not nested unless their source relationship is available; the current snapshot records a flat timeline.</p></details>
+      <div class="help-links"><a href="./data.json">Public JSON</a><a href="https://github.com/LeulTew/oss-contributions/actions">Refresh history</a><a href="./THIRD-PARTY-LICENSES.txt">Licenses</a></div>
     </section>
     <noscript><p>JavaScript is required for the tracker. <a href="./data.json">Public JSON</a></p></noscript>
-    <div class="supporting-panels">
-      <details id="feedback" class="feedback-section"><summary>Reviewer feedback <span>Chi</span></summary><div id="quotes"></div><p class="fine-print">Feedback on this contribution only, not a general endorsement.</p></details>
-      <details id="about" class="about-section"><summary>Data &amp; help</summary>
-        <p>Read-only, selected public PRs. Review requests, CI and conversation are independent. Comments are not automatically author tasks. An unclassified account is not assumed human.</p>
-        <p>The shared snapshot is scheduled every 15 minutes. GitHub can delay or drop runs; public schedules disable after 60 days without repository activity. This is polling, not push. The browser checks the published JSON every five minutes while visible.</p>
-        <p>Refresh discussion reads only the selected public PR and its activity from api.github.com, without a token. It does not refresh CI. Limits: five-minute cache, 35 requests per hour, 10 per attempt, 20-second timeout, cancellation and rate-limit backoff. Anonymous quota is shared by IP; storage failures can limit coordination to this tab.</p>
-        <p>Observation times differ from GitHub's PR-updated time. First-recorded heads are metadata, not changes; subsequent head events are observations, not claimed push times. Merged and closed records retain historical dates. Failures retain labeled last-good evidence; missing data is never green.</p>
-        <p>No credentials, analytics, upstream writes or account-wide history. Comments use safe Markdown with original text and source links retained. Images are not loaded. Review quotations retain their exact wording.</p>
-        <p id="refresh-context" hidden></p>
-        <p><a href="./data.json">Public JSON</a><a href="https://github.com/LeulTew/oss-contributions/actions">Refresh history</a><a href="./THIRD-PARTY-LICENSES.txt">Licenses</a></p>
-      </details>
-    </div>
-    <footer><span>Leul Tewodros Agonafer</span><a href="https://github.com/LeulTew/oss-contributions">Dashboard source<span data-icon="external" aria-hidden="true"></span></a></footer>
+    <footer><span>Leul Tewodros Agonafer</span><a href="https://github.com/LeulTew/oss-contributions">Dashboard source</a></footer>
   </main>
 </body>
 </html>
